@@ -3,12 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - HelpObject
-  - UI
-  - FxTemporaire
-  - zomBunny
-  - HandInteractionObject
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -18,15 +13,6 @@ TagManager:
   - UI
   - 
   - 
-  - WorldReconstruction
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - tagInvisibleToZED
   - 
   - 
   - 
@@ -40,8 +26,17 @@ TagManager:
   - 
   - 
   - 
-  - arlayer
-  - Spatial Awareness
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - Post Processing Volume
   m_SortingLayers:
   - name: Default
     uniqueID: 0
