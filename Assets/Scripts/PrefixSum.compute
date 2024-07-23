@@ -1,0 +1,7 @@
+#pragma kernel PrefixSum1
+#pragma kernel PrefixSum2
+#pragma kernel PrefixSum3
+
+#define PREFIX_SUM_ARRAY_NAME arr
+
+#include "PrefixSum.cginc"

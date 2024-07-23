@@ -1,0 +1,630 @@
+#pragma kernel MoveParticles
+#pragma kernel ResetCounter
+#pragma kernel InsertToBucket
+#pragma kernel DebugHash
+#pragma kernel PrefixSum1
+#pragma kernel PrefixSum2
+#pragma kernel PrefixSum3
+#pragma kernel Sort
+#pragma kernel CalcHashRange
+#pragma kernel CalcPressure
+#pragma kernel CalcForces
+#pragma kernel CalcPCA
+#pragma kernel Step
+
+#define PI 3.1415926535
+
+// 2 is the optimal value, according to my experiment.
+// If this value is too small, the number of particles per one grid cell increases. (Inefficient)
+// If this value is too large, the number of grid cells to check increases. (Overhead)
+// Also note that, unrolling all three loops make the performance worse! (Why?)
+#define GRIDS_PER_DIAMETER    2
+
+float3 gridScale;
+float3 gridOffset;
+uint numHash; // Should be power of two.
+
+struct Particle {
+    float4 pos; // with density as w component.
+    float4 vel; // with pressure as w component.
+};
+
+RWStructuredBuffer<uint> hashes;
+RWStructuredBuffer<uint> localIndices;
+RWStructuredBuffer<uint> inverseIndices;
+
+uint numParticles;
+
+float radiusSqr;
+float radius;
+float gasConst;
+float restDensity;
+float mass;
+float viscosity;
+float gravity;
+float deltaTime;
+
+float4 planes[7];
+
+float poly6Coeff;
+float spikyCoeff;
+float viscoCoeff;
+
+uint moveBeginIndex;
+uint moveSize;
+float3 movePos;
+float3 moveVel;
+
+RWStructuredBuffer<Particle> particles;
+RWStructuredBuffer<Particle> sorted;
+
+RWStructuredBuffer<float4> forces;
+
+RWStructuredBuffer<float4> mean;
+RWStructuredBuffer<float3> cov;
+RWStructuredBuffer<float3> principle;
+
+RWStructuredBuffer<uint2> hashRange;
+
+#define PREFIX_SUM_ARRAY_NAME globalHashCounter
+
+#include "PrefixSum.cginc"
+
+RWStructuredBuffer<uint> hashDebug;
+RWStructuredBuffer<int3> hashValueDebug;
+
+
+struct RigidCube
+{
+    float halfSize;
+    float3 cent;
+    float3 vel;
+    float3 angVel;
+    float4x4 cubeRotationMatrix;
+    float4x4 inverseRotationMatrix;
+};
+struct RigidSphere
+{
+    float radius;
+    float3 cent;
+    float3 vel;
+};
+uint cntCube, cntSphere;
+RWStructuredBuffer<RigidCube> rigidCubes;
+RWStructuredBuffer<RigidSphere> rigidSpheres;
+
+RWStructuredBuffer<float3> rigidImpulses;
+RWStructuredBuffer<int> rigidIndices;
+RWStructuredBuffer<int> rigidLastIndex;
+
+
+
+
+uint3 murmur_32_scramble(uint3 k) {
+    k *= 0xcc9e2d51;
+    k = (k << 15) | (k >> 17);
+    k *= 0x1b873593;
+    return k;
+}
+
+uint calculateHash(int3 normed) {
+    uint h = (normed.z & 255) | ((normed.y & 15) << 8) | ((normed.x & 255) << 12);
+
+    // uint h = ((normed.z & 7) << 0) | ((normed.y & 7) << 3) | ((normed.x & 7) << 6);
+    // normed >>= 3;
+    // h |= ((normed.z & 15) << 9) | ((normed.y & 7) << 13) | ((normed.x & 15) << 16);
+
+    // Murmur3
+    // ~27 collision
+    // uint h = 0; // seed
+
+    // uint3 scrambled = murmur_32_scramble(normed);
+
+    // h ^= scrambled.x;
+    // h = (h << 13) | (h >> 19);
+    // h = h * 5 + 0xe6546b64U;
+
+    // h ^= scrambled.y;
+    // h = (h << 13) | (h >> 19);
+    // h = h * 5 + 0xe6546b64U;
+
+    // h ^= scrambled.z;
+    // h = (h << 13) | (h >> 19);
+    // h = h * 5 + 0xe6546b64U;
+
+    // h &= (numHash-1);
+
+    // Simple xor
+    // ~33 collision
+    // uint h = 73856093 * normed.x ^ 19349663 * normed.y ^ 83492791 * normed.z;
+    // h &= (numHash-1);
+
+    // FNV-1a
+    // ~27 collision
+    // uint h = 0x811c9dc5U;
+
+    // h = h ^ ((normed.x >> 0) & 255);
+    // h = h * 0x01000193;
+    // h = h ^ ((normed.x >> 8) & 255);
+    // h = h * 0x01000193;
+    // h = h ^ ((normed.x >> 16) & 255);
+    // h = h * 0x01000193;
+    // h = h ^ ((normed.x >> 24) & 255);
+    // h = h * 0x01000193;
+
+    // h = h ^ ((normed.y >> 0) & 255);
+    // h = h * 0x01000193;
+    // h = h ^ ((normed.y >> 8) & 255);
+    // h = h * 0x01000193;
+    // h = h ^ ((normed.y >> 16) & 255);
+    // h = h * 0x01000193;
+    // h = h ^ ((normed.y >> 24) & 255);
+    // h = h * 0x01000193;
+
+    // h = h ^ ((normed.z >> 0) & 255);
+    // h = h * 0x01000193;
+    // h = h ^ ((normed.z >> 8) & 255);
+    // h = h * 0x01000193;
+    // h = h ^ ((normed.z >> 16) & 255);
+    // h = h * 0x01000193;
+    // h = h ^ ((normed.z >> 24) & 255);
+    // h = h * 0x01000193;
+
+    // h = h & (numHash-1);
+    return h;
+}
+
+float poly6(float d) {
+    return poly6Coeff * pow(radiusSqr - d, 3);
+}
+
+float spiky(float l) {
+    return spikyCoeff * pow(radius - l, 2);
+}
+
+float visco(float l) {
+    return viscoCoeff * (radius - l);
+}
+
+float isotropic(float d) {
+    return 1 - pow(d / radiusSqr, 3);
+}
+
+#define BEGIN_FOREACH_PARTICLES                                         \
+int3 base = floor(GRIDS_PER_DIAMETER/2.0 * (pi.pos.xyz / radius - 1));  \
+for (uint3 dxyz = 0; dxyz.x < (GRIDS_PER_DIAMETER+1)*(GRIDS_PER_DIAMETER+1)*(GRIDS_PER_DIAMETER+1); dxyz += uint3(1, (GRIDS_PER_DIAMETER+1), (GRIDS_PER_DIAMETER+1)*(GRIDS_PER_DIAMETER+1))) {   \
+    uint h = calculateHash(base + int3(dxyz / ((GRIDS_PER_DIAMETER+1)*(GRIDS_PER_DIAMETER+1)) % (GRIDS_PER_DIAMETER+1)));            \
+    uint2 range = hashRange[h];                                 \
+    for (; range.x < range.y; range.x++) {                      \
+        Particle pj = sorted[range.x];                                \
+        float3 diff = pi.pos.xyz - pj.pos.xyz;                  \
+        float d = dot(diff, diff);                              \
+
+
+#define END_FOREACH_PARTICLES   }}
+
+[numthreads(1024,1,1)]
+void MoveParticles (uint3 id : SV_DispatchThreadID)
+{
+    uint totalParticlesToMove = moveSize * moveSize;
+
+    const float moveAreaSize = 5.0;
+
+    for (uint x = 0; x < moveSize; x++) {
+        for (uint y = 0; y < moveSize; y++) {
+            uint idx = (moveBeginIndex + x * moveSize + y) % numParticles;
+
+            particles[idx].pos.xyz = movePos + float3(x, 0, y) / moveSize * moveAreaSize - float3(1, 0, 1) * moveAreaSize * 0.5;
+            particles[idx].vel.xyz = moveVel;
+
+            forces[idx] = 0;
+        }
+    }
+}
+
+[numthreads(1024,1,1)]
+void ResetCounter (uint3 id : SV_DispatchThreadID)
+{
+    if (id.x < numHash) {
+        globalHashCounter[id.x] = 0;
+    }
+}
+
+[numthreads(1024,1,1)]
+void InsertToBucket (uint3 id : SV_DispatchThreadID)
+{
+    if (id.x < numParticles) {
+        int3 normed = floor(GRIDS_PER_DIAMETER/2.0 * (particles[id.x].pos.xyz / radius));
+        uint h = calculateHash(normed);
+        hashes[id.x] = h;
+
+        uint localIndex;
+        InterlockedAdd(globalHashCounter[h], 1, localIndex);
+
+        localIndices[id.x] = localIndex;
+    }
+}
+
+[numthreads(1024,1,1)]
+void DebugHash (uint3 id : SV_DispatchThreadID)
+{
+    if (id.x < numHash) {
+        if (globalHashCounter[id.x] > 0) {
+            InterlockedAdd(hashDebug[0], 1);
+            InterlockedMax(hashDebug[1], globalHashCounter[id.x]);
+        }
+    }
+    if (id.x < numParticles) {
+        Particle pi = sorted[id.x];
+
+        uint totalAccessCount = 0;
+        uint neighborCount = 0;
+
+        BEGIN_FOREACH_PARTICLES
+            totalAccessCount++;
+            if (d < radiusSqr) neighborCount++;
+        END_FOREACH_PARTICLES
+
+        InterlockedAdd(hashDebug[2], totalAccessCount);
+        InterlockedAdd(hashDebug[3], neighborCount);
+
+        int3 normed = floor(GRIDS_PER_DIAMETER/2.0 * (particles[id.x].pos.xyz / radius));
+        hashValueDebug[id.x] = normed;
+    }
+}
+
+[numthreads(1024,1,1)]
+void Sort (uint3 id : SV_DispatchThreadID)
+{
+    if (id.x < numParticles) {
+        uint sortedIndex = 0;
+        uint h = hashes[id.x];
+        if (h > 0) {
+            sortedIndex += globalHashCounter[h-1];
+        }
+        sortedIndex += localIndices[id.x];
+
+        sorted[sortedIndex] = particles[id.x];
+
+        inverseIndices[sortedIndex] = id.x;
+    }
+}
+
+[numthreads(1024,1,1)]
+void CalcHashRange (uint3 id : SV_DispatchThreadID)
+{
+    if (id.x < numHash) {
+        uint begin = id.x ? globalHashCounter[id.x-1] : 0;
+        uint end = globalHashCounter[id.x];
+        hashRange[id.x] = uint2(begin, end);
+    }
+}
+
+[numthreads(128,1,1)]
+void CalcPressure (uint3 id : SV_DispatchThreadID)
+{
+    if (id.x < numParticles) {
+        Particle pi = sorted[id.x];
+
+        // float density = mass * poly6(0);
+        float density = 0;
+        float4 m = 0;
+
+        BEGIN_FOREACH_PARTICLES
+            [branch] if (d < radiusSqr) {
+                density += poly6(d);
+                m += isotropic(d) * float4(pj.pos.xyz, 1);
+            }
+        END_FOREACH_PARTICLES
+
+        density *= mass;
+
+        m.xyz /= m.w;
+        mean[id.x] = m;
+
+        sorted[id.x].pos.w = density;
+        // Clamp negative pressure. This happens when a particle has a few neighbors.
+        sorted[id.x].vel.w = max(gasConst * (density - restDensity), 0);
+    }
+}
+
+[numthreads(128,1,1)]
+void CalcForces (uint3 id : SV_DispatchThreadID)
+{
+    if (id.x < numParticles) {
+        Particle pi = sorted[id.x];
+
+        float3 force = 0;
+
+        float4 m = mean[id.x];
+        float3 cov1 = 0, cov2 = 0;
+        uint cnt = 0;
+
+        BEGIN_FOREACH_PARTICLES
+            [branch] if (d < radiusSqr) {
+                float l = sqrt(d);
+
+                if (d > 0) {
+                    // Pressure
+                    force += (pi.vel.w + pj.vel.w) / (2*pj.pos.w * l) * spiky(l) * diff;
+                    // Viscosity
+                    force += visco(l) / pj.pos.w * (pj.vel - pi.vel);
+                }
+
+                float w = isotropic(d);
+                float3 centered = pj.pos.xyz - m.xyz;
+                cov1 += w * centered * centered;
+                cov2 += w * centered.xyz * centered.yzx;
+                cnt++;
+            }
+
+        END_FOREACH_PARTICLES
+
+        // Gravity
+        force += gravity * float3(0,-1,0);
+
+        force *= mass;
+
+        forces[id.x].xyz = force;
+
+        cov1 /= m.w;
+        cov2 /= m.w;
+
+        // Numerical stability.
+        cov1 = max(cov1, 0.01);
+
+        mean[id.x].w = cnt;
+        cov[id.x*2+0] = cov1;
+        cov[id.x*2+1] = cov2;
+    }
+}
+
+[numthreads(1024,1,1)]
+void CalcPCA(uint3 id : SV_DispatchThreadID)
+{
+    float4 m = mean[id.x];
+    float3 cov1 = cov[id.x*2+0];
+    float3 cov2 = cov[id.x*2+1];
+    float neighborCount = m.w;
+    // @Todo: Not enough condition.
+    // There are still matrices that determinant are almost-zero.
+    if (neighborCount >= 6) {
+        float p1 = dot(cov2, cov2);
+        float q = dot(cov1, float3(1,1,1)) / 3;
+        float p2 = dot(cov1 - q, cov1 - q) + 2*p1;
+        float p = sqrt(p2 / 6);
+
+        float3x3 A = {
+            cov1.x, cov2.x, cov2.z,
+            cov2.x, cov1.y, cov2.y,
+            cov2.z, cov2.y, cov1.z
+        };
+        float3x3 B = A;
+        B._11_22_33 -= q;
+        B /= p;
+        float r = determinant(B) / 2;
+        float phi = acos(clamp(r, -1, 1)) / 3;
+
+        float3 eig;
+        eig.x = q + 2*p*cos(phi);
+        eig.z = q + 2*p*cos(phi + (2*PI/3));
+        eig.y = 3 * q - eig.x - eig.z;
+
+        float3x3 A1 = A;
+        A1._11_22_33 -= eig.x;
+
+        float3x3 A2 = A;
+        A2._11_22_33 -= eig.y;
+
+        float3x3 A3 = A;
+        A3._11_22_33 -= eig.z;
+
+        // Normalize
+        A /= eig.x;
+
+        // principle[id.x*4+0] = A._11_12_13;
+        // principle[id.x*4+1] = A._21_22_23;
+        // principle[id.x*4+2] = A._31_32_33;
+        principle[id.x*4+3] = m.xyz;
+
+        float3 va = normalize(mul(A2, A3._11_21_31));
+        float3 vb = normalize(mul(A1, A3._11_21_31));
+
+        // @Todo: Check if it's zero.
+        float3x3 M = float3x3(
+            va,
+            eig.y / eig.x * vb,
+            eig.z / eig.x * cross(va, vb)
+        );
+        // Transpose M
+        principle[id.x*4+0] = M._11_21_31;
+        principle[id.x*4+1] = M._12_22_32;
+        principle[id.x*4+2] = M._13_23_33;
+    }
+    else {
+        const float dropletScale = 0.33;
+        principle[id.x*4+0] = float3(1,0,0)*dropletScale;
+        principle[id.x*4+1] = float3(0,1,0)*dropletScale;
+        principle[id.x*4+2] = float3(0,0,1)*dropletScale;
+        principle[id.x*4+3] = m.xyz;
+    }
+}
+
+void checkPlane(float4 plane, inout float3 pos, inout float3 vel) {
+    const float eps = 0.001;
+    const float damping = 0.5;
+
+
+    float3 planePoint;
+    if (plane.x != 0)       planePoint = float3(-plane.w / plane.x, 0, 0);
+    else if (plane.y != 0)  planePoint = float3(0, -plane.w / plane.y, 0);
+    else                    planePoint = float3(0, 0, -plane.w / plane.z);
+
+    float3 planeNormal = plane.xyz;
+
+    float3 pointToParticle = pos - planePoint;
+
+    float d = dot(planeNormal, pointToParticle);
+
+    if (d < 0) {
+        pos -= (d - eps) * planeNormal;
+
+        if (dot(vel, planeNormal) < 0) {
+            vel -= dot(vel, planeNormal) * planeNormal;
+        }
+    }
+}
+
+void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 vel)
+{
+    const float eps = 0.000;
+    
+    float3 cubePos = mul(cube.inverseRotationMatrix, float4(pos.xyz - cube.cent, 1.0)).xyz;
+    float3 cubeVel = mul(cube.inverseRotationMatrix, float4(vel.xyz, 1.0)).xyz;
+    
+    float3 cubeSelfVel = mul(cube.inverseRotationMatrix, float4(cube.vel, 1.0)).xyz;
+    float3 cubeSelfAngVel = cross(cube.angVel, pos.xyz - cube.cent);
+    cubeSelfAngVel = mul(cube.inverseRotationMatrix, float4(cubeSelfAngVel, 1.0)).xyz;
+    cubeSelfVel += cubeSelfAngVel;
+    
+    
+    float maxSize = max(abs(cubePos.x), max(abs(cubePos.y), abs(cubePos.z)));
+    if (maxSize > cube.halfSize)
+        return;
+    
+    float3 impulse = float3(0.0, 0.0, 0.0);
+    float3 angularImpulse = float3(0.0, 0.0, 0.0);
+    if (cubePos.x == maxSize)
+    {
+        cubePos.x = maxSize - eps;
+        if (cubeVel.x < cubeSelfVel.x)
+        {
+            float velDiff = cubeSelfVel.x - cubeVel.x;
+            cubeVel.x += velDiff;
+            impulse = float3(-velDiff, 0, 0) * pos.w;
+        }
+    }
+    else if (cubePos.x == -maxSize)
+    {
+        cubePos.x = -(maxSize - eps);
+        if (cubeVel.x > cubeSelfVel.x)
+        {
+            float velDiff = cubeSelfVel.x - cubeVel.x;
+            cubeVel.x += velDiff;
+            impulse = float3(-velDiff, 0, 0) * pos.w;
+        }
+    }
+    else if (cubePos.y == maxSize)
+    {
+        cubePos.y = maxSize - eps;
+        if (cubeVel.y < cubeSelfVel.y)
+        {
+            float velDiff = cubeSelfVel.y - cubeVel.y;
+            cubeVel.y += velDiff;
+            impulse = float3(0, -velDiff, 0) * pos.w;
+        }
+    }
+    else if (cubePos.y == -maxSize)
+    {
+        cubePos.y = -(maxSize - eps);
+        if (cubeVel.y > cubeSelfVel.y)
+        {
+            float velDiff = cubeSelfVel.y - cubeVel.y;
+            cubeVel.y += velDiff;
+            impulse = float3(0, -velDiff, 0) * pos.w;
+        }
+    }
+    else if (cubePos.z == maxSize)
+    {
+        cubePos.z = maxSize - eps;
+        if (cubeVel.z < cubeSelfVel.z)
+        {
+            float velDiff = cubeSelfVel.z - cubeVel.z;
+            cubeVel.z += velDiff;
+            impulse = float3(0, 0, -velDiff) * pos.w;
+        }
+    }
+    else if (cubePos.z == -maxSize)
+    {
+        cubePos.z = -(maxSize - eps);
+        if (cubeVel.z > cubeSelfVel.z)
+        {
+            float velDiff = cubeSelfVel.z - cubeVel.z;
+            cubeVel.z += velDiff;
+            impulse = float3(0, 0, -velDiff) * pos.w;
+        }
+    }
+    
+    angularImpulse = cross(cubePos, impulse);
+    int curIndex = 0;
+    InterlockedAdd(rigidLastIndex[0], 1, curIndex);
+    rigidImpulses[curIndex] = mul(cube.cubeRotationMatrix, float4(impulse, 1.0)).xyz;
+    rigidIndices[curIndex] = index;
+    curIndex = 0;
+    InterlockedAdd(rigidLastIndex[0], 1, curIndex);
+    rigidImpulses[curIndex] = mul(cube.cubeRotationMatrix, float4(angularImpulse, 1.0)).xyz;
+    rigidIndices[curIndex] = -index;
+    
+    
+    pos.xyz = mul(cube.cubeRotationMatrix, float4(cubePos + cube.cent, 1.0)).xyz;
+    vel.xyz = mul(cube.cubeRotationMatrix, float4(cubeVel, 1.0)).xyz;
+}
+
+void checkRigidSphere(RigidSphere sphere, uint index, inout float4 pos, inout float4 vel)
+{
+    const float eps = 0.001;
+    
+    float3 sphere2pos = pos.xyz - sphere.cent;
+    float dis = max(sqrt(dot(sphere2pos, sphere2pos)), eps);
+    
+    if(dis > sphere.radius)
+        return;
+    
+    float3 norm = sphere2pos / dis;
+    
+    pos.xyz = pos.xyz + norm * (sphere.radius - dis - eps);
+    
+    float surfVel = dot(sphere.vel, norm);
+    float ptclVel = dot(vel.xyz, norm);
+    
+    if (ptclVel < surfVel)
+    {
+        vel.xyz += (surfVel - ptclVel) * norm;
+        int curIndex;
+        InterlockedAdd(rigidLastIndex[0], 1, curIndex);
+        rigidImpulses[curIndex] = (ptclVel - surfVel) * norm * pos.w;
+        rigidIndices[curIndex] = index;
+    }
+}
+
+[numthreads(1024,1,1)]
+void Step (uint3 id : SV_DispatchThreadID)
+{
+    if (id.x < numParticles) {
+        Particle pi = sorted[id.x];
+
+        float3 currAcc = forces[id.x].xyz / mass;
+
+        [unroll]
+        for (uint i = 0; i < 7; i++) {
+            if (dot(planes[i], 1) != 0) checkPlane(planes[i], pi.pos.xyz, pi.vel.xyz);
+        }
+        
+        
+        for (uint i = 0; i < cntCube; i++)
+        {
+            checkRigidCube(rigidCubes[i], (i << 1) + 1, pi.pos, pi.vel);
+        }
+        for (uint i = 0; i < cntSphere; i++)
+        {
+            checkRigidSphere(rigidSpheres[i], (i << 1), pi.pos, pi.vel);
+        }
+        
+           
+        pi.vel.xyz += currAcc * deltaTime;
+        pi.pos.xyz += pi.vel.xyz * deltaTime;
+
+        // particles[inverseIndices[id.x]] = pi;
+        particles[id.x] = pi;
+    }
+}
