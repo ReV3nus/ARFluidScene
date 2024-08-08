@@ -11,6 +11,9 @@
 #pragma kernel CalcForces
 #pragma kernel CalcPCA
 #pragma kernel Step
+#pragma kernel CheckPlane
+#pragma kernel CheckSolid
+#pragma kernel CheckBreakableWall
 
 #define PI 3.1415926535
 
@@ -72,31 +75,6 @@ RWStructuredBuffer<uint2> hashRange;
 
 RWStructuredBuffer<uint> hashDebug;
 RWStructuredBuffer<int3> hashValueDebug;
-
-
-struct RigidCube
-{
-    float halfSize;
-    float3 cent;
-    float3 vel;
-    float3 angVel;
-    float4x4 cubeRotationMatrix;
-    float4x4 inverseRotationMatrix;
-};
-struct RigidSphere
-{
-    float radius;
-    float3 cent;
-    float3 vel;
-};
-uint cntCube, cntSphere;
-RWStructuredBuffer<RigidCube> rigidCubes;
-RWStructuredBuffer<RigidSphere> rigidSpheres;
-
-RWStructuredBuffer<float3> rigidImpulses;
-RWStructuredBuffer<int> rigidIndices;
-RWStructuredBuffer<int> rigidLastIndex;
-
 
 
 
@@ -450,6 +428,24 @@ void CalcPCA(uint3 id : SV_DispatchThreadID)
     }
 }
 
+
+[numthreads(1024, 1, 1)]
+void Step(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x < numParticles)
+    {
+        Particle pi = sorted[id.x];
+
+        float3 currAcc = forces[id.x].xyz / mass;
+        pi.vel.xyz += currAcc * deltaTime;
+        pi.pos.xyz += pi.vel.xyz * deltaTime;
+
+        // particles[inverseIndices[id.x]] = pi;
+        particles[id.x] = pi;
+    }
+}
+
+
 void checkPlane(float4 plane, inout float3 pos, inout float3 vel) {
     const float eps = 0.001;
     const float damping = 0.5;
@@ -475,6 +471,45 @@ void checkPlane(float4 plane, inout float3 pos, inout float3 vel) {
     }
 }
 
+[numthreads(1024,1,1)]
+void CheckPlane(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x < numParticles) {
+        Particle pi = sorted[id.x];
+        
+        [unroll]
+        for (uint i = 0; i < 7; i++) {
+            if (dot(planes[i], 1) != 0) checkPlane(planes[i], pi.pos.xyz, pi.vel.xyz);
+        }
+        
+        sorted[id.x] = pi;
+    }
+}
+
+
+struct RigidCube
+{
+    float halfSize;
+    float3 cent;
+    float3 vel;
+    float3 angVel;
+    float4x4 cubeRotationMatrix;
+    float4x4 inverseRotationMatrix;
+};
+struct RigidSphere
+{
+    float radius;
+    float3 cent;
+    float3 vel;
+};
+uint cntCube, cntSphere;
+RWStructuredBuffer<RigidCube> rigidCubes;
+RWStructuredBuffer<RigidSphere> rigidSpheres;
+
+RWStructuredBuffer<float3> rigidImpulses;
+RWStructuredBuffer<int> rigidIndices;
+RWStructuredBuffer<int> rigidLastIndex;
+
 void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 vel)
 {
     const float eps = 0.000;
@@ -487,7 +522,6 @@ void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 v
     cubeSelfAngVel = mul(cube.inverseRotationMatrix, float4(cubeSelfAngVel, 1.0)).xyz;
     cubeSelfVel += cubeSelfAngVel;
     
-    
     float maxSize = max(abs(cubePos.x), max(abs(cubePos.y), abs(cubePos.z)));
     if (maxSize > cube.halfSize)
         return;
@@ -496,7 +530,7 @@ void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 v
     float3 angularImpulse = float3(0.0, 0.0, 0.0);
     if (cubePos.x == maxSize)
     {
-        cubePos.x = maxSize - eps;
+        cubePos.x = cube.halfSize + eps;
         if (cubeVel.x < cubeSelfVel.x)
         {
             float velDiff = cubeSelfVel.x - cubeVel.x;
@@ -506,7 +540,7 @@ void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 v
     }
     else if (cubePos.x == -maxSize)
     {
-        cubePos.x = -(maxSize - eps);
+        cubePos.x = -(cube.halfSize + eps);
         if (cubeVel.x > cubeSelfVel.x)
         {
             float velDiff = cubeSelfVel.x - cubeVel.x;
@@ -516,7 +550,7 @@ void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 v
     }
     else if (cubePos.y == maxSize)
     {
-        cubePos.y = maxSize - eps;
+        cubePos.y = cube.halfSize + eps;
         if (cubeVel.y < cubeSelfVel.y)
         {
             float velDiff = cubeSelfVel.y - cubeVel.y;
@@ -526,7 +560,7 @@ void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 v
     }
     else if (cubePos.y == -maxSize)
     {
-        cubePos.y = -(maxSize - eps);
+        cubePos.y = -(cube.halfSize + eps);
         if (cubeVel.y > cubeSelfVel.y)
         {
             float velDiff = cubeSelfVel.y - cubeVel.y;
@@ -536,7 +570,7 @@ void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 v
     }
     else if (cubePos.z == maxSize)
     {
-        cubePos.z = maxSize - eps;
+        cubePos.z = cube.halfSize + eps;
         if (cubeVel.z < cubeSelfVel.z)
         {
             float velDiff = cubeSelfVel.z - cubeVel.z;
@@ -546,7 +580,7 @@ void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 v
     }
     else if (cubePos.z == -maxSize)
     {
-        cubePos.z = -(maxSize - eps);
+        cubePos.z = -(cube.halfSize + eps);
         if (cubeVel.z > cubeSelfVel.z)
         {
             float velDiff = cubeSelfVel.z - cubeVel.z;
@@ -566,7 +600,7 @@ void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 v
     rigidIndices[curIndex] = -index;
     
     
-    pos.xyz = mul(cube.cubeRotationMatrix, float4(cubePos + cube.cent, 1.0)).xyz;
+    pos.xyz = mul(cube.cubeRotationMatrix, float4(cubePos, 1.0)).xyz + cube.cent;
     vel.xyz = mul(cube.cubeRotationMatrix, float4(cubeVel, 1.0)).xyz;
 }
 
@@ -577,7 +611,7 @@ void checkRigidSphere(RigidSphere sphere, uint index, inout float4 pos, inout fl
     float3 sphere2pos = pos.xyz - sphere.cent;
     float dis = max(sqrt(dot(sphere2pos, sphere2pos)), eps);
     
-    if(dis > sphere.radius)
+    if (dis > sphere.radius)
         return;
     
     float3 norm = sphere2pos / dis;
@@ -597,18 +631,12 @@ void checkRigidSphere(RigidSphere sphere, uint index, inout float4 pos, inout fl
     }
 }
 
-[numthreads(1024,1,1)]
-void Step (uint3 id : SV_DispatchThreadID)
+[numthreads(1024, 1, 1)]
+void CheckSolid(uint3 id : SV_DispatchThreadID)
 {
-    if (id.x < numParticles) {
+    if (id.x < numParticles)
+    {
         Particle pi = sorted[id.x];
-
-        float3 currAcc = forces[id.x].xyz / mass;
-
-        [unroll]
-        for (uint i = 0; i < 7; i++) {
-            if (dot(planes[i], 1) != 0) checkPlane(planes[i], pi.pos.xyz, pi.vel.xyz);
-        }
         
         
         for (uint i = 0; i < cntCube; i++)
@@ -620,11 +648,70 @@ void Step (uint3 id : SV_DispatchThreadID)
             checkRigidSphere(rigidSpheres[i], (i << 1), pi.pos, pi.vel);
         }
         
-           
-        pi.vel.xyz += currAcc * deltaTime;
-        pi.pos.xyz += pi.vel.xyz * deltaTime;
+        sorted[id.x] = pi;
+    }
+}
 
-        // particles[inverseIndices[id.x]] = pi;
-        particles[id.x] = pi;
+
+float3 breakableWallPos;
+float3 breakableWallNormal;
+float3 breakableWallX;
+float3 breakableWallY;
+float2 breakableWallSize;
+float breakableWallResolution;
+int breakableTotalIndex;
+RWStructuredBuffer<int> breakableWallTid;
+RWStructuredBuffer<int> breakableWallExist;
+void checkBreakablePlane(inout float3 pos, inout float3 vel)
+{
+    const float eps = 0.001;
+    const float damping = 0.5;
+
+    float3 plane2pos = pos - breakableWallPos;
+    float3 plane2prepos = (pos - deltaTime * vel) - breakableWallPos;
+    float dis = dot(plane2pos, breakableWallNormal);
+    float predis = dot(plane2prepos, breakableWallNormal);
+    if (dis > 0 && predis > 0)return;
+    if (dis < 0 && predis < 0)return;
+    
+    int planeX = (dot(plane2pos, breakableWallX) * breakableWallResolution);
+    int planeY = (dot(plane2pos, breakableWallY) * breakableWallResolution);
+    int tindex = (int) (breakableWallSize.x * breakableWallResolution) * planeY + planeX;
+    if (tindex < 0 || tindex >= breakableTotalIndex)
+        return;
+    
+    
+    
+    //if (planeX == 0 && planeY == 0)
+    //    return;
+    //if (breakableWallResolution == 0)
+    //    return;
+    
+    
+    int exist = breakableWallExist[breakableWallTid[tindex]];
+    if (exist == 0)
+        return;
+    
+    float3 bumpDir = breakableWallNormal;
+    if (predis < 0)
+    {
+        bumpDir = -bumpDir;
+        dis = -dis;
+    }
+    pos -= (dis - eps) * bumpDir;
+    if (dot(vel, bumpDir) < 0)
+        vel -= dot(vel, bumpDir) * bumpDir;
+}
+
+[numthreads(1024, 1, 1)]
+void CheckBreakableWall(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x < numParticles)
+    {
+        Particle pi = sorted[id.x];
+        
+        checkBreakablePlane(pi.pos.xyz, pi.vel.xyz);
+        
+        sorted[id.x] = pi;
     }
 }

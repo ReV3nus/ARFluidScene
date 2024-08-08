@@ -13,7 +13,7 @@ public class RigidObjSolver : MonoBehaviour
     private Vector3 minBounds = new Vector3(-10, -10, -10);
     private Vector3 maxBounds = new Vector3(10, 10, 10);
     private ComputeShader solverShader;
-    private int StepKernel;
+    private int checkKernel;
 
     public RigidSphereScript[] rigidSphereScripts;
     private RigidSphere[] rigidSpheres;
@@ -43,7 +43,7 @@ public class RigidObjSolver : MonoBehaviour
         solverShader.SetInt("cntCube", cntCube);
         solverShader.SetInt("cntSphere", cntSphere);
 
-        StepKernel = solverShader.FindKernel("Step");
+        checkKernel = solverShader.FindKernel("CheckSolid");
 
         //otherwise crashes
         CubeBuffer = new ComputeBuffer(Math.Max(1, cntCube), 42 * sizeof(float));
@@ -78,20 +78,25 @@ public class RigidObjSolver : MonoBehaviour
         IndexBuffer.SetData(indices);
         LastIndexBuffer.SetData(LastIndex);
 
-        solverShader.SetBuffer(StepKernel, "rigidImpulses", ImpulseBuffer);
-        solverShader.SetBuffer(StepKernel, "rigidIndices", IndexBuffer);
-        solverShader.SetBuffer(StepKernel, "rigidLastIndex", LastIndexBuffer);
-        solverShader.SetBuffer(StepKernel, "rigidCubes", CubeBuffer);
-        solverShader.SetBuffer(StepKernel, "rigidSpheres", SphereBuffer);
+        solverShader.SetBuffer(checkKernel, "rigidImpulses", ImpulseBuffer);
+        solverShader.SetBuffer(checkKernel, "rigidIndices", IndexBuffer);
+        solverShader.SetBuffer(checkKernel, "rigidLastIndex", LastIndexBuffer);
+        solverShader.SetBuffer(checkKernel, "rigidCubes", CubeBuffer);
+        solverShader.SetBuffer(checkKernel, "rigidSpheres", SphereBuffer);
 
+    }
+    public void Solve(int x,int y,int z)
+    {
+        if (!enabled) return;
+        solverShader.Dispatch(checkKernel, x, y, z);
     }
 
     public void UpdateRigidObjects()
     {
+        if(!enabled) return;
         ImpulseBuffer.GetData(impulses);
         IndexBuffer.GetData(indices);
         LastIndexBuffer.GetData(LastIndex);
-        Debug.Log(LastIndex[0]);
 
 
         for (uint i = 0; i < cntCube; i++) rigidCubeScripts[i].InitBeforeUpdate();
@@ -111,21 +116,19 @@ public class RigidObjSolver : MonoBehaviour
         if (cntCube > 0)
         {
             for (uint i = 0; i < cntCube; i++)
-                rigidCubes[i] = rigidCubeScripts[i].UpdateState(minBounds, maxBounds);
+                rigidCubes[i] = rigidCubeScripts[i].UpdateState();
             CubeBuffer.SetData(rigidCubes);
-            solverShader.SetBuffer(StepKernel, "rigidCubes", CubeBuffer);
+            solverShader.SetBuffer(checkKernel, "rigidCubes", CubeBuffer);
         }
         if (cntSphere > 0)
         {
             for (uint i = 0; i < cntSphere; i++)
-                rigidSpheres[i] = rigidSphereScripts[i].UpdateState(minBounds, maxBounds);
+                rigidSpheres[i] = rigidSphereScripts[i].UpdateState();
             SphereBuffer.SetData(rigidSpheres);
-            solverShader.SetBuffer(StepKernel, "rigidSpheres", SphereBuffer);
+            solverShader.SetBuffer(checkKernel, "rigidSpheres", SphereBuffer);
         }
 
         LastIndex[0] = 0;
         LastIndexBuffer.SetData(LastIndex);
-        Debug.Log(LastIndex[0]);
-
     }
 }

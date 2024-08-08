@@ -22,6 +22,12 @@ public struct RigidCube
         velocity = Vector3.zero;
         angularVelocity = Vector3.zero;
     }
+
+    public void UpdateRotationMatrix(Quaternion rotation)
+    {
+        cubeRotationMatrix = Matrix4x4.Rotate(rotation);
+        inverseRotationMatrix = cubeRotationMatrix.inverse;
+    }
 }
 
 public struct RigidSphere
