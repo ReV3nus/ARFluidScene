@@ -403,6 +403,7 @@ public class BreakableWall : MonoBehaviour
 
 
 
+    public Vector3 offset;
 
     private int kernel;
     public Solver solver;
@@ -415,7 +416,7 @@ public class BreakableWall : MonoBehaviour
         this.solverShader = solver.solverShader;
 
         kernel = solverShader.FindKernel("CheckBreakableWall");
-        solverShader.SetFloats("breakableWallPos", transform.position.x, transform.position.y, transform.position.z);
+        solverShader.SetFloats("breakableWallPos", transform.position.x + offset.x, transform.position.y + offset.y, transform.position.z + offset.z);
         solverShader.SetFloats("breakableWallNormal", transform.up.x, transform.up.y, transform.up.z);
         solverShader.SetFloats("breakableWallX", transform.right.x, transform.right.y, transform.right.z);
         solverShader.SetFloats("breakableWallY", transform.forward.x, transform.forward.y, transform.forward.z);

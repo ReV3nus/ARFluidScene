@@ -94,7 +94,7 @@ public class Solver : MonoBehaviour
 
         solverShader.SetVectorArray("planes", boxPlanes);
     }
-
+     
     void Start() {
         rigidObjSolver = GetComponent<RigidObjSolver>();
 

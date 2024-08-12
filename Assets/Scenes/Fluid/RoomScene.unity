@@ -735,7 +735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7632611a3bb3d1244804dcbf01056fb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numParticles: 1048576
+  numParticles: 1000000
   radius: 1
   gasConstant: 10
   restDensity: 1
@@ -744,8 +744,8 @@ MonoBehaviour:
   viscosity: 0.02
   gravity: 10
   deltaTime: 0.025
-  maxSpawns: {x: 0, y: 0, z: -20}
-  minSpawns: {x: 40, y: 40, z: 20}
+  maxSpawns: {x: 0.4, y: 0, z: -20}
+  minSpawns: {x: 40, y: 20, z: 20}
   minBounds: {x: -80, y: 0, z: -20}
   maxBounds: {x: 40, y: 40, z: 20}
   solverShader: {fileID: 7200000, guid: f4000e3305ec3b14b8f7b31781bb32dd, type: 3}
@@ -1311,6 +1311,7 @@ MonoBehaviour:
   size: {x: 40, y: 40}
   ExpectCount: 100
   RasterizeResolution: 16
+  offset: {x: 0.4, y: 0, z: 0}
   solver: {fileID: 963194229}
 --- !u!1 &1831854113
 GameObject:
