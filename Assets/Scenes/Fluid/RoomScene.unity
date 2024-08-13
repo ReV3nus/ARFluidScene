@@ -617,6 +617,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1750197673300094451, guid: 63d65b5f8fbd831419e66f250ee8592e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2e15cf661743cab4880f713e997e6302, type: 2}
     - target: {fileID: 4347853118813064197, guid: 63d65b5f8fbd831419e66f250ee8592e, type: 3}
       propertyPath: m_Name
       value: FloatSphere
@@ -1584,10 +1588,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 940385356461204310, guid: 267cc0f0355885047b9cc02c3988bcb5, type: 3}
+      propertyPath: Kinetic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4347853118813064197, guid: 267cc0f0355885047b9cc02c3988bcb5, type: 3}
       propertyPath: m_Name
       value: Cube
       objectReference: {fileID: 0}
+    - target: {fileID: 7052557582491319928, guid: 267cc0f0355885047b9cc02c3988bcb5, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2bce391c92114b743b8a60962eaca8e5, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1641,6 +1653,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1750197673300094451, guid: 63d65b5f8fbd831419e66f250ee8592e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2e15cf661743cab4880f713e997e6302, type: 2}
     - target: {fileID: 4347853118813064197, guid: 63d65b5f8fbd831419e66f250ee8592e, type: 3}
       propertyPath: m_Name
       value: Sphere

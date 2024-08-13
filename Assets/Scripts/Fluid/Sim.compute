@@ -472,7 +472,8 @@ void checkPlane(float4 plane, inout float3 pos, inout float3 vel) {
 }
 void TeleportCheck(inout float3 pos, inout float3 vel)
 {
-    if (pos.x <= -80.0 && pos.y <= 10.0)//  && abs(pos.z) <= 10.0)
+    //if (pos.x <= -80.0 && pos.y <= 10.0 && abs(pos.z) <= 10.0)
+    if (pos.x <= -80.0 && pos.y <= 10.0 && vel.x <= -15.0)
         pos.x += 120.0;
 }
 
