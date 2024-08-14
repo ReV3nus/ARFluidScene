@@ -207,7 +207,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &598692811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,7 +226,7 @@ MonoBehaviour:
   totalImpulse: {x: 0, y: 0, z: 0}
   totalAngularImpulse: {x: 0, y: 0, z: 0}
   UsingScaleAsSize: 1
-  Kinetic: 1
+  Kinetic: 0
 --- !u!23 &598692812
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -287,7 +287,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 10, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -425,7 +425,7 @@ Camera:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -475,14 +475,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2655561, y: 0, z: 0, w: 0.9640955}
-  m_LocalPosition: {x: 0, y: 55.4, z: -89.2}
+  m_LocalRotation: {x: 0.4776189, y: 0, z: 0, w: 0.8785671}
+  m_LocalPosition: {x: 0, y: 2.47, z: 1.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 439758682}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 30.8, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 57.06, y: 0, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,30 +495,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7632611a3bb3d1244804dcbf01056fb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numParticles: 1048576
-  initSize: 37
-  radius: 1
-  gasConstant: 1
+  numParticles: 500000
+  initSize: 1
+  radius: 0.01
+  gasConstant: 0.000001
   restDensity: 1
   mass: 0.1
-  density: 1
-  viscosity: 0.02
+  viscosity: 0.00001
   gravity: 10
-  deltaTime: 0.025
-  maxVelocity: 20
-  minBounds: {x: -30, y: 0, z: -30}
-  maxBounds: {x: 30, y: 100, z: 30}
+  deltaTime: 0.005
+  minBounds: {x: -2, y: 0, z: 1.1}
+  maxBounds: {x: 2, y: 3, z: 4}
   solverShader: {fileID: 7200000, guid: f4000e3305ec3b14b8f7b31781bb32dd, type: 3}
   renderShader: {fileID: 4800000, guid: d422c3fc5e6461b4da80424ed4deb459, type: 3}
   renderMat: {fileID: 2100000, guid: 6378f3d1b6e448e41ae0a514bce49add, type: 2}
   particleMesh: {fileID: -5495902117074765545, guid: 32591c72e19b392408b392f27e87e875,
     type: 3}
-  particleRenderSize: 1
+  particleRenderSize: 0.1
   sphereMesh: {fileID: 289301614986012343, guid: e4bf80ccc13306e4597dd4ace78528f5,
     type: 3}
   primaryColor: {r: 0, g: 0.64705884, b: 0.92156863, a: 1}
   secondaryColor: {r: 0.043137256, g: 0.22745098, b: 0.50980395, a: 1}
   moveParticles: 10
+  LeapCamera: {fileID: 0}
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556,9 +555,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DensityCoefficient: 10
-  rigidSphereScripts: []
-  rigidCubeScripts:
-  - {fileID: 598692811}
+  rigidSphereScripts:
+  - {fileID: 1643519660}
+  rigidCubeScripts: []
 --- !u!1 &1643519659
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,7 +576,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1643519660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -592,10 +591,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 0
   density: 1
-  gravity: {x: 0, y: -9.8, z: 0}
+  gravity: {x: 0, y: -2, z: 0}
   totalImpulse: {x: 0, y: 0, z: 0}
   UsingScaleAsSize: 1
-  Kinetic: 1
+  Kinetic: 0
   Shoot: 0
   vel: 0
   boundary: 0
@@ -659,8 +658,8 @@ Transform:
   m_GameObject: {fileID: 1643519659}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 10, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalPosition: {x: 0, y: 1, z: 3.47}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}

@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2839153928146753983
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5764438709597394871}
+  - component: {fileID: 9032553474256407207}
+  - component: {fileID: 677726738262494735}
+  - component: {fileID: 2125828483326990235}
+  m_Layer: 0
+  m_Name: fluid
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5764438709597394871
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2839153928146753983}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.2655561, y: 0, z: 0, w: 0.9640955}
+  m_LocalPosition: {x: 0, y: 55.4, z: -89.2}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 30.8, y: 0, z: 0}
+--- !u!114 &9032553474256407207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2839153928146753983}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52e35391032640b4ab70cd956b140d49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &677726738262494735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2839153928146753983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7632611a3bb3d1244804dcbf01056fb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numParticles: 1048576
+  initSize: 37
+  radius: 1
+  gasConstant: 10
+  restDensity: 1
+  mass: 0.1
+  density: 1
+  viscosity: 0.02
+  gravity: 10
+  deltaTime: 0.025
+  minBounds: {x: -30, y: 0, z: 30}
+  maxBounds: {x: 30, y: 100, z: 60}
+  solverShader: {fileID: 7200000, guid: f4000e3305ec3b14b8f7b31781bb32dd, type: 3}
+  renderShader: {fileID: 4800000, guid: d422c3fc5e6461b4da80424ed4deb459, type: 3}
+  renderMat: {fileID: 2100000, guid: 6378f3d1b6e448e41ae0a514bce49add, type: 2}
+  particleMesh: {fileID: -5495902117074765545, guid: 32591c72e19b392408b392f27e87e875,
+    type: 3}
+  particleRenderSize: 0.5
+  sphereMesh: {fileID: 289301614986012343, guid: e4bf80ccc13306e4597dd4ace78528f5,
+    type: 3}
+  primaryColor: {r: 0, g: 0.64705884, b: 0.92156863, a: 1}
+  secondaryColor: {r: 0.043137256, g: 0.22745098, b: 0.50980395, a: 1}
+  moveParticles: 10
+--- !u!114 &2125828483326990235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2839153928146753983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72f9c476bb4126e43911956b618975f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DensityCoefficient: 10
+  rigidSphereScripts: []
+  rigidCubeScripts: []

@@ -35,7 +35,13 @@ public class RigidCubeScript : MonoBehaviour
 
     public RigidCube UpdateState(Vector3 minBounds, Vector3 maxBounds)
     {
-        if (!Kinetic) return rigidCube;
+        
+        if (!Kinetic)
+        {
+            rigidCube.centroid = transform.position;
+            return rigidCube;
+        }
+        
         float dT = Time.deltaTime;
         Vector3 pos = this.transform.position;
 
@@ -61,6 +67,8 @@ public class RigidCubeScript : MonoBehaviour
         //Force
         velocity += gravity * dT;
         pos += velocity * dT;
+
+
 
         //Check Bounds
         if (pos.x < minBounds.x + halfSize)

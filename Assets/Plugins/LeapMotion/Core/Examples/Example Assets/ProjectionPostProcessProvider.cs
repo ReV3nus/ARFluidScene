@@ -7,28 +7,53 @@
  * between Ultraleap and you, your company or other organization.             *
  ******************************************************************************/
 
+using System;
 using UnityEngine;
 
 namespace Leap.Unity.Examples {
 
-  public class ProjectionPostProcessProvider : PostProcessProvider {
+  public class ProjectionPostProcessProvider : PostProcessProvider
+  {
+
+
 
     [Header("Projection")]
+    // public HandModelManager handModelManager;
+
     public Transform headTransform;
 
     [Tooltip("The exponent of the projection of any hand distance from the approximated "
            + "shoulder beyond the handMergeDistance.")]
-    [Range(0f, 5f)]
-    public float projectionExponent = 3.50f;
+    [Range(0f, 10f)]
+    public float projectionExponent = 5f;
 
     [Tooltip("The distance from the approximated shoulder beyond which any additional "
            + "distance is exponentiated by the projectionExponent.")]
     [Range(0f, 1f)]
-    public float handMergeDistance = 0.30f;
+    public float handMergeDistance = 0.35f;
+
 
     public override void ProcessFrame(ref Frame inputFrame) {
+      
+      // if (_inputLeapProvider == null)
+      // {
+      //   _inputLeapProvider = Hands.Provider;
+      // }
+
       // Calculate the position of the head and the basis to calculate shoulder position.
-      if (headTransform == null) { headTransform = Camera.main.transform; }
+      if (headTransform == null)
+      {
+        GameObject LeapProviderEsky =  GameObject.Find("LeapMotion");
+        if(LeapProviderEsky != null){
+          _inputLeapProvider = LeapProviderEsky.GetComponent<LeapXRServiceProvider>();
+          Debug.Log("Setting the hand models");
+          headTransform = LeapProviderEsky.transform;
+      
+        }else{
+          Debug.LogError("Couldn't find a 'LeapMotion' game object in scene, the Esky Leapmotion provider needs this, did you modify the transform structure???");
+        }
+        
+      }
       Vector3 headPos = headTransform.position;
       var shoulderBasis = Quaternion.LookRotation(
         Vector3.ProjectOnPlane(headTransform.forward, Vector3.up),
@@ -48,6 +73,7 @@ namespace Leap.Unity.Examples {
         var projectionAmount = Mathf.Pow(1 + projectionDistance, projectionExponent);
         hand.SetTransform(shoulderPos + shoulderToHand * projectionAmount,
                           hand.Rotation.ToQuaternion());
+        // Debug.Log(hand.PalmPosition);
       }
     }
 

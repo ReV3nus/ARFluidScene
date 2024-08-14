@@ -15,7 +15,7 @@ using Leap.Unity.Attributes;
 namespace Leap.Unity {
   /** A basic Leap hand model constructed dynamically vs. using pre-existing geometry*/
   public class CapsuleHand : HandModelBase {
-    private const int TOTAL_JOINT_COUNT = 4 * 5;
+    public const int TOTAL_JOINT_COUNT = 4 * 5;
     private const float CYLINDER_MESH_RESOLUTION = 0.1f; //in centimeters, meshes within this resolution will be re-used
     private const int THUMB_BASE_INDEX = (int)Finger.FingerType.TYPE_THUMB * 4;
     private const int PINKY_BASE_INDEX = (int)Finger.FingerType.TYPE_PINKY * 4;
@@ -47,7 +47,7 @@ namespace Leap.Unity {
 
     [MinValue(0)]
     [SerializeField]
-    private float _jointRadius = 0.008f;
+    public float _jointRadius = 0.008f;
 
     [MinValue(0)]
     [SerializeField]
@@ -60,7 +60,7 @@ namespace Leap.Unity {
 
     private Material _sphereMat;
     private Hand _hand;
-    private Vector3[] _spherePositions;
+    public Vector3[] _spherePositions;
 
     public override ModelType HandModelType {
       get {
@@ -129,6 +129,7 @@ namespace Leap.Unity {
           _spherePositions[key] = position;
 
           drawSphere(position);
+          
         }
       }
 

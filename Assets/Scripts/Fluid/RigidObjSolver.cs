@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Leap.Unity;
 using UnityEngine;
 
 public class RigidObjSolver : MonoBehaviour
@@ -29,6 +31,11 @@ public class RigidObjSolver : MonoBehaviour
     private int[] indices;
     private int[] LastIndex;
 
+    public bool addHand = false;
+    public CapsuleHand leftHand;
+    public CapsuleHand rightHand;
+    public float scaleFactor = 100f;
+    
     private void Start()
     {
         solver = GetComponent<Solver>();
@@ -39,6 +46,25 @@ public class RigidObjSolver : MonoBehaviour
 
         cntCube = rigidCubeScripts.Length;
         cntSphere = rigidSphereScripts.Length;
+
+        if (addHand)
+        {
+            cntSphere += 40;
+            var newRigidSphereScripts = new RigidSphereScript[cntSphere];
+            for (int i = 0; i < 40; i++)
+            {
+                var RS = gameObject.AddComponent<RigidSphereScript>();
+                RS.rigidSphere.radius = rightHand._jointRadius * scaleFactor;
+                newRigidSphereScripts.Append(RS);
+            }
+
+            foreach (var rs in rigidSphereScripts)
+            {
+                newRigidSphereScripts.Append(rs);
+            }
+
+            rigidSphereScripts = newRigidSphereScripts;
+        }
 
         solverShader.SetInt("cntCube", cntCube);
         solverShader.SetInt("cntSphere", cntSphere);
@@ -59,8 +85,9 @@ public class RigidObjSolver : MonoBehaviour
         if (cntSphere > 0)
         {
             rigidSpheres = new RigidSphere[cntSphere];
+
             for (int i = 0; i < cntSphere; i++)
-                rigidSpheres[i] = rigidSphereScripts[i].rigidSphere;
+                    rigidSpheres[i] = rigidSphereScripts[i].rigidSphere;
             SphereBuffer.SetData(rigidSpheres);
         }
 
@@ -83,20 +110,17 @@ public class RigidObjSolver : MonoBehaviour
         solverShader.SetBuffer(StepKernel, "rigidLastIndex", LastIndexBuffer);
         solverShader.SetBuffer(StepKernel, "rigidCubes", CubeBuffer);
         solverShader.SetBuffer(StepKernel, "rigidSpheres", SphereBuffer);
-
     }
 
     public void UpdateRigidObjects()
     {
+ 
         ImpulseBuffer.GetData(impulses);
         IndexBuffer.GetData(indices);
         LastIndexBuffer.GetData(LastIndex);
-        Debug.Log(LastIndex[0]);
-
-
+        // Debug.Log(LastIndex[0]);
         for (uint i = 0; i < cntCube; i++) rigidCubeScripts[i].InitBeforeUpdate();
         for (uint i = 0; i < cntSphere; i++) rigidSphereScripts[i].InitBeforeUpdate();
-
         for (uint i = 0; i < LastIndex[0]; i++)
         {
             if (indices[i] < 0)
@@ -108,6 +132,8 @@ public class RigidObjSolver : MonoBehaviour
         }
 
 
+        
+
         if (cntCube > 0)
         {
             for (uint i = 0; i < cntCube; i++)
@@ -117,15 +143,48 @@ public class RigidObjSolver : MonoBehaviour
         }
         if (cntSphere > 0)
         {
+            int fingerKey = 0;
             for (uint i = 0; i < cntSphere; i++)
-                rigidSpheres[i] = rigidSphereScripts[i].UpdateState(minBounds, maxBounds);
+            {
+                if (!addHand)
+                {
+                    rigidSpheres[i] = rigidSphereScripts[i].UpdateState(minBounds, maxBounds);
+                }
+                else
+                {
+                    if (i < cntSphere - 40)
+                    {
+                        rigidSpheres[i] = rigidSphereScripts[i].UpdateState(minBounds, maxBounds);
+
+                    }
+                    else 
+                    {
+                        if (fingerKey < 20)
+                        {
+                            rigidSpheres[i].centroid = rightHand._spherePositions[fingerKey]*scaleFactor;
+                            Debug.Log(rigidSpheres[i].centroid);
+                            fingerKey++;
+
+                        }
+                        else
+                        {
+                            rigidSpheres[i].centroid = leftHand._spherePositions[fingerKey-20]*scaleFactor;
+                            fingerKey++;
+                        }
+
+                    }
+                }
+                
+
+            }
             SphereBuffer.SetData(rigidSpheres);
             solverShader.SetBuffer(StepKernel, "rigidSpheres", SphereBuffer);
         }
+        
 
         LastIndex[0] = 0;
         LastIndexBuffer.SetData(LastIndex);
-        Debug.Log(LastIndex[0]);
+        // Debug.Log(LastIndex[0]);
 
     }
 }
