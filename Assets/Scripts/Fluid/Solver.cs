@@ -8,7 +8,6 @@ public class Solver : MonoBehaviour
     const int numHashes = 1<<20;
     const int numThreads = 1<<10; // Compute shader dependent value.
     public int numParticles = 1024;
-    public float initSize = 10;
     public float radius = 1;
     public float gasConstant = 2000;
     public float restDensity = 10;
@@ -18,6 +17,8 @@ public class Solver : MonoBehaviour
     public float gravity = 9.8f;
     public float deltaTime = 0.001f;
 
+    public Vector3 maxSpawns = new Vector3(-10, -10, -10);
+    public Vector3 minSpawns = new Vector3(10, 10, 10);
     public Vector3 minBounds = new Vector3(-10, -10, -10);
     public Vector3 maxBounds = new Vector3(10, 10, 10);
 
@@ -64,6 +65,9 @@ public class Solver : MonoBehaviour
 
     private RigidObjSolver rigidObjSolver;
 
+    public BreakableWall breakableWall;
+    public HandFluidInteractor handInteractor;
+
 
     struct Particle {
         public Vector4 pos; // with pressure.
@@ -93,7 +97,7 @@ public class Solver : MonoBehaviour
 
         solverShader.SetVectorArray("planes", boxPlanes);
     }
-
+     
     void Start() {
 
         GameObject LeapProviderEsky =  GameObject.Find("LeapMotion");
@@ -109,9 +113,9 @@ public class Solver : MonoBehaviour
 
         for (int i = 0; i < numParticles; i++) {
             Vector3 pos = new Vector3(
-                Random.Range(0f, 1f) * initSize + (minBounds.x + maxBounds.x - initSize) * 0.5f,
-                Random.Range(0f, 1f) * initSize + minBounds.y + 1f,
-                Random.Range(0f, 1f) * initSize + (minBounds.z + maxBounds.z - initSize) * 1f
+                Random.Range(0f, 1f) * (maxSpawns.x - minSpawns.x) + minSpawns.x,
+                Random.Range(0f, 1f) * (maxSpawns.y - minSpawns.y) + minSpawns.y,
+                Random.Range(0f, 1f) * (maxSpawns.z - minSpawns.z) + minSpawns.z
             ); ;
             particles[i].pos = pos;
         }
@@ -165,7 +169,7 @@ public class Solver : MonoBehaviour
         principleBuffer = new ComputeBuffer(numParticles * 4, 4 * 3);
         hashRangeBuffer = new ComputeBuffer(numHashes, 4 * 2);
 
-        for (int i = 0; i < 13; i++) {
+        for (int i = 0; i < 17; i++) {
             solverShader.SetBuffer(i, "hashes", hashesBuffer);
             solverShader.SetBuffer(i, "globalHashCounter", globalHashCounterBuffer);
             solverShader.SetBuffer(i, "localIndices", localIndicesBuffer);
@@ -268,6 +272,11 @@ public class Solver : MonoBehaviour
                     solverShader.Dispatch(solverShader.FindKernel("CalcPressure"), Mathf.CeilToInt((float)numParticles / 128), 1, 1);
                     solverShader.Dispatch(solverShader.FindKernel("CalcForces"), Mathf.CeilToInt((float)numParticles / 128), 1, 1);
                     solverShader.Dispatch(solverShader.FindKernel("CalcPCA"), Mathf.CeilToInt((float)numParticles / numThreads), 1, 1);
+                    
+                    handInteractor?.Solve(Mathf.CeilToInt((float)numParticles / numThreads), 1, 1);
+                    solverShader.Dispatch(solverShader.FindKernel("CheckPlane"), Mathf.CeilToInt((float)numParticles / numThreads), 1, 1);
+                    breakableWall?.Solve(Mathf.CeilToInt((float)numParticles / numThreads), 1, 1);
+                    rigidObjSolver?.Solve(Mathf.CeilToInt((float)numParticles / numThreads), 1, 1);
                     solverShader.Dispatch(solverShader.FindKernel("Step"), Mathf.CeilToInt((float)numParticles / numThreads), 1, 1);
                 }
 
