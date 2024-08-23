@@ -6,15 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="3856d7ea-c55a-467f-bd1a-e60a118f3735" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ARFluidScene/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ARFluidScene/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/XR/Settings/Open XR Package Settings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/XR/Settings/Open XR Package Settings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Examples/Handpose.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Examples/Handpose.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Fluid/RigidObjSolver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Fluid/RigidObjSolver.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Fluid/RigidObject/RigidCubeScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Fluid/RigidObject/RigidCubeScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Fluid/RigidObject/RigidSolidObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Fluid/RigidObject/RigidSolidObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Fluid/RigidObject/RigidSphereScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Fluid/RigidObject/RigidSphereScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Fluid/Sim.compute" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Fluid/Sim.compute" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Fluid/Solver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Fluid/Solver.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EskySettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/EskySettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Fluid/HandFluidInteractor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Fluid/HandFluidInteractor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Fluid/RigidObject/BreakableWall.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Fluid/RigidObject/BreakableWall.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -28,6 +22,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/55fbbbd17b724c15b6abe8c1a3e3289c175c00/e2/880ab90c/ComputeBuffer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7ff4597333a544bc9923788716880fcc572e20/73/73620c7b/Action.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8f5a6192d1424a76a696cfc6c73324b61fe00/74/254d1423/Rigidbody.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/b11ba2a8fbf24f219f7cc98532a1130446ac00/23/86772611/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Fluid/HandFluidInteractor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Fluid/RigidObject/SphereBehavior.cs" root0="FORCE_HIGHLIGHTING" />
@@ -123,6 +118,7 @@
       <workItem from="1722849338431" duration="3605000" />
       <workItem from="1723538454322" duration="916000" />
       <workItem from="1723623973738" duration="4171000" />
+      <workItem from="1724035572253" duration="4064000" />
     </task>
     <servers />
   </component>

@@ -1417,12 +1417,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!4 &465310521 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5764438709597394871, guid: 6bb4d97f298b07f4e9f5a910ad7ebb81,
-    type: 3}
-  m_PrefabInstance: {fileID: 1137567709}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &472856915
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3462,7 +3456,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1698852960}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 677726738262494735, guid: 6bb4d97f298b07f4e9f5a910ad7ebb81,
         type: 3}
@@ -3527,7 +3521,7 @@ PrefabInstance:
     - target: {fileID: 677726738262494735, guid: 6bb4d97f298b07f4e9f5a910ad7ebb81,
         type: 3}
       propertyPath: minBounds.y
-      value: -10
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 677726738262494735, guid: 6bb4d97f298b07f4e9f5a910ad7ebb81,
         type: 3}
@@ -3544,6 +3538,11 @@ PrefabInstance:
       propertyPath: numParticles
       value: 500000
       objectReference: {fileID: 0}
+    - target: {fileID: 677726738262494735, guid: 6bb4d97f298b07f4e9f5a910ad7ebb81,
+        type: 3}
+      propertyPath: handInteractor
+      value: 
+      objectReference: {fileID: 870318322}
     - target: {fileID: 677726738262494735, guid: 6bb4d97f298b07f4e9f5a910ad7ebb81,
         type: 3}
       propertyPath: particleRenderSize
@@ -3657,7 +3656,7 @@ PrefabInstance:
     - target: {fileID: 5764438709597394871, guid: 6bb4d97f298b07f4e9f5a910ad7ebb81,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 5764438709597394871, guid: 6bb4d97f298b07f4e9f5a910ad7ebb81,
         type: 3}
@@ -3667,17 +3666,17 @@ PrefabInstance:
     - target: {fileID: 5764438709597394871, guid: 6bb4d97f298b07f4e9f5a910ad7ebb81,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5764438709597394871, guid: 6bb4d97f298b07f4e9f5a910ad7ebb81,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5764438709597394871, guid: 6bb4d97f298b07f4e9f5a910ad7ebb81,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5764438709597394871, guid: 6bb4d97f298b07f4e9f5a910ad7ebb81,
         type: 3}
@@ -6202,7 +6201,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1698852960
 Transform:
   m_ObjectHideFlags: 0
@@ -6217,7 +6216,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 523204421}
-  - {fileID: 465310521}
   - {fileID: 1377630514}
   - {fileID: 617628067}
   - {fileID: 727354321}
@@ -8826,6 +8824,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 271045613}
   - {fileID: 1721422931}
+  - {fileID: 1137567709}
   - {fileID: 1698852960}
   - {fileID: 573107505}
   - {fileID: 1469757242}
