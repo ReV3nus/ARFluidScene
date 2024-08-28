@@ -39,7 +39,7 @@ public class ExampleFireBallController : MonoBehaviour
                 shooting = true;
                 Vector3 hitPosition = hit.point;
                 Vector3 dir = hitPosition - new Vector3(-10f, 20f, 0f);
-                dir = dir.normalized * 10f;
+                dir = dir.normalized * 30f;
                 fireBall.Shoot(dir);
             }
         }

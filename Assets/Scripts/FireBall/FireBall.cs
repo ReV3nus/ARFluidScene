@@ -28,11 +28,11 @@ public class FireBall : MonoBehaviour
 
     private void SetEffect(float lerpRate)
     {
-        setParticleSystem(psBall,   new Vector2(4.5f, 4.5f),new Vector2(0f, 0f),        new Vector2(0f, 0f),    new Vector2(0f, 0f),    lerpRate);
-        setParticleSystem(psSpark,  new Vector2(100f, 0f),  new Vector2(0.5f, 1f),      new Vector2(2f, 0f),    new Vector2(2f, 0f),    lerpRate);
-        setParticleSystem(psFire,   new Vector2(10f, 0f),   new Vector2(0.25f, 0.5f),   new Vector2(1.5f, 0f),  new Vector2(2f, 0f),    lerpRate);
-        setParticleSystem(psSmoke,  new Vector2(10f, 0f),   new Vector2(0.25f, 0.5f),   new Vector2(1.5f, 0f),  new Vector2(2f, 0f),    lerpRate);
-        setParticleSystem(psDark,   new Vector2(20f, 0f),   new Vector2(0.25f, 0.5f),   new Vector2(1f, 0f),    new Vector2(1.5f, 0f),  lerpRate);
+        setParticleSystem(psBall,   new Vector2(4.5f, 4.5f),new Vector2(0f, 0f),     new Vector2(0f, 0f),    new Vector2(0f, 0f),    lerpRate);
+        setParticleSystem(psSpark,  new Vector2(100f, 0f),  new Vector2(1f, 2f),     new Vector2(2f, 0f),    new Vector2(2f, 0f),    lerpRate);
+        setParticleSystem(psFire,   new Vector2(10f, 0f),   new Vector2(0.5f, 1f),   new Vector2(1.5f, 0f),  new Vector2(2f, 0f),    lerpRate);
+        setParticleSystem(psSmoke,  new Vector2(10f, 0f),   new Vector2(0.5f, 1f),   new Vector2(1.5f, 0f),  new Vector2(2f, 0f),    lerpRate);
+        setParticleSystem(psDark,   new Vector2(20f, 0f),   new Vector2(0.5f, 1f),   new Vector2(1f, 0f),    new Vector2(1.5f, 0f),  lerpRate);
     }
 
     private void setParticleSystem(ParticleSystem ps, Vector2 rateTime, Vector2 rateDist, Vector2 velocityY, Vector2 forceY, float lerpRate)
@@ -50,7 +50,7 @@ public class FireBall : MonoBehaviour
     private void Start()
     {
         SetEffect(0);
-        StartCoroutine(Test());
+        //StartCoroutine(Test());
     }
 
     IEnumerator Test()
