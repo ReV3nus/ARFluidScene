@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.PlayerLoop;
 
 
 public class RigidSphereScript : MonoBehaviour
@@ -10,18 +11,32 @@ public class RigidSphereScript : MonoBehaviour
     public float density = 1f;
     private float mass;
 
+
+
     private Rigidbody rb;
     [HideInInspector] public Vector3 totalImpulse;
 
     public bool UsingScaleAsSize;
+    public bool Kinetic = true;
+
 
     [HideInInspector]
     public RigidSphere rigidSphere;
+    
+    
 
     public void InitBeforeUpdate()
     {
         totalImpulse = Vector3.zero;
     }
+
+    private void Update()
+    {
+        // Debug.Log(transform.localPosition);
+        // Debug.Log("---");
+        // Debug.Log(transform.position);
+    }
+
 
     private void OnEnable()
     {
@@ -35,7 +50,8 @@ public class RigidSphereScript : MonoBehaviour
     public RigidSphere UpdateState()
     {
         //Impulse
-        rb.AddForce(totalImpulse, ForceMode.Impulse);
+        if(Kinetic)
+            rb.AddForce(totalImpulse, ForceMode.Impulse);
 
         rigidSphere.centroid = rb.position;
         rigidSphere.velocity = rb.velocity;

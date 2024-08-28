@@ -12,7 +12,7 @@ public class Solver : MonoBehaviour
     public float gasConstant = 2000;
     public float restDensity = 10;
     public float mass = 1;
-    public float density = 1;
+    // public float density = 1;
     public float viscosity = 0.01f;
     public float gravity = 9.8f;
     public float deltaTime = 0.001f;
@@ -66,6 +66,7 @@ public class Solver : MonoBehaviour
     private RigidObjSolver rigidObjSolver;
 
     public BreakableWall breakableWall;
+    public HandFluidInteractor handInteractor;
 
 
     struct Particle {
@@ -78,6 +79,8 @@ public class Solver : MonoBehaviour
 
     private CommandBuffer commandBuffer;
     private Mesh screenQuadMesh;
+
+    public Camera LeapCamera;
 
     Vector4 GetPlaneEq(Vector3 p, Vector3 n) {
         return new Vector4(n.x, n.y, n.z, -Vector3.Dot(p, n));
@@ -96,6 +99,14 @@ public class Solver : MonoBehaviour
     }
      
     void Start() {
+
+        GameObject LeapProviderEsky =  GameObject.Find("LeapMotion");
+        if(LeapProviderEsky != null){
+            Debug.Log("Setting the hand models");
+            LeapCamera = LeapProviderEsky.GetComponent<Camera>();
+        }
+        
+        
         rigidObjSolver = GetComponent<RigidObjSolver>();
 
         Particle[] particles = new Particle[numParticles];
@@ -120,6 +131,7 @@ public class Solver : MonoBehaviour
         solverShader.SetFloat("viscosity", viscosity);
         solverShader.SetFloat("gravity", gravity);
         solverShader.SetFloat("deltaTime", deltaTime);
+
 
         float poly6 = 315f / (64f * Mathf.PI * Mathf.Pow(radius, 9f));
         float spiky = 45f / (Mathf.PI * Mathf.Pow(radius, 6f));
@@ -157,7 +169,7 @@ public class Solver : MonoBehaviour
         principleBuffer = new ComputeBuffer(numParticles * 4, 4 * 3);
         hashRangeBuffer = new ComputeBuffer(numHashes, 4 * 2);
 
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < 17; i++) {
             solverShader.SetBuffer(i, "hashes", hashesBuffer);
             solverShader.SetBuffer(i, "globalHashCounter", globalHashCounterBuffer);
             solverShader.SetBuffer(i, "localIndices", localIndicesBuffer);
@@ -228,27 +240,6 @@ public class Solver : MonoBehaviour
         {
             UpdateParams();
 
-            if (Input.GetMouseButton(0)) {
-                Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(mouseRay, out hit)) {
-                    Vector3 pos = new Vector3(
-                        Mathf.Clamp(hit.point.x, minBounds.x, maxBounds.x),
-                        maxBounds.y - 1f,
-                        Mathf.Clamp(hit.point.z, minBounds.z, maxBounds.z)
-                    );
-
-                    solverShader.SetInt("moveBeginIndex", moveParticleBeginIndex);
-                    solverShader.SetInt("moveSize", moveParticles);
-                    solverShader.SetVector("movePos", pos);
-                    solverShader.SetVector("moveVel", Vector3.down * 70);
-
-                    solverShader.Dispatch(solverShader.FindKernel("MoveParticles"), 1, 1, 1);
-
-                    moveParticleBeginIndex = (moveParticleBeginIndex + moveParticles * moveParticles) % numParticles;
-                }
-            }
-
             if (Input.GetKeyDown(KeyCode.Space)) {
                 paused = !paused;
             }
@@ -262,27 +253,8 @@ public class Solver : MonoBehaviour
             renderMat.SetColor("secondaryColor", secondaryColor.linear);
             renderMat.SetInt("usePositionSmoothing", usePositionSmoothing ? 1 : 0);
 
-            double solverStart = Time.realtimeSinceStartupAsDouble;
-
             solverShader.Dispatch(solverShader.FindKernel("ResetCounter"), Mathf.CeilToInt((float)numHashes / numThreads), 1, 1);
             solverShader.Dispatch(solverShader.FindKernel("InsertToBucket"), Mathf.CeilToInt((float)numParticles / numThreads), 1, 1);
-
-            // Debug
-            if (Input.GetKeyDown(KeyCode.C)) {
-                uint[] debugResult = new uint[4];
-
-                hashDebugBuffer.SetData(debugResult);
-
-                solverShader.Dispatch(solverShader.FindKernel("DebugHash"), Mathf.CeilToInt((float)numHashes / numThreads), 1, 1);
-
-                hashDebugBuffer.GetData(debugResult);
-
-                uint usedHashBuckets = debugResult[0];
-                uint maxSameHash = debugResult[1];
-
-                Debug.Log($"Total buckets: {numHashes}, Used buckets: {usedHashBuckets}, Used rate: {(float)usedHashBuckets / numHashes * 100}%");
-                Debug.Log($"Avg hash collision: {(float)numParticles / usedHashBuckets}, Max hash collision: {maxSameHash}");
-            }
 
             solverShader.Dispatch(solverShader.FindKernel("PrefixSum1"), Mathf.CeilToInt((float)numHashes / numThreads), 1, 1);
 
@@ -295,40 +267,13 @@ public class Solver : MonoBehaviour
             solverShader.Dispatch(solverShader.FindKernel("Sort"), Mathf.CeilToInt((float)numParticles / numThreads), 1, 1);
             solverShader.Dispatch(solverShader.FindKernel("CalcHashRange"), Mathf.CeilToInt((float)numHashes / numThreads), 1, 1);
 
-            // Debug
-            if (Input.GetKeyDown(KeyCode.C)) {
-                uint[] debugResult = new uint[4];
-
-                int[] values = new int[numParticles * 3];
-
-                hashDebugBuffer.SetData(debugResult);
-
-                solverShader.Dispatch(solverShader.FindKernel("DebugHash"), Mathf.CeilToInt((float)numHashes / numThreads), 1, 1);
-
-                hashDebugBuffer.GetData(debugResult);
-
-                uint totalAccessCount = debugResult[2];
-                uint totalNeighborCount = debugResult[3];
-
-                Debug.Log($"Total access: {totalAccessCount}, Avg access: {(float)totalAccessCount / numParticles}, Avg accept: {(float)totalNeighborCount / numParticles}");
-                Debug.Log($"Average accept rate: {(float)totalNeighborCount / totalAccessCount * 100}%");
-
-                hashValueDebugBuffer.GetData(values);
-
-                HashSet<Vector3Int> set = new HashSet<Vector3Int>();
-                for (int i = 0; i < numParticles; i++) {
-                    Vector3Int vi = new Vector3Int(values[i*3+0], values[i*3+1], values[i*3+2]);
-                    set.Add(vi);
-                }
-
-                Debug.Log($"Total unique hash keys: {set.Count}, Ideal bucket load: {(float)set.Count / numHashes * 100}%");
-            }
-
             if (!paused) {
                 for (int iter = 0; iter < 1; iter++) {
                     solverShader.Dispatch(solverShader.FindKernel("CalcPressure"), Mathf.CeilToInt((float)numParticles / 128), 1, 1);
                     solverShader.Dispatch(solverShader.FindKernel("CalcForces"), Mathf.CeilToInt((float)numParticles / 128), 1, 1);
                     solverShader.Dispatch(solverShader.FindKernel("CalcPCA"), Mathf.CeilToInt((float)numParticles / numThreads), 1, 1);
+                    
+                    handInteractor?.Solve(Mathf.CeilToInt((float)numParticles / numThreads), 1, 1);
                     solverShader.Dispatch(solverShader.FindKernel("CheckPlane"), Mathf.CeilToInt((float)numParticles / numThreads), 1, 1);
                     breakableWall?.Solve(Mathf.CeilToInt((float)numParticles / numThreads), 1, 1);
                     rigidObjSolver?.Solve(Mathf.CeilToInt((float)numParticles / numThreads), 1, 1);
@@ -427,10 +372,22 @@ public class Solver : MonoBehaviour
     }
 
     void LateUpdate() {
-        Matrix4x4 view = Camera.main.worldToCameraMatrix;
 
-        Shader.SetGlobalMatrix("inverseV", view.inverse);
-        Shader.SetGlobalMatrix("inverseP", Camera.main.projectionMatrix.inverse);
+        if (LeapCamera)
+        {
+            // Matrix4x4 view = LeapCamera.worldToCameraMatrix;
+            Shader.SetGlobalMatrix("inverseV", LeapCamera.worldToCameraMatrix.inverse);
+            Shader.SetGlobalMatrix("inverseP", LeapCamera.projectionMatrix.inverse);
+            
+        }
+        else
+        {
+            Matrix4x4 view = Camera.main.worldToCameraMatrix;
+            Shader.SetGlobalMatrix("inverseV", view.inverse);
+            Shader.SetGlobalMatrix("inverseP", Camera.main.projectionMatrix.inverse);
+        }
+
+
     }
 
     void OnDisable() {

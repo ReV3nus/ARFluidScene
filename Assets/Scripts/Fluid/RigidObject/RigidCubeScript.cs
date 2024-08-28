@@ -18,7 +18,7 @@ public class RigidCubeScript : MonoBehaviour
     public RigidCube rigidCube;
 
     public bool UsingScaleAsSize;
-    public bool Kinetic = true;
+    //public bool Kinetic = true;
 
     public void InitBeforeUpdate()
     {
@@ -106,11 +106,9 @@ public class RigidCubeScript : MonoBehaviour
         //    if (velocity.z > 0f)
         //        velocity.z = 0f;
         //}
-        if (Kinetic)
-        {
-            rb.AddForce(totalImpulse, ForceMode.Impulse);
-            rb.AddTorque(totalAngularImpulse, ForceMode.Impulse);
-        }
+
+        rb.AddForce(totalImpulse, ForceMode.Impulse);
+        rb.AddTorque(totalAngularImpulse, ForceMode.Impulse);
 
         rigidCube.velocity = rb.velocity;
         rigidCube.centroid = rb.position;

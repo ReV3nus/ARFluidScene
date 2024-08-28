@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+//using Leap.Unity;
 using UnityEngine;
 
 public class RigidObjSolver : MonoBehaviour
@@ -29,6 +31,7 @@ public class RigidObjSolver : MonoBehaviour
     private int[] indices;
     private int[] LastIndex;
 
+    
     private void Start()
     {
         solver = GetComponent<Solver>();
@@ -59,8 +62,9 @@ public class RigidObjSolver : MonoBehaviour
         if (cntSphere > 0)
         {
             rigidSpheres = new RigidSphere[cntSphere];
+
             for (int i = 0; i < cntSphere; i++)
-                rigidSpheres[i] = rigidSphereScripts[i].rigidSphere;
+                    rigidSpheres[i] = rigidSphereScripts[i].rigidSphere;
             SphereBuffer.SetData(rigidSpheres);
         }
 
@@ -101,7 +105,6 @@ public class RigidObjSolver : MonoBehaviour
 
         for (uint i = 0; i < cntCube; i++) rigidCubeScripts[i].InitBeforeUpdate();
         for (uint i = 0; i < cntSphere; i++) rigidSphereScripts[i].InitBeforeUpdate();
-
         for (uint i = 0; i < LastIndex[0]; i++)
         {
             if (indices[i] < 0)
@@ -127,6 +130,7 @@ public class RigidObjSolver : MonoBehaviour
             SphereBuffer.SetData(rigidSpheres);
             solverShader.SetBuffer(checkKernel, "rigidSpheres", SphereBuffer);
         }
+        
 
         LastIndex[0] = 0;
         LastIndexBuffer.SetData(LastIndex);

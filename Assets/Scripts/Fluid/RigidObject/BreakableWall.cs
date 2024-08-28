@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Tilemaps;
 using UnityEditor.TextCore.Text;
 using System.Reflection.Emit;
@@ -343,6 +341,7 @@ public class BreakableWall : MonoBehaviour
     public void BuildMeshFromList()
     {
         Mesh mesh = new Mesh();
+        mesh.name = "TempMesh";
         GetComponent<MeshFilter>().mesh = mesh;
 
         int N = debrisTriangles.Count;
@@ -365,10 +364,12 @@ public class BreakableWall : MonoBehaviour
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.RecalculateNormals();
+        this.GetComponent<MeshCollider>().sharedMesh = mesh;
     }
 
     public void BreakWall(Vector3 point, float strength)
     {
+        point = transform.InverseTransformPoint(point);
         List<DebrisTriangle> removeList = new List<DebrisTriangle>();
         foreach (DebrisTriangle triangle in debrisTriangles)
         {
@@ -384,13 +385,14 @@ public class BreakableWall : MonoBehaviour
 
         existBuffer.SetData(exist);
         solverShader.SetBuffer(kernel, "breakableWallExist", existBuffer);
+
     }
 
     public void Update()
     {
         if(Input.GetKeyDown(KeyCode.B))
         {
-            BreakWall(new Vector3(20f, 0f, 5f), 2f);
+            BreakWall(new Vector3(0f, 5f, 0f), 2f);
         }
     }
 

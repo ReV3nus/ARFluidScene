@@ -370,7 +370,7 @@ Shader "Spheres"
 
                 diffuse = lerp(diffuse, reflectedColor, rTheta);
 
-                return float4(diffuse, 0.6);
+                return float4(diffuse, 0.8);
             }
 
             ENDCG
