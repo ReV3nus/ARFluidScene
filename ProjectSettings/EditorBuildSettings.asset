@@ -6,11 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/Examples/HandInteractionExamples.unity
-    guid: 3dd4a396b5225f8469b9a1eb608bfa57
-  - enabled: 1
     path: Assets/Scenes/Examples/Handpose.unity
     guid: cfa88f7046039524fb114272b18cc13c
+  - enabled: 1
+    path: Assets/Scenes/Examples/MergeScene.unity
+    guid: 363980d243078fd43bd49b45e3588334
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 1ad257b4cc44a2b43921db308f6efb2b,
       type: 2}

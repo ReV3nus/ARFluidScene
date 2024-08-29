@@ -6,9 +6,22 @@
   <component name="ChangeListManager">
     <list default="true" id="3856d7ea-c55a-467f-bd1a-e60a118f3735" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ARFluidScene/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ARFluidScene/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/LeapMotion/Core/Examples/Capsule Hands (VR).unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/LeapMotion/Core/Examples/Capsule Hands (VR).unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/LeapMotion/Core/Examples/Example Assets/ProjectionPostProcessProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/LeapMotion/Core/Examples/Example Assets/ProjectionPostProcessProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/LeapMotion/Core/Models/Materials/LeftHand.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/LeapMotion/Core/Models/Materials/LeftHand.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/LeapMotion/Core/Scripts/Hands/CapsuleHand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/LeapMotion/Core/Scripts/Hands/CapsuleHand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/MRTK/Examples/Experimental/ExamplesHub/Profiles/MRTKExamplesHubSceneSystemProfile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/MRTK/Examples/Experimental/ExamplesHub/Profiles/MRTKExamplesHubSceneSystemProfile.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/MRTK/SDK/Features/UX/Interactable/Materials/HolographicButtonContentCage.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/MRTK/SDK/Features/UX/Interactable/Materials/HolographicButtonContentCage.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/MRTK/StandardAssets/Materials/MRTK_Standard_GlowingCyan.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/MRTK/StandardAssets/Materials/MRTK_Standard_GlowingCyan.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/MixedRealityToolkit.Generated/CustomProfiles/EskyMixedRealityToolkitConfigurationProfile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/MixedRealityToolkit.Generated/CustomProfiles/EskyMixedRealityToolkitConfigurationProfile.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/XR/Settings/Open XR Package Settings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/XR/Settings/Open XR Package Settings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Examples/Handpose.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Examples/Handpose.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Fluid/test2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Fluid/test2.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Fluid/HandFluidInteractor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Fluid/HandFluidInteractor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Fluid/RigidObject/BreakableWall.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Fluid/RigidObject/BreakableWall.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Fluid/Sim.compute" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Fluid/Sim.compute" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EskySettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/EskySettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -20,10 +33,12 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/55fbbbd17b724c15b6abe8c1a3e3289c175c00/3c/64268360/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/55fbbbd17b724c15b6abe8c1a3e3289c175c00/e2/880ab90c/ComputeBuffer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7ff4597333a544bc9923788716880fcc572e20/73/73620c7b/Action.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8f5a6192d1424a76a696cfc6c73324b61fe00/74/254d1423/Rigidbody.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/b11ba2a8fbf24f219f7cc98532a1130446ac00/23/86772611/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Anti-distortion/MirrorFlipCamera.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Fluid/HandFluidInteractor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Fluid/RigidObject/SphereBehavior.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -59,7 +74,7 @@
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$USER_HOME$/Desktop/111\ProjectEskyApplication.exe" />
+      <option name="EXE_PATH" value="$USER_HOME$/Desktop/555\ProjectEskyApplication.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\DemoExhibition\Desktop\111" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -119,6 +134,11 @@
       <workItem from="1723538454322" duration="916000" />
       <workItem from="1723623973738" duration="4171000" />
       <workItem from="1724035572253" duration="4064000" />
+      <workItem from="1724398256503" duration="4306000" />
+      <workItem from="1724569023793" duration="16829000" />
+      <workItem from="1724834629445" duration="831000" />
+      <workItem from="1724835563379" duration="1971000" />
+      <workItem from="1724849722211" duration="4749000" />
     </task>
     <servers />
   </component>
@@ -138,7 +158,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>

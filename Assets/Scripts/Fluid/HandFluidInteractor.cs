@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Leap.Unity;
+using Leap.Unity.Attributes;
 
 public class HandFluidInteractor : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class HandFluidInteractor : MonoBehaviour
     public CapsuleHand leftHand;
     public CapsuleHand rightHand;
     private int totalJointsCount;
+    private float leftHandScale, rightHandScale;
 
 
     public struct HandJoints
@@ -42,49 +44,43 @@ public class HandFluidInteractor : MonoBehaviour
         // 在Start或Awake中初始化 jonts 数组
         int initJointsCount = leftHand._spherePositions.Length + rightHand._spherePositions.Length;
         joints = new HandJoints[initJointsCount];
+        leftHandScale = leftHand.gameObject.transform.localScale.x;
+        rightHandScale = rightHand.gameObject.transform.localScale.x;
     }
     private void UpdateHandJoints()
     {
         totalJointsCount = leftHand._spherePositions.Length + rightHand._spherePositions.Length;
-        if (joints.Length < totalJointsCount)
+        if (totalJointsCount > 0 && (joints == null || joints.Length < totalJointsCount))
         {
             joints = new HandJoints[totalJointsCount];
         }        
         
         int index = 0;
         foreach (Vector3 pos in leftHand._spherePositions)
-            joints[index++] = (new HandJoints(pos, leftHand._jointRadius));
+            joints[index++] = (new HandJoints(pos, Mathf.Min(2,leftHand._jointRadius * 2f * rightHand.stretchFactor)));
         foreach (Vector3 pos in rightHand._spherePositions)
-        {
-            Debug.Log(pos);
-            joints[index++] = (new HandJoints(pos*30, rightHand._jointRadius*100));
-            Debug.Log(pos*30);
-        }
+            joints[index++] = (new HandJoints(pos, Mathf.Min(2,rightHand._jointRadius * 2f * rightHand.stretchFactor)));
 
         if (totalJointsCount > 0)
         {
             if (jointsBuffer == null || jointsBuffer.count < totalJointsCount)
             {
-                if (jointsBuffer != null)
-                {
-                    jointsBuffer.Release();
-                }
+                jointsBuffer?.Release();
                 jointsBuffer = new ComputeBuffer(totalJointsCount, sizeof(float) * 4);
             }
-            else
-            {
-                jointsBuffer.SetData(joints);
-            }
+            if(joints != null)
+                jointsBuffer?.SetData(joints);
         
             solverShader.SetBuffer(kernel, "handJoints", jointsBuffer);
+            // Debug.Log("Joints buffer size :" + joints.Length + " with first element:\ncentroid: " + joints[0].centroid + " radius:" + joints[0].radius);
         }
+        solverShader.SetInt("jointsCount", totalJointsCount);
     }
 
     private void OnEnable()
     {
         solverShader = solver.solverShader;
         kernel = solverShader.FindKernel("CheckHandJoints");
-        solverShader.SetInt("jointsCount", totalJointsCount);
         UpdateHandJoints();
     }
 

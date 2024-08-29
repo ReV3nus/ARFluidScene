@@ -24,13 +24,10 @@ namespace Leap.Unity {
     private static int _rightColorIndex = 0;
     private static Color[] _leftColorList = { new Color(0.0f, 0.0f, 1.0f), new Color(0.2f, 0.0f, 0.4f), new Color(0.0f, 0.2f, 0.2f) };
     private static Color[] _rightColorList = { new Color(1.0f, 0.0f, 0.0f), new Color(1.0f, 1.0f, 0.0f), new Color(1.0f, 0.5f, 0.0f) };
-
+    Finger.FingerType[] arr = { Finger.FingerType.TYPE_INDEX, Finger.FingerType.TYPE_MIDDLE };
     #pragma warning disable 0649
     [SerializeField]
     private Chirality handedness;
-
-    [SerializeField]
-    private bool _showArm = true;
 
     [SerializeField]
     private bool _castShadows = true;
@@ -61,6 +58,8 @@ namespace Leap.Unity {
     private Material _sphereMat;
     private Hand _hand;
     public Vector3[] _spherePositions;
+    public float stretchFactor = 1.0f;
+
 
     public override ModelType HandModelType {
       get {
@@ -102,12 +101,105 @@ namespace Leap.Unity {
       base.BeginHand();
 
       if (_hand.IsLeft) {
-        _sphereMat.color = _leftColorList[_leftColorIndex];
-        _leftColorIndex = (_leftColorIndex + 1) % _leftColorList.Length;
+        // _sphereMat.color = _leftColorList[_leftColorIndex];
+        // _leftColorIndex = (_leftColorIndex + 1) % _leftColorList.Length;
       } else {
-        _sphereMat.color = _rightColorList[_rightColorIndex];
-        _rightColorIndex = (_rightColorIndex + 1) % _rightColorList.Length;
+        // _sphereMat.color = _rightColorList[_rightColorIndex];
+        // _rightColorIndex = (_rightColorIndex + 1) % _rightColorList.Length;
       }
+    }
+
+    void Update()
+    {
+      if (_hand == null || _sphereMat == null) return;
+      int handType;
+      if (isGrabHand(_hand))
+      {
+        handType = 1;
+      }
+      else if (IsOpenFullHand(_hand))
+      {
+        handType = 2;
+      }
+      else
+      {
+        handType = 0;
+      }
+      
+      if (_hand.IsLeft) {
+        _sphereMat.color = _leftColorList[handType];
+      } else {
+        _sphereMat.color = _rightColorList[handType];
+      }
+      
+      // if (CheckFingerOpenToHand(hand,arr))
+      // {
+      //   print("CheckFingerOpenToHand");
+      // }
+    }
+    
+    bool CheckFingerOpenToHand(Hand hand, Finger.FingerType[] fingerTypesArr,float deltaCloseFinger = 0.05f)
+    {
+      List<Finger> listOfFingers = hand.Fingers;
+      float count = 0;
+      for (int f = 0; f < listOfFingers.Count; f++)
+      {
+        Finger finger = listOfFingers[f];
+        // 判读每个手指的指尖位置和掌心位置的长度是不是小于某个值，以判断手指是否贴着掌心
+        if ((finger.TipPosition - hand.PalmPosition).Magnitude < deltaCloseFinger)
+        {
+          // 如果传进来的数组长度是0，有一个手指那么 count + 1，continue 跳出，不执行下面数组长度不是0 的逻辑
+          if (fingerTypesArr.Length == 0)
+          {
+            count++;
+            continue;
+          }
+          // 传进来的数组长度不是 0，
+          for (int i = 0; i < fingerTypesArr.Length; i++)
+          {
+            // 假如本例子传进来的是食指和中指，逻辑走到这里，如果你的食指是紧握的，下面会判断这个手指是不是食指，返回 false
+            if (finger.Type == fingerTypesArr[i])
+            {
+              return false;
+            }
+            else
+            {
+              count++;
+            }
+          }
+ 
+        }
+      }
+      if (fingerTypesArr.Length == 0)
+      {
+        return count == 5;
+      }
+      // 这里除以length 是因为上面数组在每次 for 循环 count ++ 会执行 length 次
+      return (count/ fingerTypesArr.Length == 5 - fingerTypesArr.Length);
+    }
+    
+    bool isGrabHand(Hand hand)
+    {
+      return hand.GrabStrength > 0.8f;
+    }
+
+    bool IsCloseHand(Hand hand)
+    {
+      List<Finger> listOfFingers = hand.Fingers;
+      int count = 0;
+      for (int f = 0; f < listOfFingers.Count; f++)
+      {
+        Finger finger = listOfFingers[f];
+        if ((finger.TipPosition - hand.PalmPosition).Magnitude < 0.05f)
+        {
+          count++;
+        }
+      }
+      return (count == 4);
+    }
+    bool IsOpenFullHand(Hand hand)
+    {
+      return hand.GrabStrength == 0;
     }
 
     public override void UpdateHand() {
@@ -119,56 +211,47 @@ namespace Leap.Unity {
         _sphereMat = new Material(_material);
         _sphereMat.hideFlags = HideFlags.DontSaveInEditor;
       }
+      
+      
+      Vector3 previousPosition = new Vector3(0.0f, 0.0f, 0.0f); 
 
       //Update all joint spheres in the fingers
       foreach (var finger in _hand.Fingers) {
         for (int j = 0; j < 4; j++) {
           int key = getFingerJointIndex((int)finger.Type, j);
-
           Vector3 position = finger.Bone((Bone.BoneType)j).NextJoint.ToVector3();
+          if (j > 0) {
+            Vector3 direction = position - finger.Bone((Bone.BoneType)(j-1)).NextJoint.ToVector3();
+            position = previousPosition + direction * stretchFactor ;
+          }
+          else
+          {
+            Vector3 direction = position - _hand.PalmPosition.ToVector3();
+            position = _hand.PalmPosition.ToVector3() + direction * stretchFactor ;
+          }
+          previousPosition = position;
           _spherePositions[key] = position;
-
-          drawSphere(position);
-          
         }
+      }
+      
+      Vector3 scaleFactor = new Vector3(0.0f, 0.0f, stretchFactor);
+      for (int i = 0; i < _spherePositions.Length; i++)
+      {
+        drawSphere(_spherePositions[i]);
+
       }
 
       //Now we just have a few more spheres for the hands
       //PalmPos, WristPos, and mockThumbJointPos, which is derived and not taken from the frame obj
 
       Vector3 palmPosition = _hand.PalmPosition.ToVector3();
-      drawSphere(palmPosition, _palmRadius);
+      drawSphere(palmPosition, _palmRadius * stretchFactor);
 
       Vector3 thumbBaseToPalm = _spherePositions[THUMB_BASE_INDEX] - _hand.PalmPosition.ToVector3();
       Vector3 mockThumbJointPos = _hand.PalmPosition.ToVector3() + Vector3.Reflect(thumbBaseToPalm, _hand.Basis.xBasis.ToVector3());
       drawSphere(mockThumbJointPos);
 
-      //If we want to show the arm, do the calculations and display the meshes
-      if (_showArm) {
-        var arm = _hand.Arm;
 
-        Vector3 right = arm.Basis.xBasis.ToVector3() * arm.Width * 0.7f * 0.5f;
-        Vector3 wrist = arm.WristPosition.ToVector3();
-        Vector3 elbow = arm.ElbowPosition.ToVector3();
-
-        float armLength = Vector3.Distance(wrist, elbow);
-        wrist -= arm.Direction.ToVector3() * armLength * 0.05f;
-
-        Vector3 armFrontRight = wrist + right;
-        Vector3 armFrontLeft = wrist - right;
-        Vector3 armBackRight = elbow + right;
-        Vector3 armBackLeft = elbow - right;
-
-        drawSphere(armFrontRight);
-        drawSphere(armFrontLeft);
-        drawSphere(armBackLeft);
-        drawSphere(armBackRight);
-
-        drawCylinder(armFrontLeft, armFrontRight);
-        drawCylinder(armBackLeft, armBackRight);
-        drawCylinder(armFrontLeft, armBackLeft);
-        drawCylinder(armFrontRight, armBackRight);
-      }
 
       //Draw cylinders between finger joints
       for (int i = 0; i < 5; i++) {
@@ -200,7 +283,7 @@ namespace Leap.Unity {
     }
 
     private void drawSphere(Vector3 position) {
-      drawSphere(position, _jointRadius);
+      drawSphere(position, _jointRadius * stretchFactor);
     }
 
     private void drawSphere(Vector3 position, float radius) {
@@ -268,8 +351,8 @@ namespace Leap.Unity {
       Vector3 p1 = Vector3.forward * length;
       for (int i = 0; i < _cylinderResolution; i++) {
         float angle = (Mathf.PI * 2.0f * i) / _cylinderResolution;
-        float dx = _cylinderRadius * Mathf.Cos(angle);
-        float dy = _cylinderRadius * Mathf.Sin(angle);
+        float dx = _cylinderRadius * stretchFactor * Mathf.Cos(angle);
+        float dy = _cylinderRadius * stretchFactor * Mathf.Sin(angle);
 
         Vector3 spoke = new Vector3(dx, dy, 0);
 

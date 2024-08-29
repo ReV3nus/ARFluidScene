@@ -746,6 +746,10 @@ void CheckHandJoint(HandJoint joint, inout float3 pos, inout float3 vel)
     float ptclVel = dot(vel, norm);
     if (ptclVel < 0)
         vel -=  ptclVel * norm;
+    // if (length(vel) > 10)
+    // {
+    //     vel = normalize(vel) * 10; 
+    // }
 }
 [numthreads(1024, 1, 1)]
 void CheckHandJoints(uint3 id : SV_DispatchThreadID)

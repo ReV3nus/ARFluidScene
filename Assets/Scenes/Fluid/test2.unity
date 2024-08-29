@@ -222,11 +222,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   halfSize: 0
   density: 1
-  gravity: {x: 0, y: -9.8, z: 0}
   totalImpulse: {x: 0, y: 0, z: 0}
   totalAngularImpulse: {x: 0, y: 0, z: 0}
   UsingScaleAsSize: 1
-  Kinetic: 1
 --- !u!23 &598692812
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -434,16 +432,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7632611a3bb3d1244804dcbf01056fb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numParticles: 1048576
-  initSize: 37
+  numParticles: 500000
   radius: 1
   gasConstant: 10
   restDensity: 1
   mass: 0.1
-  density: 1
   viscosity: 0.02
   gravity: 10
   deltaTime: 0.025
+  maxSpawns: {x: -10, y: 0, z: -10}
+  minSpawns: {x: 10, y: 10, z: 10}
   minBounds: {x: -30, y: 0, z: 30}
   maxBounds: {x: 30, y: 100, z: 60}
   solverShader: {fileID: 7200000, guid: f4000e3305ec3b14b8f7b31781bb32dd, type: 3}
@@ -457,6 +455,9 @@ MonoBehaviour:
   primaryColor: {r: 0, g: 0.64705884, b: 0.92156863, a: 1}
   secondaryColor: {r: 0.043137256, g: 0.22745098, b: 0.50980395, a: 1}
   moveParticles: 10
+  breakableWall: {fileID: 0}
+  handInteractor: {fileID: 0}
+  LeapCamera: {fileID: 0}
 --- !u!114 &783570653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -631,9 +632,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 0
   density: 1
-  gravity: {x: 0, y: -9.8, z: 0}
   totalImpulse: {x: 0, y: 0, z: 0}
   UsingScaleAsSize: 1
+  Kinetic: 1
 --- !u!23 &1643519661
 MeshRenderer:
   m_ObjectHideFlags: 0
