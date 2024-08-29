@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EskyLeapMotionDeviceManagerProfile
   m_EditorClassIdentifier: 
   isCustomProfile: 1
-  leapControllerOrientation: 0
+  leapControllerOrientation: 2
   leapControllerOffset: {x: 0, y: -0.2, z: 0.2}
   enterPinchDistance: 0.02
   exitPinchDistance: 0.05
@@ -27,9 +27,9 @@ MonoBehaviour:
     RGBSensorTranslationFromTracker: {x: 0, y: 0, z: 0}
     RGBSensorRotationFromTracker: {x: 0, y: 0, z: 0, w: 0}
   usesCameraPreview: 1
-  targetFrameRate: 120
-  reprojectionSettings: 0
-  nativeShaderToUse: 1
+  targetFrameRate: 60
+  reprojectionSettings: 1
+  nativeShaderToUse: 0
   myOffsets:
     TranslationEyeToLeapMotion: {x: 0, y: 0, z: 0}
     RotationEyeToLeapMotion: {x: 0, y: 0, z: 0, w: 0}
@@ -150,7 +150,7 @@ MonoBehaviour:
     SensorHeight: 0
     SensorChannels: 0
     SensorFoV: 0
-  usesExternalRGBCamera: 1
+  usesExternalRGBCamera: 0
   useNetworkingDebugRig: 0
   filterSystemToUse: 0
   useTrackerOffsets: 1

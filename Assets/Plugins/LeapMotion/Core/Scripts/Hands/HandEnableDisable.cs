@@ -24,7 +24,7 @@ namespace Leap.Unity{
     }
 
     protected override void HandFinish() {
-      gameObject.SetActive(false);
+      // gameObject.SetActive(false);
     }
 
   }

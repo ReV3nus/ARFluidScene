@@ -16,8 +16,8 @@ MonoBehaviour:
   experienceSettingsProfile: {fileID: 11400000, guid: 1ccbb3b1d759d6a49b4161a958329d9d,
     type: 2}
   targetExperienceScale: 3
-  enableCameraSystem: 0
-  cameraProfile: {fileID: 11400000, guid: 6d8face473a227c43b8c2b4bba9c9204, type: 2}
+  enableCameraSystem: 1
+  cameraProfile: {fileID: 11400000, guid: 3073b0c8aab73e748b98cfd4351447ec, type: 2}
   cameraSystemType:
     reference: Microsoft.MixedReality.Toolkit.CameraSystem.MixedRealityCameraSystem,
       Microsoft.MixedReality.Toolkit.Services.CameraSystem
@@ -49,10 +49,11 @@ MonoBehaviour:
   diagnosticsSystemType:
     reference: Microsoft.MixedReality.Toolkit.Diagnostics.MixedRealityDiagnosticsSystem,
       Microsoft.MixedReality.Toolkit.Services.DiagnosticsSystem
-  sceneSystemProfile: {fileID: 0}
+  sceneSystemProfile: {fileID: 11400000, guid: 804bab7b8e8e6e545a0924260c4f5c3f, type: 2}
   enableSceneSystem: 0
   sceneSystemType:
-    reference: 
+    reference: Microsoft.MixedReality.Toolkit.SceneSystem.MixedRealitySceneSystem,
+      Microsoft.MixedReality.Toolkit.Services.SceneSystem
   registeredServiceProvidersProfile: {fileID: 0}
   useServiceInspectors: 0
   renderDepthBuffer: 0

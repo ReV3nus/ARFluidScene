@@ -4,5 +4,21 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
-  m_configObjects: {}
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/Examples/Handpose.unity
+    guid: cfa88f7046039524fb114272b18cc13c
+  - enabled: 1
+    path: Assets/Scenes/Examples/MergeScene.unity
+    guid: 363980d243078fd43bd49b45e3588334
+  m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 1ad257b4cc44a2b43921db308f6efb2b,
+      type: 2}
+    Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: fa2f561e1eda4f8498f1cb26567a31b7,
+      type: 2}
+    Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 319ad04777f2b71438e11ff700fb2129,
+      type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 2a463f9177d856b43a128d198511bf1c,
+      type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: c0be661ab45f5da4d8618415aec2067a,
+      type: 2}

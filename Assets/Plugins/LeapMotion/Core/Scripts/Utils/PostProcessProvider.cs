@@ -38,6 +38,21 @@ namespace Leap.Unity {
         }
       }
     }
+    
+    private void Start()
+    {
+      if (_inputLeapProvider == null)
+      {
+        _inputLeapProvider = Hands.Provider;
+        _inputLeapProvider.OnFixedFrame -= processFixedFrame; // safeguard double-subscription
+        _inputLeapProvider.OnFixedFrame += processFixedFrame;
+        _inputLeapProvider.OnUpdateFrame -= processUpdateFrame; // safeguard double-subscription
+        _inputLeapProvider.OnUpdateFrame += processUpdateFrame;
+      }
+    
+    }
+    
+    
 
     public enum DataUpdateMode { UpdateOnly, FixedUpdateOnly, UpdateAndFixedUpdate }
     [Tooltip("Whether this post-processing provider should process data received from " +
@@ -111,7 +126,7 @@ namespace Leap.Unity {
       return false;
     }
 
-    private void processUpdateFrame(Frame inputFrame) {
+    public void processUpdateFrame(Frame inputFrame) {
       if (dataUpdateMode == DataUpdateMode.FixedUpdateOnly) {
         return;
       }
@@ -123,7 +138,7 @@ namespace Leap.Unity {
       }
     }
 
-    private void processFixedFrame(Frame inputFrame) {
+    public void processFixedFrame(Frame inputFrame) {
       if (dataUpdateMode == DataUpdateMode.UpdateOnly) {
         return;
       }
