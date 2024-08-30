@@ -40,8 +40,9 @@ public class ExampleFireBallController : MonoBehaviour
                 Vector3 hitPosition = hit.point;
                 Vector3 dir = hitPosition - new Vector3(-10f, 20f, 0f);
                 dir = dir.normalized * 30f;
+                // dir = new Vector3(10f, 0f, 0f);
                 fireBall.Shoot(dir);
-            }
         }
+            }
     }
 }
