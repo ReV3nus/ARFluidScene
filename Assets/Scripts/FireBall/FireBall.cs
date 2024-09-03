@@ -14,6 +14,8 @@ public class FireBall : MonoBehaviour
 
     private float shootTime;
 
+    public ExampleFireBallController FireBallController;
+
     private void Awake()
     {
         psBall = GetComponent<ParticleSystem>();
@@ -78,7 +80,9 @@ public class FireBall : MonoBehaviour
                 break;
             yield return null;
         }
+        FireBallController.SetShooting(false);
         yield return null;
+        Destroy(gameObject);
     }
 
     private void OnCollisionEnter(Collision collision)
