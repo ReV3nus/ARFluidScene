@@ -45,6 +45,7 @@ Shader "Custom/Mask"
 
             sampler2D _MainTex;
             sampler2D _CameraDepthTexture;
+            sampler2D colorBuffer;
             float _Mask;
             float4 _MainTex_ST;
             float2 _MainTex_TexelSize;
@@ -83,6 +84,9 @@ Shader "Custom/Mask"
                     r = tex2D(_CameraDepthTexture, flippedUVs);
                     g = tex2D(_CameraDepthTexture, flippedUVs);
                     b = tex2D(_CameraDepthTexture, flippedUVs);
+                    r += tex2D(colorBuffer, flippedUVs);
+                    g += tex2D(colorBuffer, flippedUVs);
+                    b += tex2D(colorBuffer, flippedUVs);
                     if (r > 0) {
                         r = 0.0;
                     } else {
@@ -105,7 +109,7 @@ Shader "Custom/Mask"
                     b = tex2D(_MainTex, flippedUVs).b;
                 }
                 
-                return fixed4(1-r, 1-g, 1-b, 0.5);
+                return fixed4(r, g, b, 0.5);
             }
             ENDCG
         }

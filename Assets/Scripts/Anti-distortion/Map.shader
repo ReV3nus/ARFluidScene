@@ -41,7 +41,6 @@
             };
 
             sampler2D _MainTex;
-            sampler2D _CameraDepthTexture;
             float _Mask;
             float4 _MainTex_ST;
             float2 _MainTex_TexelSize;
@@ -70,33 +69,10 @@
                 float2 xy_r = uv2xy(i.uv, center, _D, _F_R, 1.0 / _MainTex_TexelSize, _ScreenSize, float2(_ScreenOffsetX, _ScreenOffsetY));
                 float2 xy_g = uv2xy(i.uv, center, _D, _F_G, 1.0 / _MainTex_TexelSize, _ScreenSize, float2(_ScreenOffsetX, _ScreenOffsetY));
                 float2 xy_b = uv2xy(i.uv, center, _D, _F_B, 1.0 / _MainTex_TexelSize, _ScreenSize, float2(_ScreenOffsetX, _ScreenOffsetY));
-                float r, g, b;
-                if (_Mask > 0) {
-                    r = tex2D(_CameraDepthTexture, xy_r);
-                    g = tex2D(_CameraDepthTexture, xy_g);
-                    b = tex2D(_CameraDepthTexture, xy_b);
-                    if (r > 0) {
-                        r = 0.0;
-                    } else {
-                        r = 1.0;
-                    }
-                    if (g > 0) {
-                        g = 0.0;
-                    } else {
-                        g = 1.0;
-                    }
-                    if (b > 0) {
-                        b = 0.0;
-                    } else {
-                        b = 1.0;
-                    }
-                }
-                else {
-                    r = tex2D(_MainTex, xy_r).r;
-                    g = tex2D(_MainTex, xy_g).g;
-                    b = tex2D(_MainTex, xy_b).b;
-                }
-                
+                float r = tex2D(_MainTex, xy_r).r;
+                float g = tex2D(_MainTex, xy_g).g;
+                float b = tex2D(_MainTex, xy_b).b;
+
                 return fixed4(r, g, b, 1);
             }
             ENDCG
