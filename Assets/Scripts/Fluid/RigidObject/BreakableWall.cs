@@ -2,51 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.Tilemaps;
-using UnityEditor.TextCore.Text;
-using System.Reflection.Emit;
-using static UnityEditor.PlayerSettings;
 
-[CustomEditor(typeof(BreakableWall))]
-public class BreakableWallEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
-
-        BreakableWall script = (BreakableWall)target;
-
-        if (GUILayout.Button("Regenerate Mesh"))
-        {
-            script.GenerateFragmentedMesh();
-            script.BuildMeshFromList();
-        }
-
-        if (GUILayout.Button("Debug Breaking"))
-        {
-            script.GenerateFragmentedMesh();
-            script.BuildMeshFromList();
-            script.InitTidFromList();
-            script.InitCS();
-            script.BreakWall(new Vector3(20f, 0f, 20f), 5f);
-        }
-
-        if (GUILayout.Button("Debug Rasterization"))
-        {
-            script.GenerateFragmentedMesh();
-            script.BuildMeshFromList();
-            script.InitTidFromList();
-            script.CheckRasterization();
-        }
-        if (GUILayout.Button("Debug"))
-        {
-            Debug.Log(script.gameObject.transform.up);
-            Debug.Log(script.gameObject.transform.right);
-            Debug.Log(script.gameObject.transform.forward);
-            script.DebugTemp();
-        }
-    }
-}
+//
+// [CustomEditor(typeof(BreakableWall))]
+// public class BreakableWallEditor : Editor
+// {
+//     public override void OnInspectorGUI()
+//     {
+//         DrawDefaultInspector();
+//
+//         BreakableWall script = (BreakableWall)target;
+//
+//         if (GUILayout.Button("Regenerate Mesh"))
+//         {
+//             script.GenerateFragmentedMesh();
+//             script.BuildMeshFromList();
+//         }
+//
+//         if (GUILayout.Button("Debug Breaking"))
+//         {
+//             script.GenerateFragmentedMesh();
+//             script.BuildMeshFromList();
+//             script.InitTidFromList();
+//             script.InitCS();
+//             script.BreakWall(new Vector3(20f, 0f, 20f), 5f);
+//         }
+//
+//         if (GUILayout.Button("Debug Rasterization"))
+//         {
+//             script.GenerateFragmentedMesh();
+//             script.BuildMeshFromList();
+//             script.InitTidFromList();
+//             script.CheckRasterization();
+//         }
+//         if (GUILayout.Button("Debug"))
+//         {
+//             Debug.Log(script.gameObject.transform.up);
+//             Debug.Log(script.gameObject.transform.right);
+//             Debug.Log(script.gameObject.transform.forward);
+//             script.DebugTemp();
+//         }
+//     }
+// }
 
 public class BreakableWall : MonoBehaviour
 {

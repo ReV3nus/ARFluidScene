@@ -57,9 +57,9 @@ public class HandFluidInteractor : MonoBehaviour
         
         int index = 0;
         foreach (Vector3 pos in leftHand._spherePositions)
-            joints[index++] = (new HandJoints(pos, Mathf.Min(2,leftHand._jointRadius * 2f * rightHand.stretchFactor)));
+            joints[index++] = (new HandJoints(pos, Mathf.Min(2,leftHand._jointRadius * 4f * rightHand.stretchFactor)));
         foreach (Vector3 pos in rightHand._spherePositions)
-            joints[index++] = (new HandJoints(pos, Mathf.Min(2,rightHand._jointRadius * 2f * rightHand.stretchFactor)));
+            joints[index++] = (new HandJoints(pos, Mathf.Min(2,rightHand._jointRadius * 4f * rightHand.stretchFactor)));
 
         if (totalJointsCount > 0)
         {

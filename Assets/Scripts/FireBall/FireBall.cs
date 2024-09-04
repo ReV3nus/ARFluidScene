@@ -80,7 +80,7 @@ public class FireBall : MonoBehaviour
                 break;
             yield return null;
         }
-        FireBallController.SetShooting(false);
+        FireBallController?.SetShooting(false);
         yield return null;
         Destroy(gameObject);
     }
@@ -90,9 +90,10 @@ public class FireBall : MonoBehaviour
         if(collision.collider.gameObject.tag == "BreakableWall")
         {
             collision.collider.gameObject.GetComponent<BreakableWall>().BreakWall(collision.collider.ClosestPoint(this.transform.position), BreakForce);
+            GameObject go = Instantiate(explosion, this.transform.position, Quaternion.identity);
+            Destroy(this.gameObject);
         }
 
-        GameObject go = Instantiate(explosion, this.transform.position, Quaternion.identity);
-        Destroy(this.gameObject);
+
     }
 }

@@ -7,83 +7,143 @@ using UnityEngine;
 public class ExampleFireBallController : MonoBehaviour
 {
     public GameObject fireBallPrefab;
+    public GameObject fireBallTargetPrefab;
+    private GameObject fireBallTargetGameObject;
     private FireBall fireBall;
+    private FireBall fireBallTarget;
+
     public CapsuleHand leftHand;
     public CapsuleHand rightHand;
-    private Vector3 fireBallPos;
+    private Vector3 PalmPos;
+    private Vector3 PalmNormal;
+    public Vector3 fireBallOffest;
     
     private bool shooting = false;
 
     public Camera mainCamera;
-    private void Start()
+    public float distance = 4.0f;
+    
+    int display1Width = 1920;
+    int display1Height = 1080;
+    int display2Width = 5120;
+    int display2Height = 2560;
+
+// 在应用程序启动时激活并设置分辨率
+    void Start()
     {
+        Debug.Log(Display.displays.Length);
+        Display.displays[0].Activate();
+        Display.displays[0].SetRenderingResolution(display1Width, display1Height);
+        
+        Display.displays[1].Activate();
+        Display.displays[1].SetRenderingResolution(display2Width, display2Height);
     }
+
+
 
     private void Update()
     {
-
+        if (fireBallTargetGameObject)
+        {
+            if(fireBall == null)
+                Destroy(fireBallTargetGameObject);
+        }
         
+        if ( rightHand.holdingHandType(1, 1.0f) )
+        {
+            Debug.Log("holdingHandType 1 in right");
+
+            rightHand.previousTime = Time.time;
+            if (fireBall == null || shooting == true)
+                return;
+            shooting = true;
+            PalmNormal = rightHand.GetLeapHand().PalmNormal.ToVector3();
+            PalmNormal += fireBallOffest;
+
+            if(PalmNormal.z > 0)
+                fireBall.Shoot(PalmNormal*50);
+
+        }
+        
+        if ( leftHand.holdingHandType(1, 1.0f) )
+        {
+            Debug.Log("holdingHandType 1 in Left");
+
+            leftHand.previousTime = Time.time;
+            if (fireBall == null || shooting == true)
+                return;
+            shooting = true;
+            PalmNormal = leftHand.GetLeapHand().PalmNormal.ToVector3();
+            PalmNormal += fireBallOffest;
+
+            if(PalmNormal.z > 0)
+                fireBall.Shoot(PalmNormal*50);
+
+        }
+
         if (!shooting && fireBall != null)
         {
-            if (leftHand?.GetLeapHand()!=null)
+            if (rightHand?.GetLeapHand().PalmNormal.ToVector3().z > 0)
             {
-                fireBallPos = leftHand.GetLeapHand().PalmPosition.ToVector3();
+                PalmPos = rightHand.GetLeapHand().PalmPosition.ToVector3();
+                PalmNormal = rightHand.GetLeapHand().PalmNormal.ToVector3();
             }
             else
             {
-                fireBallPos = rightHand.GetLeapHand().PalmPosition.ToVector3();
+                PalmPos = leftHand.GetLeapHand().PalmPosition.ToVector3();
+                PalmNormal = leftHand.GetLeapHand().PalmNormal.ToVector3();
             }
             
+            // rayDirection.Normalize();
+            // rayDirection *= (1/rayDirection.z );
+
+            PalmNormal += fireBallOffest;
+            Vector3 fireBallPosition = mainCamera.transform.position + PalmNormal * distance;
             
-            Vector3 rayDirection = fireBallPos - mainCamera.transform.position;
-            rayDirection.Normalize();
-
-            Vector3 fireBallPosition = mainCamera.transform.position + rayDirection * 10.0f;
-
             fireBall.transform.position = fireBallPosition;
+            if(PalmNormal.z > 0)
+                fireBallTarget.transform.position = PalmPos + PalmNormal * (29/PalmNormal.z) ;
 
             // fireBallPos.x = -10.0f;
             // fireBall.transform.position = fireBallPos;
         }
         
-        if (leftHand.holdingHandType(2, 1.0f) || rightHand.holdingHandType(2, 1.0f))
+        if (rightHand != null && rightHand.holdingHandType(2, 1.0f) )
         {
-            leftHand.previousTime = Time.time;
             rightHand.previousTime = Time.time;
-            Debug.Log("holdingHandType in 2");
+            Debug.Log("holdingHandType in 2 righthand");
 
             if(fireBall == null)
             {
-                if (leftHand?.GetLeapHand()!=null)
-                {
-                    fireBallPos = leftHand.GetLeapHand().PalmPosition.ToVector3();
-                }
-                else
-                {
-                    fireBallPos = rightHand.GetLeapHand().PalmPosition.ToVector3();
-                }
-                fireBallPos.z = -10.0f;
+                PalmPos = rightHand.GetLeapHand().PalmPosition.ToVector3();
                 
-                
-                GameObject go = Instantiate(fireBallPrefab, fireBallPos, Quaternion.identity);
-                fireBall = go.GetComponent<FireBall>();
+                GameObject fireGameObject = Instantiate(fireBallPrefab, PalmPos, Quaternion.identity);
+                fireBall = fireGameObject.GetComponent<FireBall>();
+                fireBallTargetGameObject = Instantiate(fireBallTargetPrefab, PalmPos, Quaternion.identity);
+                fireBallTarget = fireBallTargetGameObject.GetComponent<FireBall>();
                 shooting = false;
             }
         }
-        if (leftHand.holdingHandType(1, 1.0f) || rightHand.holdingHandType(1, 1.0f))
+        
+        if (leftHand != null && leftHand.holdingHandType(2, 1.0f) )
         {
-            Debug.Log("holdingHandType in 1");
-
             leftHand.previousTime = Time.time;
-            rightHand.previousTime = Time.time;
-            if (fireBall == null || shooting == true)
-                return;
-            shooting = true;
-            Vector3 rayDirection = fireBallPos - mainCamera.transform.position;
-            rayDirection.Normalize();
-            fireBall.Shoot(rayDirection*15);
+            Debug.Log("holdingHandType in 2 lefthand");
 
+            if(fireBall == null)
+            {
+                PalmPos = leftHand.GetLeapHand().PalmPosition.ToVector3();
+                
+                GameObject fireGameObject = Instantiate(fireBallPrefab, PalmPos, Quaternion.identity);
+                fireBall = fireGameObject.GetComponent<FireBall>();
+                fireBallTargetGameObject = Instantiate(fireBallTargetPrefab, PalmPos, Quaternion.identity);
+                fireBallTarget = fireBallTargetGameObject.GetComponent<FireBall>();
+                shooting = false;
+            }
         }
+
+
+
         
         // if (Input.GetKeyDown(KeyCode.F))
         // {

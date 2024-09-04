@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Fluid/RoomScene.unity
+    guid: 067b6809040dcc549bdf050c80a9ea8f
   m_configObjects: {}
