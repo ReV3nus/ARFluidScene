@@ -72,21 +72,21 @@ Shader "Custom/Mask"
             fixed4 frag (v2f i) : SV_Target
             {
                 float2 flippedUVs = i.uv;
-                flippedUVs.y = 1 - i.uv.y;
-                flippedUVs.x = 1 - i.uv.x;
+                flippedUVs.y = i.uv.y - _EyeOffsetY/_ScreenSize ;
+                flippedUVs.x = _EyeOffsetX/_ScreenSize - i.uv.x;
                 // sample the texture
-                float2 center = float2(0.5 + _EyeOffsetX, 0.5 + _EyeOffsetY);
+                // float2 center = float2(0.5 + _EyeOffsetX, 0.5 + _EyeOffsetY);
                 // float2 xy_r = uv2xy(flippedUVs, center, _D, _F_R, 1.0 / _MainTex_TexelSize, _ScreenSize, float2(_ScreenOffsetX, _ScreenOffsetY));
                 // float2 xy_g = uv2xy(flippedUVs, center, _D, _F_G, 1.0 / _MainTex_TexelSize, _ScreenSize, float2(_ScreenOffsetX, _ScreenOffsetY));
                 // float2 xy_b = uv2xy(flippedUVs, center, _D, _F_B, 1.0 / _MainTex_TexelSize, _ScreenSize, float2(_ScreenOffsetX, _ScreenOffsetY));
                 float r, g, b;
                 if (_Mask > 0) {
-                    r = tex2D(_CameraDepthTexture, flippedUVs);
-                    g = tex2D(_CameraDepthTexture, flippedUVs);
-                    b = tex2D(_CameraDepthTexture, flippedUVs);
-                    r += tex2D(colorBuffer, flippedUVs);
-                    g += tex2D(colorBuffer, flippedUVs);
-                    b += tex2D(colorBuffer, flippedUVs);
+                    // r = tex2D(_CameraDepthTexture, flippedUVs);
+                    // g = tex2D(_CameraDepthTexture, flippedUVs);
+                    // b = tex2D(_CameraDepthTexture, flippedUVs);
+                    r = tex2D(colorBuffer, flippedUVs);
+                    g = tex2D(colorBuffer, flippedUVs);
+                    b = tex2D(colorBuffer, flippedUVs);
                     if (r > 0) {
                         r = 0.0;
                     } else {
@@ -109,7 +109,9 @@ Shader "Custom/Mask"
                     b = tex2D(_MainTex, flippedUVs).b;
                 }
                 
-                return fixed4(r, g, b, 0.5);
+                // return fixed4(1-r, 1-g, 1-b, 1);
+                return fixed4(r, g, b, 1);
+
             }
             ENDCG
         }

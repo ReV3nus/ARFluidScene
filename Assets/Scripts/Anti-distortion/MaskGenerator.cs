@@ -7,6 +7,7 @@ public class MaskGenerator : MonoBehaviour
     public Material maskPass;
     public Camera mainCamera; 
     public RenderTexture renderTexture;
+    public Vector2 eyeOffset;
 
     public bool mask = true;
 
@@ -27,6 +28,8 @@ public class MaskGenerator : MonoBehaviour
             m = 0;
         }
         maskPass.SetFloat("_Mask", m);
+        maskPass.SetFloat("_EyeOffsetX", eyeOffset.x);
+        maskPass.SetFloat("_EyeOffsetY", eyeOffset.y);
         Graphics.Blit(renderTexture, dest, maskPass,0);
 
     }

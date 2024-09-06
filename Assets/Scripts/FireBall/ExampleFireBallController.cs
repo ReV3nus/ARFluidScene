@@ -33,10 +33,10 @@ public class ExampleFireBallController : MonoBehaviour
     {
         Debug.Log(Display.displays.Length);
         Display.displays[0].Activate();
-        Display.displays[0].SetRenderingResolution(display1Width, display1Height);
+        Display.displays[0].SetRenderingResolution(display2Width, display2Height);
         
         Display.displays[1].Activate();
-        Display.displays[1].SetRenderingResolution(display2Width, display2Height);
+        Display.displays[1].SetRenderingResolution(display1Width, display1Height);
     }
 
 

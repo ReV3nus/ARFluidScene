@@ -304,7 +304,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &511691325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,6 +551,122 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 715179743}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &718724399
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 718724400}
+  - component: {fileID: 718724403}
+  - component: {fileID: 718724402}
+  - component: {fileID: 718724401}
+  m_Layer: 0
+  m_Name: DisplayRight2 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &718724400
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718724399}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1769524014317164601}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &718724401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718724399}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c0c7c1c0ac087f46b81e46d96bffcad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
+  mainCamera: {fileID: 3535609737039076892}
+  renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
+  eyeOffset: {x: 2560, y: 0}
+  mask: 1
+--- !u!114 &718724402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718724399}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9979157caf6f18f468afafe78bd90842, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapPass: {fileID: 2100000, guid: 8229a8994ebcae345b0a4ed9d8865857, type: 2}
+  eyeOffset: {x: 0.1, y: 0}
+--- !u!20 &718724403
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718724399}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 1}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0.5
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.1
+  far clip plane: 29.69
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 1
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!1 &754899747
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,7 +725,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.5727035, g: 1, b: 0.33773577, a: 0}
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -628,11 +744,11 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 0.5
+    width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 1000
-  field of view: 60
+  far clip plane: 30
+  field of view: 39.8
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -665,6 +781,7 @@ MonoBehaviour:
   maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
   mainCamera: {fileID: 3535609737039076892}
   renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
+  eyeOffset: {x: 2560, y: -850}
   mask: 1
 --- !u!1 &799382814
 GameObject:
@@ -719,10 +836,10 @@ MonoBehaviour:
   viscosity: 0.02
   gravity: 10
   deltaTime: 0.025
-  maxSpawns: {x: -20, y: 2, z: 1}
-  minSpawns: {x: 20, y: 40, z: 35}
-  minBounds: {x: -20, y: 2, z: -100}
-  maxBounds: {x: 20, y: 60, z: 35}
+  maxSpawns: {x: -20, y: 0, z: 2}
+  minSpawns: {x: 20, y: 40, z: 40}
+  minBounds: {x: -20, y: 0, z: -100}
+  maxBounds: {x: 20, y: 60, z: 40}
   solverShader: {fileID: 7200000, guid: f4000e3305ec3b14b8f7b31781bb32dd, type: 3}
   renderShader: {fileID: 4800000, guid: d422c3fc5e6461b4da80424ed4deb459, type: 3}
   renderMat: {fileID: 2100000, guid: 6378f3d1b6e448e41ae0a514bce49add, type: 2}
@@ -732,8 +849,8 @@ MonoBehaviour:
   primaryColor: {r: 0, g: 0.64705884, b: 0.92156863, a: 1}
   secondaryColor: {r: 0.043137256, g: 0.22745098, b: 0.50980395, a: 1}
   moveParticles: 10
-  breakableWall: {fileID: 0}
-  handInteractor: {fileID: 0}
+  breakableWall: {fileID: 1829747193}
+  handInteractor: {fileID: 5920219514214397793}
   LeapCamera: {fileID: 3535609737039076892}
 --- !u!114 &799382817
 MonoBehaviour:
@@ -1018,7 +1135,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1522332706
 Transform:
   m_ObjectHideFlags: 0
@@ -1080,7 +1197,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 1000
+  far clip plane: 30
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -1114,6 +1231,7 @@ MonoBehaviour:
   maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
   mainCamera: {fileID: 3535609737039076892}
   renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
+  eyeOffset: {x: 2560, y: 0}
   mask: 1
 --- !u!1 &1754457268
 GameObject:
@@ -1240,7 +1358,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!23 &1829747190
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1319,7 +1437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 40, y: 40}
-  ExpectCount: 300
+  ExpectCount: 400
   RasterizeResolution: 16
   offset: {x: 0, y: 0, z: 0.4}
   solver: {fileID: 799382816}
@@ -1663,6 +1781,7 @@ Transform:
   - {fileID: 5040087359671955471}
   - {fileID: 754899748}
   - {fileID: 1522332706}
+  - {fileID: 718724400}
   m_Father: {fileID: 4222737149562537639}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1828064639603249775
@@ -1890,7 +2009,7 @@ Camera:
     width: 0.5
     height: 1
   near clip plane: 0.1
-  far clip plane: 1000
+  far clip plane: 29
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -1941,7 +2060,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 29.9
+  far clip plane: 29.7
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -2039,7 +2158,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 1000
+  far clip plane: 29
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -2202,8 +2321,8 @@ MonoBehaviour:
   handMergeDistance: 1
   LeftModel: {fileID: 2300922261927665789}
   RightModel: {fileID: 4766712402157110645}
-  offset: {x: 0.04, y: 0, z: 0}
-  scaleFactor: 1
+  offset: {x: 0.06, y: 0, z: 0}
+  scaleFactor: 0.24
 --- !u!4 &5505907865671692471
 Transform:
   m_ObjectHideFlags: 0
@@ -2237,7 +2356,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &5920219514214397793
 MonoBehaviour:
   m_ObjectHideFlags: 0
