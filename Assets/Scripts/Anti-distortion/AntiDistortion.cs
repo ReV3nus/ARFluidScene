@@ -21,7 +21,6 @@ public class AntiDistortion : MonoBehaviour
 
     void OnRenderImage(RenderTexture src, RenderTexture dest)
     {
-        mapPass.SetFloat("_Mask", 0);
         mapPass.SetFloat("_EyeOffsetX", eyeOffset.x);
         mapPass.SetFloat("_EyeOffsetY", eyeOffset.y);
         Graphics.Blit(src, dest, mapPass, 0);

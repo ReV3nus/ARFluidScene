@@ -67,8 +67,8 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EyeOffset: 0
-    - _EyeOffsetX: 2560
-    - _EyeOffsetY: -780.1
+    - _EyeOffsetX: 0
+    - _EyeOffsetY: 0
     - _F_A: 1
     - _F_B: 1
     - _F_G: 1

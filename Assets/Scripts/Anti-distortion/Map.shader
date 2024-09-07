@@ -2,7 +2,6 @@
 {
     Properties
     {
-        _Mask("Show Mask", float) = 0
         _MainTex ("Texture", 2D) = "white" {}
         _D("D", float) = 1.0
         _ScreenSize("Screen Size", float) = 1.0
@@ -41,7 +40,6 @@
             };
 
             sampler2D _MainTex;
-            float _Mask;
             float4 _MainTex_ST;
             float2 _MainTex_TexelSize;
             float _D;

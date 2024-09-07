@@ -3,18 +3,16 @@
 
 float2 uv2xy(float2 uv, float2 center, float D, float F, float2 texSize, float ScreenSize, float2 offset)
 {
-    // return uv * texSize;
-    
     float2 duv = (uv - center) * texSize;
-    float R = sqrt(duv.x * duv.x + duv.y * duv.y);
-    float cosR = duv.x / R;
-    float sinR = duv.y / R;
-    float tantheta = R / D;
+
+    float alpha = atan(duv.x / D);
+    float beta = atan(duv.y / D);
+    float tantheta = cos(alpha) * tan(beta);
     
     float s = 2 * F * (tantheta + sqrt(1 + tantheta * tantheta));
     
-    float x = s * cosR / ScreenSize;
-    float y = s * sinR / ScreenSize;
+    float x = s * cos(alpha) / ScreenSize;
+    float y = s * sin(beta) / ScreenSize;
     return float2(x, y) + offset;
 }
 

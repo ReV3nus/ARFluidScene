@@ -107,8 +107,6 @@ Shader "Spheres"
                 float2 uv : TEXCOORD0;
             };
 
-            float4x4 inverseV, inverseP;
-
             float radius;
 
             v2f vert(appdata v)
@@ -127,14 +125,14 @@ Shader "Spheres"
                 depth = d;
 
                 // Calculate world-space position.
-                float3 viewSpaceRayDir = normalize(mul(inverseP, float4(i.uv*2-1, 0, 1)).xyz);
+                float3 viewSpaceRayDir = normalize(mul(unity_CameraInvProjection, float4(i.uv*2-1, 0, 1)).xyz);
                 float viewSpaceDistance = LinearEyeDepth(d) / dot(viewSpaceRayDir, float3(0,0,-1));
                 // Slightly push forward to screen.
                 // viewSpaceDistance -= radius * 1;
                 // viewSpaceDistance -= 0.1;
 
                 float3 viewSpacePos = viewSpaceRayDir * viewSpaceDistance;
-                float3 worldSpacePos = mul(inverseV, float4(viewSpacePos, 1)).xyz;
+                float3 worldSpacePos = mul(UNITY_MATRIX_I_V, float4(viewSpacePos, 1)).xyz;
 
                 return float4(worldSpacePos, 0);
             }

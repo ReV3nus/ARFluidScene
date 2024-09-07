@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 {
     void Update()
     {
-        Camera cam = Camera.main;
+        Camera cam = this.GetComponent<Camera>();
 
         float speed = 20;
 

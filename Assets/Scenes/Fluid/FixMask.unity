@@ -578,12 +578,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 754899747}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1769524014317164601}
+  m_Father: {fileID: 8275025887051306429}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &754899750
 MonoBehaviour:
@@ -663,8 +663,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
-  mainCamera: {fileID: 3535609737039076892}
-  renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
+  eyeOffset: {x: 0, y: 0}
   mask: 1
 --- !u!1 &799382814
 GameObject:
@@ -735,6 +734,9 @@ MonoBehaviour:
   breakableWall: {fileID: 0}
   handInteractor: {fileID: 0}
   LeapCamera: {fileID: 3535609737039076892}
+  renderCameras:
+  - {fileID: 3495788284958449018}
+  - {fileID: 4384614291133187635}
 --- !u!114 &799382817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1027,12 +1029,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1522332705}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1769524014317164601}
+  m_Father: {fileID: 5040087359671955471}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1522332708
 MonoBehaviour:
@@ -1077,7 +1079,7 @@ Camera:
     serializedVersion: 2
     x: 0.5
     y: 0
-    width: 1
+    width: 0.5
     height: 1
   near clip plane: 0.1
   far clip plane: 1000
@@ -1112,8 +1114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
-  mainCamera: {fileID: 3535609737039076892}
-  renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
+  eyeOffset: {x: 0, y: 0}
   mask: 1
 --- !u!1 &1754457268
 GameObject:
@@ -1601,7 +1602,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2939592539159422964}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9979157caf6f18f468afafe78bd90842, type: 3}
   m_Name: 
@@ -1661,8 +1662,6 @@ Transform:
   - {fileID: 1554412565453992797}
   - {fileID: 8275025887051306429}
   - {fileID: 5040087359671955471}
-  - {fileID: 754899748}
-  - {fileID: 1522332706}
   m_Father: {fileID: 4222737149562537639}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1828064639603249775
@@ -1868,7 +1867,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.5727035, g: 1, b: 0.33773577, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1889,12 +1888,12 @@ Camera:
     y: 0
     width: 0.5
     height: 1
-  near clip plane: 0.1
-  far clip plane: 1000
+  near clip plane: 0.01
+  far clip plane: 29.9
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -1916,7 +1915,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1448938662669023914}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 2
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
@@ -1951,7 +1950,7 @@ Camera:
     m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
-  m_TargetDisplay: 1
+  m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
@@ -2017,7 +2016,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 1, g: 0.49622637, b: 0.5953848, a: 1}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -2036,14 +2035,14 @@ Camera:
     serializedVersion: 2
     x: 0.5
     y: 0
-    width: 1
+    width: 0.5
     height: 1
-  near clip plane: 0.1
-  far clip plane: 1000
+  near clip plane: 0.01
+  far clip plane: 29.9
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -2175,10 +2174,11 @@ Transform:
   m_GameObject: {fileID: 2939592539159422964}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1522332706}
   m_Father: {fileID: 1769524014317164601}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5357939825478024099
@@ -2393,13 +2393,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2939592539159422964}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b45dbb1e08cb50f4bab8148ec0a1d9ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 3535609737039076892}
-  renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
 --- !u!81 &7697071532911384152
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2417,10 +2415,11 @@ Transform:
   m_GameObject: {fileID: 314778044389355007}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 754899748}
   m_Father: {fileID: 1769524014317164601}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8340676467418683565
@@ -2430,13 +2429,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 314778044389355007}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b45dbb1e08cb50f4bab8148ec0a1d9ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 3535609737039076892}
-  renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
 --- !u!114 &8699054784220160824
 MonoBehaviour:
   m_ObjectHideFlags: 0
