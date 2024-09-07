@@ -45,30 +45,28 @@ Shader "Custom/Mask"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float r, g, b;
+                float r, g, b, c = 1.0;
                 // r = tex2D(_CameraDepthTexture, flippedUVs);
                 // g = tex2D(_CameraDepthTexture, flippedUVs);
                 // b = tex2D(_CameraDepthTexture, flippedUVs);
-                r = tex2D(colorBuffer, i.uv);
-                g = tex2D(colorBuffer, i.uv);
-                b = tex2D(colorBuffer, i.uv);
-                if (r > 0) {
-                    r = 0.0;
-                } else {
-                    r = 1.0;
-                }
-                if (g > 0) {
-                    g = 0.0;
-                } else {
-                    g = 1.0;
-                }
-                if (b > 0) {
-                    b = 0.0;
-                } else {
-                    b = 1.0;
-                }
+                // r = tex2D(colorBuffer, i.uv);
+                // g = tex2D(colorBuffer, i.uv);
+                // b = tex2D(colorBuffer, i.uv);
+                // r = tex2D(_MainTex, i.uv).r;
+                // g = tex2D(_MainTex, i.uv).g;
+                // b = tex2D(_MainTex, i.uv).b;
+                // if (r > 0) {
+                //     c = 0.0;
+                // }
+                // if (g > 0) {
+                //     c = 0.0;
+                // }
+                // if (b > 0) {
+                //     c = 0.0;
+                // }
+                c = tex2D(_MainTex, i.uv).r;
                 
-                return fixed4(r, g, b, 1);
+                return fixed4(c, c, c, 1);
             }
             ENDCG
         }

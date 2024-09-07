@@ -561,8 +561,8 @@ GameObject:
   m_Component:
   - component: {fileID: 754899748}
   - component: {fileID: 754899751}
-  - component: {fileID: 754899750}
   - component: {fileID: 754899752}
+  - component: {fileID: 754899750}
   m_Layer: 0
   m_Name: DisplayLeft2
   m_TagString: Untagged
@@ -592,13 +592,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 754899747}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9979157caf6f18f468afafe78bd90842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mapPass: {fileID: 2100000, guid: 8229a8994ebcae345b0a4ed9d8865857, type: 2}
-  eyeOffset: {x: -0.1, y: 0}
+  eyeOffset: {x: 0, y: 0}
 --- !u!20 &754899751
 Camera:
   m_ObjectHideFlags: 0
@@ -609,7 +609,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.5727035, g: 1, b: 0.33773577, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -663,8 +663,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
-  eyeOffset: {x: 0, y: 0}
-  mask: 1
+  thickness: {fileID: 8966110078153147006}
 --- !u!1 &799382814
 GameObject:
   m_ObjectHideFlags: 0
@@ -1012,8 +1011,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1522332706}
   - component: {fileID: 1522332709}
-  - component: {fileID: 1522332708}
   - component: {fileID: 1522332710}
+  - component: {fileID: 1522332708}
   m_Layer: 0
   m_Name: DisplayRight2
   m_TagString: Untagged
@@ -1043,13 +1042,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1522332705}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9979157caf6f18f468afafe78bd90842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mapPass: {fileID: 2100000, guid: 8229a8994ebcae345b0a4ed9d8865857, type: 2}
-  eyeOffset: {x: 0.1, y: 0}
+  eyeOffset: {x: 0, y: 0}
 --- !u!20 &1522332709
 Camera:
   m_ObjectHideFlags: 0
@@ -1060,7 +1059,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 1, g: 0.49622637, b: 0.5953848, a: 1}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1114,8 +1113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
-  eyeOffset: {x: 0, y: 0}
-  mask: 1
+  thickness: {fileID: 7644752853951669877}
 --- !u!1 &1754457268
 GameObject:
   m_ObjectHideFlags: 0
@@ -1569,6 +1567,7 @@ GameObject:
   - component: {fileID: 8275025887051306429}
   - component: {fileID: 3495788284958449018}
   - component: {fileID: 8966110078153147005}
+  - component: {fileID: 8966110078153147006}
   - component: {fileID: 8340676467418683565}
   m_Layer: 0
   m_Name: DisplayLeft1
@@ -1602,13 +1601,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2939592539159422964}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9979157caf6f18f468afafe78bd90842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mapPass: {fileID: 2100000, guid: 8229a8994ebcae345b0a4ed9d8865857, type: 2}
-  eyeOffset: {x: 0.1, y: 0}
+  eyeOffset: {x: 0, y: 0}
 --- !u!1 &1448938662669023914
 GameObject:
   m_ObjectHideFlags: 0
@@ -1808,6 +1807,7 @@ GameObject:
   - component: {fileID: 5040087359671955471}
   - component: {fileID: 4384614291133187635}
   - component: {fileID: 1203528523671006381}
+  - component: {fileID: 7644752853951669877}
   - component: {fileID: 7644752853951669876}
   m_Layer: 0
   m_Name: DisplayRight1
@@ -2398,6 +2398,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b45dbb1e08cb50f4bab8148ec0a1d9ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7644752853951669877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2939592539159422964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d41ad3129db13b54ea23d80be15dc7a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thicknessTexture: {fileID: 0}
 --- !u!81 &7697071532911384152
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2470,13 +2483,26 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 314778044389355007}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9979157caf6f18f468afafe78bd90842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mapPass: {fileID: 2100000, guid: 8229a8994ebcae345b0a4ed9d8865857, type: 2}
-  eyeOffset: {x: -0.1, y: 0}
+  eyeOffset: {x: 0, y: 0}
+--- !u!114 &8966110078153147006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314778044389355007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d41ad3129db13b54ea23d80be15dc7a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thicknessTexture: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 public class MaskGenerator : MonoBehaviour
 {
     public Material maskPass;
-    public Vector2 eyeOffset;
+    public GetThickness thickness;
 
     void Start()
     {
@@ -14,9 +14,6 @@ public class MaskGenerator : MonoBehaviour
 
     void OnRenderImage(RenderTexture src, RenderTexture dest)
     {
-        maskPass.SetFloat("_EyeOffsetX", eyeOffset.x);
-        maskPass.SetFloat("_EyeOffsetY", eyeOffset.y);
-        Graphics.Blit(src, dest, maskPass,0);
-
+        Graphics.Blit(thickness.thicknessTexture, dest, maskPass, 0);
     }
 }

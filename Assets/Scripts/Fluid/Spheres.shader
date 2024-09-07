@@ -373,5 +373,63 @@ Shader "Spheres"
 
             ENDCG
         }
+
+        Pass
+        {
+            ZTest Less
+            ZWrite Off
+            Blend One One
+
+            CGPROGRAM
+            #pragma target 4.5
+            #pragma vertex vert
+            #pragma fragment frag
+
+            #include "UnityCG.cginc"
+
+            struct Particle {
+                float4 pos;
+                float4 vel;
+            };
+
+            StructuredBuffer<Particle> particles;
+
+            float radius;
+
+            StructuredBuffer<float3> principle;
+
+            int usePositionSmoothing;
+
+            struct appdata
+            {
+                float4 vertex : POSITION;
+            };
+
+            struct v2f
+            {
+                float4 vertex : SV_POSITION;
+            };
+
+            v2f vert (appdata v, uint id : SV_InstanceID)
+            {
+                float3 spherePos = usePositionSmoothing ? principle[id*4+3] : particles[id].pos.xyz;
+                float3 localPos = v.vertex.xyz * (radius * 2 * 4);
+
+                float3x3 ellip = float3x3(principle[id*4+0], principle[id*4+1], principle[id*4+2]);
+
+                float3 worldPos = mul(ellip, localPos) + spherePos;
+
+                v2f o;
+                o.vertex = mul(UNITY_MATRIX_VP, float4(worldPos, 1));
+
+                return o;
+            }
+
+            float frag (v2f i) : SV_Target
+            {
+                return 0.0005;
+            }
+            ENDCG
+        }
     }
 }
