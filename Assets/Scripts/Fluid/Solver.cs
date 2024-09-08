@@ -356,7 +356,21 @@ public class Solver : MonoBehaviour
             2,  // shaderPass
             quadInstancedArgsBuffer
         );
+        // draw thickness
+        int thicknessBufferId = Shader.PropertyToID("thicknessBuffer");
+        commandBuffer.GetTemporaryRT(thicknessBufferId, Screen.width, Screen.height, 0, FilterMode.Point, RenderTextureFormat.RHalf);
+        commandBuffer.SetRenderTarget((RenderTargetIdentifier)thicknessBufferId, (RenderTargetIdentifier)depth2Id);
+        commandBuffer.ClearRenderTarget(true, true, Color.clear);
+        commandBuffer.DrawMeshInstancedIndirect(
+            particleMesh,
+            0,  // submeshIndex
+            renderMat,
+            4,  // shaderPass
+            quadInstancedArgsBuffer
+        );
+        commandBuffer.SetGlobalTexture("thicknessBuffer", thicknessBufferId);
 
+        // final
         commandBuffer.SetGlobalTexture("normalBuffer", normalBufferId);
         commandBuffer.SetGlobalTexture("colorBuffer", colorBufferId);
 

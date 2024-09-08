@@ -107,8 +107,6 @@ Shader "Spheres"
                 float2 uv : TEXCOORD0;
             };
 
-            float4x4 inverseV, inverseP;
-
             float radius;
 
             v2f vert(appdata v)
@@ -127,14 +125,14 @@ Shader "Spheres"
                 depth = d;
 
                 // Calculate world-space position.
-                float3 viewSpaceRayDir = normalize(mul(inverseP, float4(i.uv*2-1, 0, 1)).xyz);
+                float3 viewSpaceRayDir = normalize(mul(unity_CameraInvProjection, float4(i.uv*2-1, 0, 1)).xyz);
                 float viewSpaceDistance = LinearEyeDepth(d) / dot(viewSpaceRayDir, float3(0,0,-1));
                 // Slightly push forward to screen.
                 // viewSpaceDistance -= radius * 1;
                 // viewSpaceDistance -= 0.1;
 
                 float3 viewSpacePos = viewSpaceRayDir * viewSpaceDistance;
-                float3 worldSpacePos = mul(inverseV, float4(viewSpacePos, 1)).xyz;
+                float3 worldSpacePos = mul(UNITY_MATRIX_I_V, float4(viewSpacePos, 1)).xyz;
 
                 return float4(worldSpacePos, 0);
             }
@@ -373,6 +371,64 @@ Shader "Spheres"
                 return float4(diffuse, 0.8);
             }
 
+            ENDCG
+        }
+
+        Pass
+        {
+            ZTest Less
+            ZWrite Off
+            Blend One One
+
+            CGPROGRAM
+            #pragma target 4.5
+            #pragma vertex vert
+            #pragma fragment frag
+
+            #include "UnityCG.cginc"
+
+            struct Particle {
+                float4 pos;
+                float4 vel;
+            };
+
+            StructuredBuffer<Particle> particles;
+
+            float radius;
+
+            StructuredBuffer<float3> principle;
+
+            int usePositionSmoothing;
+
+            struct appdata
+            {
+                float4 vertex : POSITION;
+            };
+
+            struct v2f
+            {
+                float4 vertex : SV_POSITION;
+            };
+
+            v2f vert (appdata v, uint id : SV_InstanceID)
+            {
+                float3 spherePos = usePositionSmoothing ? principle[id*4+3] : particles[id].pos.xyz;
+                float3 localPos = v.vertex.xyz * (radius * 2 * 4);
+
+                float3x3 ellip = float3x3(principle[id*4+0], principle[id*4+1], principle[id*4+2]);
+
+                float3 worldPos = mul(ellip, localPos) + spherePos;
+
+                v2f o;
+                o.vertex = mul(UNITY_MATRIX_VP, float4(worldPos, 1));
+
+                return o;
+            }
+
+            float frag (v2f i) : SV_Target
+            {
+                return 0.0005;
+            }
             ENDCG
         }
     }

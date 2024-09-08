@@ -6,11 +6,14 @@ public class AntiDistortion : MonoBehaviour
 {
     public Material mapPass;
     public Vector2 eyeOffset;
+    public Camera mainCamera; 
+    public RenderTexture renderTexture;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        mainCamera.targetTexture = renderTexture;
+
     }
 
     // Update is called once per frame
@@ -21,9 +24,9 @@ public class AntiDistortion : MonoBehaviour
 
     void OnRenderImage(RenderTexture src, RenderTexture dest)
     {
-        mapPass.SetFloat("_Mask", 0);
+        // mapPass.SetFloat("_Mask", 0);
         mapPass.SetFloat("_EyeOffsetX", eyeOffset.x);
         mapPass.SetFloat("_EyeOffsetY", eyeOffset.y);
-        Graphics.Blit(src, dest, mapPass, 0);
+        Graphics.Blit(renderTexture, dest, mapPass, 0);
     }
 }

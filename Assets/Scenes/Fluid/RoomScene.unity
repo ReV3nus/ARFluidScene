@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10756, guid: 0000000000000000e000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 4605579574960560855}
-  m_IndirectSpecularColor: {r: NaN, g: NaN, b: NaN, a: 1}
+  m_IndirectSpecularColor: {r: 0.17906633, g: 0.22421569, b: 0.30601534, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -569,7 +569,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &718724400
 Transform:
   m_ObjectHideFlags: 0
@@ -601,6 +601,7 @@ MonoBehaviour:
   mainCamera: {fileID: 3535609737039076892}
   renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
   eyeOffset: {x: 2560, y: 0}
+  thickness: {fileID: 0}
   mask: 1
 --- !u!114 &718724402
 MonoBehaviour:
@@ -616,6 +617,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapPass: {fileID: 2100000, guid: 8229a8994ebcae345b0a4ed9d8865857, type: 2}
   eyeOffset: {x: 0.1, y: 0}
+  mainCamera: {fileID: 0}
+  renderTexture: {fileID: 0}
 --- !u!20 &718724403
 Camera:
   m_ObjectHideFlags: 0
@@ -714,7 +717,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapPass: {fileID: 2100000, guid: 8229a8994ebcae345b0a4ed9d8865857, type: 2}
-  eyeOffset: {x: -0.1, y: 0}
+  eyeOffset: {x: -0.1, y: 200}
+  mainCamera: {fileID: 0}
+  renderTexture: {fileID: 0}
 --- !u!20 &754899751
 Camera:
   m_ObjectHideFlags: 0
@@ -747,7 +752,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 30
+  far clip plane: 29
   field of view: 39.8
   orthographic: 0
   orthographic size: 5
@@ -781,7 +786,8 @@ MonoBehaviour:
   maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
   mainCamera: {fileID: 3535609737039076892}
   renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
-  eyeOffset: {x: 2560, y: -850}
+  eyeOffset: {x: 2560, y: 0}
+  thickness: {fileID: 8966110078153147006}
   mask: 1
 --- !u!1 &799382814
 GameObject:
@@ -1165,6 +1171,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapPass: {fileID: 2100000, guid: 8229a8994ebcae345b0a4ed9d8865857, type: 2}
   eyeOffset: {x: 0.1, y: 0}
+  mainCamera: {fileID: 0}
+  renderTexture: {fileID: 0}
 --- !u!20 &1522332709
 Camera:
   m_ObjectHideFlags: 0
@@ -1197,7 +1205,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 30
+  far clip plane: 29
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -1232,6 +1240,7 @@ MonoBehaviour:
   mainCamera: {fileID: 3535609737039076892}
   renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
   eyeOffset: {x: 2560, y: 0}
+  thickness: {fileID: 0}
   mask: 1
 --- !u!1 &1754457268
 GameObject:
@@ -1687,6 +1696,7 @@ GameObject:
   - component: {fileID: 3495788284958449018}
   - component: {fileID: 8966110078153147005}
   - component: {fileID: 8340676467418683565}
+  - component: {fileID: 8966110078153147006}
   m_Layer: 0
   m_Name: DisplayLeft1
   m_TagString: Untagged
@@ -1719,13 +1729,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2939592539159422964}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9979157caf6f18f468afafe78bd90842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mapPass: {fileID: 2100000, guid: 8229a8994ebcae345b0a4ed9d8865857, type: 2}
   eyeOffset: {x: 0.1, y: 0}
+  mainCamera: {fileID: 3535609737039076892}
+  renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
 --- !u!1 &1448938662669023914
 GameObject:
   m_ObjectHideFlags: 0
@@ -1929,6 +1941,7 @@ GameObject:
   - component: {fileID: 4384614291133187635}
   - component: {fileID: 1203528523671006381}
   - component: {fileID: 7644752853951669876}
+  - component: {fileID: 7644752853951669877}
   m_Layer: 0
   m_Name: DisplayRight1
   m_TagString: Untagged
@@ -2060,7 +2073,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 29.7
+  far clip plane: 29
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -2253,13 +2266,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handedness: 1
   _castShadows: 1
-  _material: {fileID: 10756, guid: 0000000000000000e000000000000000, type: 0}
+  _material: {fileID: 2100000, guid: 81f6d387b9d5c994d9e291af97c84648, type: 2}
   _sphereMesh: {fileID: 4300002, guid: 2f496b1b1bec86743b418551f859020c, type: 3}
   _cylinderResolution: 12
   _jointRadius: 0.008
   _cylinderRadius: 0.006
   _palmRadius: 0.015
-  _sphereMat: {fileID: 2100000, guid: 3b1fe06422f269d4887657e76def7102, type: 2}
+  _sphereMat: {fileID: 2100000, guid: 67b66d4eb50ed684d94eb00bc04709d2, type: 2}
   _spherePositions:
   - {x: 0.10719136, y: 1.888597, z: 0.15799068}
   - {x: 0.08288824, y: 1.8665782, z: 0.19056088}
@@ -2519,6 +2532,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 3535609737039076892}
   renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
+--- !u!114 &7644752853951669877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2939592539159422964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 436f973bb870afa4884056f080a0a3d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thicknessTexture: {fileID: 0}
 --- !u!81 &7697071532911384152
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2599,6 +2625,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapPass: {fileID: 2100000, guid: 8229a8994ebcae345b0a4ed9d8865857, type: 2}
   eyeOffset: {x: -0.1, y: 0}
+  mainCamera: {fileID: 3535609737039076892}
+  renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
+--- !u!114 &8966110078153147006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314778044389355007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 436f973bb870afa4884056f080a0a3d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thicknessTexture: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
