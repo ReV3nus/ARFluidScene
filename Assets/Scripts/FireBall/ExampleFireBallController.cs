@@ -145,35 +145,41 @@ public class ExampleFireBallController : MonoBehaviour
 
 
         
-        // if (Input.GetKeyDown(KeyCode.F))
-        // {
-        //     if (fireBall != null)
-        //     {
-        //         Destroy(fireBall.gameObject);
-        //         fireBall = null;
-        //     }
-        //
-        //     GameObject go = Instantiate(fireBallPrefab, new Vector3(-10f, 20f, 0f), Quaternion.identity);
-        //     fireBall = go.GetComponent<FireBall>();
-        //     shooting = false;
-        // }
-        if (Input.GetMouseButton(0))
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            if (fireBall == null || shooting == true)
-                return;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+            var fp = new Vector3(0f,10.0f,-10);
 
-            if (Physics.Raycast(ray, out hit))
+            if(fireBall == null)
             {
-                shooting = true;
-                Vector3 hitPosition = hit.point;
-                Vector3 dir = hitPosition - new Vector3(-10f, 20f, 0f);
-                dir = dir.normalized * 30f;
-                // dir = new Vector3(10f, 0f, 0f);
-                fireBall.Shoot(dir);
+                GameObject fireGameObject = Instantiate(fireBallPrefab, fp, Quaternion.identity);
+                fireBall = fireGameObject.GetComponent<FireBall>();
+                fireBallTargetGameObject = Instantiate(fireBallTargetPrefab, fp, Quaternion.identity);
+                fireBallTarget = fireBallTargetGameObject.GetComponent<FireBall>();
+                shooting = false;
             }
+
+            fireBall.transform.position = fp;
+            fireBallTargetGameObject.transform.position = new Vector3(0, 0, 0);
+            fireBall.Shoot(new Vector3(0, 0, 50f));
+
         }
+        // if (Input.GetMouseButton(0))
+        // {
+        //     if (fireBall == null || shooting == true)
+        //         return;
+        //     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //     RaycastHit hit;
+        //
+        //     if (Physics.Raycast(ray, out hit))
+        //     {
+        //         shooting = true;
+        //         Vector3 hitPosition = hit.point;
+        //         Vector3 dir = hitPosition - new Vector3(-10f, 20f, 0f);
+        //         dir = dir.normalized * 30f;
+        //         // dir = new Vector3(10f, 0f, 0f);
+        //         fireBall.Shoot(dir);
+        //     }
+        // }
     }
 
     public void SetShooting(bool state)

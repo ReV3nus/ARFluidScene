@@ -599,10 +599,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
   mainCamera: {fileID: 3535609737039076892}
+  sourceCamera: {fileID: 0}
+  targetCamera: {fileID: 0}
   renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
   eyeOffset: {x: 2560, y: 0}
   thickness: {fileID: 0}
   thick: 1
+  bright: 0.4
+  delayrenderTextures: []
   frameCount: 10
 --- !u!114 &718724402
 MonoBehaviour:
@@ -790,11 +794,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
   mainCamera: {fileID: 3535609737039076892}
+  sourceCamera: {fileID: 3535609737039076892}
+  targetCamera: {fileID: 3535609737039076892}
   renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
   eyeOffset: {x: 2560, y: 0}
   thickness: {fileID: 8966110078153147006}
-  thick: 0
-  frameCount: 2000
+  thick: 1
+  bright: 20
+  delayrenderTextures: []
+  frameCount: 1
 --- !u!1 &799382814
 GameObject:
   m_ObjectHideFlags: 0
@@ -1246,10 +1254,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
   mainCamera: {fileID: 3535609737039076892}
+  sourceCamera: {fileID: 0}
+  targetCamera: {fileID: 0}
   renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
   eyeOffset: {x: 2560, y: 0}
   thickness: {fileID: 0}
   thick: 1
+  bright: 0.4
+  delayrenderTextures: []
   frameCount: 10
 --- !u!1 &1754457268
 GameObject:

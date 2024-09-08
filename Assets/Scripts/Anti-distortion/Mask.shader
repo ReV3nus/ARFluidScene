@@ -1,8 +1,13 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
 Shader "Custom/Mask"
 {
     Properties
     {
         _Thick("Use Thick", float) = 0
+        _Bright("Brightness", float) = 0
         _MainTex ("Texture", 2D) = "white" {}
         _D("D", float) = 1.0
         _ScreenSize("Screen Size", float) = 1.0
@@ -49,6 +54,8 @@ Shader "Custom/Mask"
             sampler2D depthBuffer;
 
             float _Thick;
+            float _Bright;
+
             float4 _MainTex_ST;
             float2 _MainTex_TexelSize;
             float _D;
@@ -57,14 +64,30 @@ Shader "Custom/Mask"
             float _EyeOffsetY;
             float _ScreenOffsetX;
             float _ScreenOffsetY;
-            float _F_R;
-            float _F_G;
-            float _F_B;
-            float _F_A;
-
+            
+            uniform float4x4  _TargetCameraViewMatrix; 
+            uniform float4x4  _TargetCameraProjMatrix; 
 
             v2f vert (appdata v)
             {
+                // v2f o;
+                // float4 worldPosition = mul(unity_ObjectToWorld, v.vertex);
+                
+                // float4 viewPosition = mul(_TargetCameraViewMatrix, worldPosition);
+                
+                // o.vertex = mul(_TargetCameraProjMatrix, viewPosition);
+                
+                // o.vertex =  mul(unity_ObjectToWorld, v.vertex);
+                
+                // float4 worldPosition = mul(unity_ObjectToWorld, v.vertex);
+                // float4 viewPosition = mul(UNITY_MATRIX_MV, worldPosition);
+                // o.vertex = mul(UNITY_MATRIX_P, viewPosition);
+
+                
+                // o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                // return o;
+
+                //
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
@@ -73,18 +96,24 @@ Shader "Custom/Mask"
 
             fixed4 frag (v2f i) : SV_Target
             {
+                float2 flippedUVs = i.uv;
+                flippedUVs.y = i.uv.y - _EyeOffsetY/_ScreenSize ;
+                flippedUVs.x = _EyeOffsetX/_ScreenSize - i.uv.x;
+                
                 if(_Thick > 0)
                 {
-                    float c = 1.0;
-                    c = tex2D(_MainTex, i.uv).r;
-                    c = 1-c;
+                    float c;
+                    c = tex2D(_MainTex, flippedUVs).r;
+                    c = 1-c*_Bright;
+
+                    // float linearDepth;
+                    // linearDepth = tex2D(depthBuffer, flippedUVs);
+                    // linearDepth = Linear01Depth(linearDepth*255) + 0.5f;
+                    // c+=linearDepth;
                     return fixed4(c, c, c, 1);
                 }
                 else
                 {
-                    float2 flippedUVs = i.uv;
-                    flippedUVs.y = i.uv.y - _EyeOffsetY/_ScreenSize ;
-                    flippedUVs.x = _EyeOffsetX/_ScreenSize - i.uv.x;
                     float linearDepth;
                     linearDepth = tex2D(depthBuffer, flippedUVs);
                     linearDepth = Linear01Depth(linearDepth*255) + 0.5f;
