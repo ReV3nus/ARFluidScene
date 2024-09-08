@@ -42,8 +42,8 @@ Shader "Custom/FlipShader"
             fixed4 frag (v2f i) : SV_Target
             {
                 float2 flippedUVs = i.uv;
-                flippedUVs.y = 1 - i.uv.y;
-                flippedUVs.x = 1 - i.uv.x;
+                // flippedUVs.y = 1 - i.uv.y;
+                // flippedUVs.x = 1 - i.uv.x;
 
                 return tex2D(_MainTex, flippedUVs);
             }

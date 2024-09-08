@@ -2,7 +2,7 @@ Shader "Custom/Mask"
 {
     Properties
     {
-        _Mask("Show Mask", float) = 0
+        _Thick("Use Thick", float) = 0
         _MainTex ("Texture", 2D) = "white" {}
         _D("D", float) = 1.0
         _ScreenSize("Screen Size", float) = 1.0
@@ -48,7 +48,7 @@ Shader "Custom/Mask"
             sampler2D colorBuffer;
             sampler2D depthBuffer;
 
-            float _Mask;
+            float _Thick;
             float4 _MainTex_ST;
             float2 _MainTex_TexelSize;
             float _D;
@@ -71,25 +71,28 @@ Shader "Custom/Mask"
                 return o;
             }
 
-            // fixed4 frag (v2f i) : SV_Target
-            // {
-            //     float2 flippedUVs = i.uv;
-            //     flippedUVs.y = i.uv.y - _EyeOffsetY/_ScreenSize ;
-            //     flippedUVs.x = _EyeOffsetX/_ScreenSize - i.uv.x;
-            //     float linearDepth;
-            //     linearDepth = tex2D(depthBuffer, flippedUVs);
-            //     linearDepth = Linear01Depth(linearDepth*255) + 0.5f;
-            //     
-            //     return fixed4(linearDepth,linearDepth,linearDepth,linearDepth);
-            //
-            // }
-
             fixed4 frag (v2f i) : SV_Target
             {
-                float c = 1.0;
-                c = tex2D(_MainTex, i.uv).r;
-                c = 1-c;
-                return fixed4(c, c, c, 1);
+                if(_Thick > 0)
+                {
+                    float c = 1.0;
+                    c = tex2D(_MainTex, i.uv).r;
+                    c = 1-c;
+                    return fixed4(c, c, c, 1);
+                }
+                else
+                {
+                    float2 flippedUVs = i.uv;
+                    flippedUVs.y = i.uv.y - _EyeOffsetY/_ScreenSize ;
+                    flippedUVs.x = _EyeOffsetX/_ScreenSize - i.uv.x;
+                    float linearDepth;
+                    linearDepth = tex2D(depthBuffer, flippedUVs);
+                    linearDepth = Linear01Depth(linearDepth*255) + 0.5f;
+                    
+                    return fixed4(linearDepth,linearDepth,linearDepth,linearDepth);
+                }
+
+
             }
             ENDCG
         }
