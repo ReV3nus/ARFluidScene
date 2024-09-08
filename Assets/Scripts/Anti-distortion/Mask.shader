@@ -71,26 +71,26 @@ Shader "Custom/Mask"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
-            {
-                float2 flippedUVs = i.uv;
-                flippedUVs.y = i.uv.y - _EyeOffsetY/_ScreenSize ;
-                flippedUVs.x = _EyeOffsetX/_ScreenSize - i.uv.x;
-                float linearDepth;
-                linearDepth = tex2D(depthBuffer, flippedUVs);
-                linearDepth = Linear01Depth(linearDepth*255) + 0.5f;
-                
-                return fixed4(linearDepth,linearDepth,linearDepth,linearDepth);
-            
-            }
-
             // fixed4 frag (v2f i) : SV_Target
             // {
-            //     float c = 1.0;
-            //     c = tex2D(_MainTex, i.uv).r;
+            //     float2 flippedUVs = i.uv;
+            //     flippedUVs.y = i.uv.y - _EyeOffsetY/_ScreenSize ;
+            //     flippedUVs.x = _EyeOffsetX/_ScreenSize - i.uv.x;
+            //     float linearDepth;
+            //     linearDepth = tex2D(depthBuffer, flippedUVs);
+            //     linearDepth = Linear01Depth(linearDepth*255) + 0.5f;
             //     
-            //     return fixed4(c, c, c, 1);
+            //     return fixed4(linearDepth,linearDepth,linearDepth,linearDepth);
+            //
             // }
+
+            fixed4 frag (v2f i) : SV_Target
+            {
+                float c = 1.0;
+                c = tex2D(_MainTex, i.uv).r;
+                c = 1-c;
+                return fixed4(c, c, c, 1);
+            }
             ENDCG
         }
     }
