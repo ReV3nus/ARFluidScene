@@ -630,8 +630,8 @@ Camera:
     y: 0
     width: 0.5
     height: 1
-  near clip plane: 0.1
-  far clip plane: 1000
+  near clip plane: 0.01
+  far clip plane: 29.9
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -663,7 +663,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
-  thickness: {fileID: 8966110078153147006}
+  thickness: {fileID: 0}
 --- !u!1 &799382814
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,6 +736,8 @@ MonoBehaviour:
   renderCameras:
   - {fileID: 3495788284958449018}
   - {fileID: 4384614291133187635}
+  - {fileID: 754899751}
+  - {fileID: 1522332709}
 --- !u!114 &799382817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1080,8 +1082,8 @@ Camera:
     y: 0
     width: 0.5
     height: 1
-  near clip plane: 0.1
-  far clip plane: 1000
+  near clip plane: 0.01
+  far clip plane: 29.9
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -1113,7 +1115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
-  thickness: {fileID: 7644752853951669877}
+  thickness: {fileID: 0}
 --- !u!1 &1754457268
 GameObject:
   m_ObjectHideFlags: 0
@@ -1567,7 +1569,6 @@ GameObject:
   - component: {fileID: 8275025887051306429}
   - component: {fileID: 3495788284958449018}
   - component: {fileID: 8966110078153147005}
-  - component: {fileID: 8966110078153147006}
   - component: {fileID: 8340676467418683565}
   m_Layer: 0
   m_Name: DisplayLeft1
@@ -1807,7 +1808,6 @@ GameObject:
   - component: {fileID: 5040087359671955471}
   - component: {fileID: 4384614291133187635}
   - component: {fileID: 1203528523671006381}
-  - component: {fileID: 7644752853951669877}
   - component: {fileID: 7644752853951669876}
   m_Layer: 0
   m_Name: DisplayRight1
@@ -2398,19 +2398,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b45dbb1e08cb50f4bab8148ec0a1d9ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7644752853951669877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2939592539159422964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d41ad3129db13b54ea23d80be15dc7a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thicknessTexture: {fileID: 0}
 --- !u!81 &7697071532911384152
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2490,19 +2477,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapPass: {fileID: 2100000, guid: 8229a8994ebcae345b0a4ed9d8865857, type: 2}
   eyeOffset: {x: 0, y: 0}
---- !u!114 &8966110078153147006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 314778044389355007}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d41ad3129db13b54ea23d80be15dc7a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thicknessTexture: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

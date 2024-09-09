@@ -34,6 +34,7 @@ Shader "Custom/Mask"
             float4 _MainTex_ST;
             sampler2D _CameraDepthTexture;
             sampler2D colorBuffer;
+            sampler2D thicknessBuffer;
             
             v2f vert (appdata v)
             {
@@ -64,7 +65,7 @@ Shader "Custom/Mask"
                 // if (b > 0) {
                 //     c = 0.0;
                 // }
-                c = tex2D(_MainTex, i.uv).r;
+                c = tex2D(thicknessBuffer, i.uv).r;
                 
                 return fixed4(c, c, c, 1);
             }

@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Fluid/RoomScene.unity
     guid: 067b6809040dcc549bdf050c80a9ea8f
+  - enabled: 1
+    path: Assets/Scenes/Fluid/FixMask.unity
+    guid: 48d5290abe9748c47b84bb4a961f4447
   m_configObjects: {}
