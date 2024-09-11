@@ -174,5 +174,44 @@ return col;
 			}
 			ENDCG
 		}
+		
+		Pass
+		{
+			Name "TransparencyCapturePass"
+			Tags { "LightMode" = "AlphaOnly"}
+			ZWrite Off
+			Blend DstColor Zero
+			ColorMask RGB 
+
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment fragAlpha
+			#include "UnityCG.cginc"
+			
+			half4 _BaseColor;
+
+			struct v2f
+			{
+				float4 pos : SV_POSITION;
+				float2 uv : TEXCOORD0;
+			};
+
+			v2f vert(appdata_full v)
+			{
+				v2f o;
+				o.pos = UnityObjectToClipPos(v.vertex);
+				o.uv = v.texcoord;
+				return o;
+			}
+
+			float4 fragAlpha(v2f i) : SV_Target
+			{
+				float trans = 0.75;
+				return float4(float3(1.0, 1.0, 1.0) * trans, 1.0);
+				//return _Color;
+			}
+
+			ENDCG
+		}
 	}
 }

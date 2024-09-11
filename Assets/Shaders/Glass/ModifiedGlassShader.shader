@@ -221,40 +221,43 @@ Shader "ReV3nus/ModifiedGlass"
 
 			ENDCG
 		}
-		// Pass
-		// {
-		// 	Name "AlphaOnly"
-		// 	Tags { "LightMode" = "ForwardBase" }
-		// 	ZWrite Off
-		// 	ColorMask RGB 
+		Pass
+		{
+			Name "TransparencyCapturePass"
+			Tags { "LightMode" = "AlphaOnly"}
+			ZWrite Off
+			Blend DstColor Zero
+			ColorMask RGB 
 
-		// 	CGPROGRAM
-		// 	#pragma vertex vert
-		// 	#pragma fragment fragAlpha
-		// 	#include "UnityCG.cginc"
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment fragAlpha
+			#include "UnityCG.cginc"
 
-		// 	struct v2f
-		// 	{
-		// 		float4 pos : SV_POSITION;
-		// 		float2 uv : TEXCOORD0;
-		// 	};
+			struct v2f
+			{
+				float4 pos : SV_POSITION;
+				float2 uv : TEXCOORD0;
+			};
 
-		// 	v2f vert(appdata_full v)
-		// 	{
-		// 		v2f o;
-		// 		o.pos = UnityObjectToClipPos(v.vertex);
-		// 		o.uv = v.texcoord;
-		// 		return o;
-		// 	}
+			v2f vert(appdata_full v)
+			{
+				v2f o;
+				o.pos = UnityObjectToClipPos(v.vertex);
+				o.uv = v.texcoord;
+				return o;
+			}
 
-		// 	float4 fragAlpha(v2f i) : SV_Target
-		// 	{
-		// 		float alpha = _Color.a;
-		// 		return float4(alpha, alpha, alpha, 1.0);
-		// 	}
+			float4 fragAlpha(v2f i) : SV_Target
+			{
+				float trans = (1.0 - _Color.a);
+				trans *= trans, trans *= trans, trans *= trans;
+				return float4(_Color.rgb * trans, 1.0);
+				//return _Color;
+			}
 
-		// 	ENDCG
-		// }
+			ENDCG
+		}
 	}
 	Fallback "Standard"
 	Fallback "Diffuse"

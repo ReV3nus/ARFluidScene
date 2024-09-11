@@ -29,19 +29,6 @@ public class TransparencyPass : MonoBehaviour
         cmd.SetRenderTarget(transparencyTexture);
         cmd.ClearRenderTarget(true, true, Color.clear);
 
-        // Issue draw commands for objects with transparency
-        //foreach (var shader in ShaderUtil.GetAllShaderInfo())
-        //{
-        //    if (shader.name.Contains("ModifiedGlass")) // Check for transparency shaders
-        //    {
-
-        //        var renderObjects = ShaderUtil.GetAllSubShaders(shader);
-        //        foreach (var renderObject in renderObjects)
-        //        {
-        //            cmd.DrawRenderer(renderObject.renderer, renderObject.material);
-        //        }
-        //    }
-        //}
         foreach (var renderObject in renderObjects)
         {
             cmd.DrawRenderer(renderObject.GetComponent<Renderer>(), renderObject.GetComponent<Renderer>().sharedMaterial);
