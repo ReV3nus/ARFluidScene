@@ -81,6 +81,7 @@ public class Solver : MonoBehaviour
     private Mesh screenQuadMesh;
 
     public Camera LeapCamera;
+    public Camera[] renderCameras;
 
     Vector4 GetPlaneEq(Vector3 p, Vector3 n) {
         return new Vector4(n.x, n.y, n.z, -Vector3.Dot(p, n));
@@ -230,9 +231,10 @@ public class Solver : MonoBehaviour
         commandBuffer = new CommandBuffer();
         commandBuffer.name = "Fluid Render";
 
-        UpdateCommandBuffer();
-        Camera.main.AddCommandBuffer(CameraEvent.AfterForwardAlpha, commandBuffer);
-
+        foreach (var camera in renderCameras) {
+            UpdateCommandBuffer(camera);
+            camera.AddCommandBuffer(CameraEvent.AfterForwardAlpha, commandBuffer);
+        }
     }
 
     void Update() {
@@ -297,7 +299,7 @@ public class Solver : MonoBehaviour
         }
     }
 
-    void UpdateCommandBuffer() {
+    void UpdateCommandBuffer(Camera camera) {
         commandBuffer.Clear();
 
         int[] worldPosBufferIds = new int[] {
@@ -356,6 +358,7 @@ public class Solver : MonoBehaviour
             2,  // shaderPass
             quadInstancedArgsBuffer
         );
+
         // draw thickness
         int thicknessBufferId = Shader.PropertyToID("thicknessBuffer");
         commandBuffer.GetTemporaryRT(thicknessBufferId, Screen.width, Screen.height, 0, FilterMode.Point, RenderTextureFormat.RHalf);
@@ -383,25 +386,6 @@ public class Solver : MonoBehaviour
             0, // submeshIndex
             3  // shaderPass
         );
-    }
-
-    void LateUpdate() {
-
-        if (LeapCamera)
-        {
-            // Matrix4x4 view = LeapCamera.worldToCameraMatrix;
-            Shader.SetGlobalMatrix("inverseV", LeapCamera.worldToCameraMatrix.inverse);
-            Shader.SetGlobalMatrix("inverseP", LeapCamera.projectionMatrix.inverse);
-            
-        }
-        else
-        {
-            Matrix4x4 view = Camera.main.worldToCameraMatrix;
-            Shader.SetGlobalMatrix("inverseV", view.inverse);
-            Shader.SetGlobalMatrix("inverseP", Camera.main.projectionMatrix.inverse);
-        }
-
-
     }
 
     void OnDisable() {

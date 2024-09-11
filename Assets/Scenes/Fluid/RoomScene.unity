@@ -598,10 +598,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
-  mainCamera: {fileID: 3535609737039076892}
+  mainCamera: {fileID: 0}
   sourceCamera: {fileID: 0}
   targetCamera: {fileID: 0}
-  renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
+  renderTexture: {fileID: 0}
   eyeOffset: {x: 2560, y: 0}
   thickness: {fileID: 0}
   thick: 1
@@ -793,16 +793,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
-  mainCamera: {fileID: 3535609737039076892}
-  sourceCamera: {fileID: 3535609737039076892}
-  targetCamera: {fileID: 3535609737039076892}
-  renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
-  eyeOffset: {x: 2560, y: 0}
-  thickness: {fileID: 8966110078153147006}
-  thick: 1
-  bright: 20
+  mainCamera: {fileID: 0}
+  sourceCamera: {fileID: 0}
+  targetCamera: {fileID: 0}
+  renderTexture: {fileID: 0}
+  eyeOffset: {x: 2560, y: 200}
+  thickness: {fileID: 0}
+  thick: 0
+  bright: 10
   delayrenderTextures: []
-  frameCount: 1
+  frameCount: 10
 --- !u!1 &799382814
 GameObject:
   m_ObjectHideFlags: 0
@@ -872,6 +872,10 @@ MonoBehaviour:
   breakableWall: {fileID: 1829747193}
   handInteractor: {fileID: 5920219514214397793}
   LeapCamera: {fileID: 3535609737039076892}
+  renderCameras:
+  - {fileID: 3495788284958449018}
+  - {fileID: 4384614291133187635}
+  - {fileID: 754899751}
 --- !u!114 &799382817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1253,10 +1257,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
-  mainCamera: {fileID: 3535609737039076892}
+  mainCamera: {fileID: 0}
   sourceCamera: {fileID: 0}
   targetCamera: {fileID: 0}
-  renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
+  renderTexture: {fileID: 0}
   eyeOffset: {x: 2560, y: 0}
   thickness: {fileID: 0}
   thick: 1
@@ -1716,7 +1720,6 @@ GameObject:
   - component: {fileID: 8275025887051306429}
   - component: {fileID: 3495788284958449018}
   - component: {fileID: 8966110078153147005}
-  - component: {fileID: 8966110078153147006}
   m_Layer: 0
   m_Name: DisplayLeft1
   m_TagString: Untagged
@@ -1962,7 +1965,6 @@ GameObject:
   - component: {fileID: 5040087359671955471}
   - component: {fileID: 4384614291133187635}
   - component: {fileID: 1203528523671006381}
-  - component: {fileID: 7644752853951669877}
   m_Layer: 0
   m_Name: DisplayRight1
   m_TagString: Untagged
@@ -2021,7 +2023,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.5727035, g: 1, b: 0.33773577, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -2069,7 +2071,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1448938662669023914}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 2
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
@@ -2170,7 +2172,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 1, g: 0.49622637, b: 0.5953848, a: 1}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -2539,19 +2541,6 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   priority: 0
---- !u!114 &7644752853951669877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2939592539159422964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 436f973bb870afa4884056f080a0a3d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thicknessTexture: {fileID: 0}
 --- !u!81 &7697071532911384152
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2622,19 +2611,6 @@ MonoBehaviour:
   mainCamera: {fileID: 3535609737039076892}
   renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
   useAntiDistortion: 0
---- !u!114 &8966110078153147006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 314778044389355007}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 436f973bb870afa4884056f080a0a3d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thicknessTexture: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

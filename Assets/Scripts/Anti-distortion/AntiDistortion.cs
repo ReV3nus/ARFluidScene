@@ -30,11 +30,11 @@ public class AntiDistortion : MonoBehaviour
         {
             mapPass.SetFloat("_EyeOffsetX", eyeOffset.x);
             mapPass.SetFloat("_EyeOffsetY", eyeOffset.y);
-            Graphics.Blit(renderTexture, dest, mapPass, 0);
+            Graphics.Blit(src, dest, mapPass, 0);
         }
         else
         {
-            Graphics.Blit(renderTexture, dest, flipPass,0);
+            Graphics.Blit(src, dest, flipPass,0);
         }
         
 

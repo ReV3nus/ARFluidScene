@@ -43,6 +43,26 @@ public class ExampleFireBallController : MonoBehaviour
 
     private void Update()
     {
+        
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            var fp = new Vector3(0f,10.0f,-10);
+
+            if(fireBall == null)
+            {
+                GameObject fireGameObject = Instantiate(fireBallPrefab, fp, Quaternion.identity);
+                fireBall = fireGameObject.GetComponent<FireBall>();
+                fireBallTargetGameObject = Instantiate(fireBallTargetPrefab, fp, Quaternion.identity);
+                fireBallTarget = fireBallTargetGameObject.GetComponent<FireBall>();
+            }
+            shooting = true;
+
+            fireBall.transform.position = fp;
+            fireBallTargetGameObject.transform.position = new Vector3(0, 0, 0);
+            fireBall.Shoot(new Vector3(0, 0, 50f));
+
+        }
+        
         if (fireBallTargetGameObject)
         {
             if(fireBall == null)
@@ -83,7 +103,7 @@ public class ExampleFireBallController : MonoBehaviour
 
         if (!shooting && fireBall != null)
         {
-            if (rightHand?.GetLeapHand().PalmNormal.ToVector3().z > 0)
+            if (rightHand.GetLeapHand()?.PalmNormal.ToVector3().z > 0)
             {
                 PalmPos = rightHand.GetLeapHand().PalmPosition.ToVector3();
                 PalmNormal = rightHand.GetLeapHand().PalmNormal.ToVector3();
@@ -145,24 +165,7 @@ public class ExampleFireBallController : MonoBehaviour
 
 
         
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            var fp = new Vector3(0f,10.0f,-10);
 
-            if(fireBall == null)
-            {
-                GameObject fireGameObject = Instantiate(fireBallPrefab, fp, Quaternion.identity);
-                fireBall = fireGameObject.GetComponent<FireBall>();
-                fireBallTargetGameObject = Instantiate(fireBallTargetPrefab, fp, Quaternion.identity);
-                fireBallTarget = fireBallTargetGameObject.GetComponent<FireBall>();
-                shooting = false;
-            }
-
-            fireBall.transform.position = fp;
-            fireBallTargetGameObject.transform.position = new Vector3(0, 0, 0);
-            fireBall.Shoot(new Vector3(0, 0, 50f));
-
-        }
         // if (Input.GetMouseButton(0))
         // {
         //     if (fireBall == null || shooting == true)

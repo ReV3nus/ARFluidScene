@@ -61,15 +61,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Bright: 20
+    - _Alpha: 0
+    - _Bright: 16.34
     - _BumpScale: 1
+    - _Color: 0
     - _Cutoff: 0.5
     - _D: 1000
+    - _Depth: 0
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EyeOffset: 0
-    - _EyeOffsetX: 2372
-    - _EyeOffsetY: 14.19
+    - _EyeOffsetX: 2560
+    - _EyeOffsetY: 200
     - _F_A: 1
     - _F_B: 1
     - _F_G: 1
