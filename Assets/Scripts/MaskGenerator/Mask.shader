@@ -92,9 +92,11 @@ Shader "Custom/Mask"
                 float color = tex2D(_MainTex, flippedUVs).r + tex2D(_MainTex, flippedUVs).b + tex2D(_MainTex, flippedUVs).g;
                 float alpha = tex2D(_MainTex, flippedUVs).a;
 
-                float transparency = 1-tex2D(_CurveTex, float2(tex2D(_GlobalTransparencyTexture, i.uv).r, 0)).r;
+                // float transparency = 1-tex2D(_CurveTex, float2(tex2D(_GlobalTransparencyTexture, i.uv).r, 0)).r;
+                float transparency = tex2D(_CurveTex, float2(tex2D(_GlobalTransparencyTexture, i.uv).r, 0)).r;
+
                 float mix = thick * _Thick + depth * _Depth + color * _Color + alpha * _Alpha + transparency * _Transparency;
-                mix = 1-mix;
+                // mix = 1-mix;
                 return fixed4(mix, mix, mix, 1);
 
             }
