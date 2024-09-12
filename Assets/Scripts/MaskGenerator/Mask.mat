@@ -68,7 +68,7 @@ Material:
     - _Alpha: 0
     - _Bright: 0.4
     - _BumpScale: 1
-    - _Color: 0
+    - _Color: 0.252
     - _Cutoff: 0.5
     - _D: 1000
     - _Depth: 0

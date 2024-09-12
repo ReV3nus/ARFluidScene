@@ -19,7 +19,9 @@ public class MaskGenerator : MonoBehaviour
     public float alpha = 0.0f;
     [Range(0.0f,1.0f)]
     public float color = 0.0f;
-
+    [Range(0.0f,1.0f)]
+    public float transparency = 0.0f;
+    
     private TransparencyCapturer transparencyCapturer;
     public AnimationCurve transCurve = AnimationCurve.Linear(0, 0, 1, 1);
     private Texture2D curveTexture;
@@ -37,32 +39,26 @@ public class MaskGenerator : MonoBehaviour
         GenerateCurveTexture();
 
         // mainCamera.depthTextureMode |= DepthTextureMode.Depth;
-        //
-        // delayrenderTextures = new RenderTexture[frameCount];
-        // for (int i = 0; i < frameCount; i++)
-        // {
-        //     delayrenderTextures[i] = new RenderTexture(mainCamera.pixelWidth, mainCamera.pixelHeight, 24);
-        // }
+        
+    }
 
-
+    // private void OnValidate()
+    // {
+    //     GenerateCurveTexture();
+    // }
+    void OnRenderImage(RenderTexture src, RenderTexture dest)
+    {
+        transparencyCapturer.CaptureTransparency();
         maskPass.SetFloat("_Thick", thick);
         maskPass.SetFloat("_Depth", depth);
         maskPass.SetFloat("_Bright", bright);
         maskPass.SetFloat("_Alpha", alpha);
         maskPass.SetFloat("_Color", color);
+        maskPass.SetFloat("_Transparency", transparency);
 
         maskPass.SetFloat("_EyeOffsetX", eyeOffset.x);
         maskPass.SetFloat("_EyeOffsetY", eyeOffset.y);
-
-    }
-
-    private void OnValidate()
-    {
-        GenerateCurveTexture();
-    }
-    void OnRenderImage(RenderTexture src, RenderTexture dest)
-    {
-        transparencyCapturer.CaptureTransparency();
+        
         Graphics.Blit(src, dest, maskPass, 0);
 
     }
