@@ -11,25 +11,29 @@ public class TransparencyCapturer : MonoBehaviour
     private Shader opaqueShader;
     private Material opaqueMaterial;
 
-    private void Awake()
+
+    //void OnRenderImage(RenderTexture source, RenderTexture destination)
+    //{
+    //    CaptureTransparency();
+    //    Graphics.Blit(globalTransparencyTexture, destination);
+    //}
+
+    public void InitCapturer()
     {
         Camera.main.depthTextureMode |= DepthTextureMode.Depth;
-        if (globalTransparencyTexture == null || globalTransparencyTexture.width != Screen.width || globalTransparencyTexture.height != Screen.height)
-        {
-            globalTransparencyTexture = new RenderTexture(Screen.width, Screen.height, 0, RenderTextureFormat.ARGB32);
-        }
         opaqueShader = Shader.Find("ReV3nus/OpaqueTransparency");
         if (opaqueShader == null)
             Debug.LogError("[ReV]Cannot find opaque shader");
         opaqueMaterial = new Material(opaqueShader);
+
+        globalTransparencyTexture = new RenderTexture(Screen.width, Screen.height, 0, RenderTextureFormat.ARGB32);
+        Shader.SetGlobalTexture("_GlobalTransparencyTexture", globalTransparencyTexture);
     }
 
-    void OnRenderImage(RenderTexture source, RenderTexture destination)
+    public void CaptureTransparency()
     {
         RenderTexture.active = globalTransparencyTexture;
-        GL.Clear(true, true, Color.clear);
 
-        // Render objects with transparency
         var cmd = new CommandBuffer { name = "Transparency Pass" };
         cmd.SetRenderTarget(globalTransparencyTexture);
         cmd.ClearRenderTarget(true, true, Color.white);
@@ -53,7 +57,5 @@ public class TransparencyCapturer : MonoBehaviour
 
         Graphics.ExecuteCommandBuffer(cmd);
         RenderTexture.active = null;
-
-        Graphics.Blit(globalTransparencyTexture, destination);
     }
 }

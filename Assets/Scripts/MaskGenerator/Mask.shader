@@ -18,7 +18,8 @@ Shader "Custom/Mask"
         _EyeOffsetY("Eye Offset Y", float) = 0.0
         _ScreenOffsetX("Screen Offset X", float) = 0.0
         _ScreenOffsetY("Screen Offset Y", float) = 0.0
-
+        
+        _CurveTex ("Transparency Curve Texture", 2D) = "white" {}
     }
     SubShader
     {
@@ -52,6 +53,9 @@ Shader "Custom/Mask"
             sampler2D depthBuffer;
             sampler2D thicknessBuffer;
             sampler2D _CameraDepthNormalsTexture;
+            sampler2D _GlobalTransparencyTexture;
+            
+            sampler2D _CurveTex;
 
             float _Thick;
             float _Depth;
@@ -87,6 +91,8 @@ Shader "Custom/Mask"
                 float color = tex2D(_MainTex, flippedUVs).r + tex2D(_MainTex, flippedUVs).b + tex2D(_MainTex, flippedUVs).g;
                 float alpha = tex2D(_MainTex, flippedUVs).a;
 
+                float transparency = tex2D(_CurveTex, float2(tex2D(_GlobalTransparencyTexture, i.uv).r, 0)).r;
+return fixed4(transparency, transparency, transparency,1);
                 float mix = thick * _Thick + depth * _Depth + color * _Color + alpha * _Alpha;
                 mix = 1-mix;
                 return fixed4(mix, mix, mix, 1);
