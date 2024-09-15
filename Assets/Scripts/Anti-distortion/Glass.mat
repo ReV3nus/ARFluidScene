@@ -7,12 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Map
-  m_Shader: {fileID: 4800000, guid: 2a252116a54e4bf46892386561c012fd, type: 3}
+  m_Name: Glass
+  m_Shader: {fileID: 4800000, guid: bb78a3d84a0d1cb4188476a37566e25f, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _ALPHAPREMULTIPLY_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -25,6 +26,10 @@ Material:
     m_TexEnvs:
     - _BumpMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Cube:
+        m_Texture: {fileID: 8900000, guid: 0a1b55e3a66f1cc4eb7af4c9ee8f52f1, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -45,7 +50,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 1.63, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -59,44 +64,39 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ReflectionCube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectionTex:
+        m_Texture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RefractTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _D: 1000
     - _DetailNormalMapScale: 1
-    - _DstBlend: 0
-    - _EyeOffset: 0
-    - _EyeOffsetX: 0
-    - _EyeOffsetY: 0
-    - _F_B: 15
-    - _F_G: 15
-    - _F_R: 15
-    - _FovX: 70
-    - _FovY: 70
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
+    - _DstBlend: 10
+    - _GlossMapScale: 0.856
+    - _Glossiness: 0.819
     - _GlossyReflections: 1
-    - _Height: 14.5
-    - _Mask: 0
-    - _Metallic: 0
-    - _Mode: 0
+    - _Metallic: 0.357
+    - _Mode: 3
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _ScreenOffsetX: 0
-    - _ScreenOffsetY: 0
-    - _ScreenSize: 50
+    - _ReflectStrength: 0.649
+    - _Refraction: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _Width: 14.5
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _EyeOffset: {r: 0, g: 0, b: 0, a: 0}
-    - _K_B: {r: 0.0000000014617, g: -0.000001033, b: 0.0098, a: 0}
-    - _K_G: {r: 0.0000000015025, g: -0.0000010623, b: 0.0098, a: 0}
-    - _K_R: {r: 0.0000000015119, g: -0.00000107, b: 0.0098, a: 0}
   m_BuildTextureStacks: []

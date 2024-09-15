@@ -30,6 +30,9 @@ public struct RigidCube
     {
         this.halfSize = size;
         lengthWidthHeight = _lengthWidthHeight;
+        // Debug.Log(size);
+        Debug.Log(_lengthWidthHeight);
+        // Debug.Log(centroid);
         this.centroid = centroid;
         cubeRotationMatrix = Matrix4x4.Rotate(rotation);
         inverseRotationMatrix = cubeRotationMatrix.inverse;

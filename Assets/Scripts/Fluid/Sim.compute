@@ -521,7 +521,7 @@ RWStructuredBuffer<int> rigidLastIndex;
 
 void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 vel)
 {
-    const float eps = 0.000;
+    const float eps = 0.01;
     
     float3 cubePos = mul(cube.inverseRotationMatrix, float4(pos.xyz - cube.cent, 1.0)).xyz;
     float3 cubeVel = mul(cube.inverseRotationMatrix, float4(vel.xyz, 1.0)).xyz;
@@ -533,14 +533,22 @@ void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 v
     
     float maxSize = max(abs(cubePos.x), max(abs(cubePos.y), abs(cubePos.z)));
     float cubeMaxSize =  max(abs(cube.lengthWidthHeight.x), max(abs(cube.lengthWidthHeight.y), abs(cube.lengthWidthHeight.z)));
-    if (maxSize > cubeMaxSize)
-        return;
     
+    if (abs(cubePos.x) > cube.lengthWidthHeight.x)
+        return;
+    if (abs(cubePos.y) > cube.lengthWidthHeight.y)
+        return;
+    if (abs(cubePos.z) > cube.lengthWidthHeight.z)
+        return;
+    // if (maxSize > cube.halfSize)
+    //     return;
     float3 impulse = float3(0.0, 0.0, 0.0);
     float3 angularImpulse = float3(0.0, 0.0, 0.0);
     if (cubePos.x == cube.lengthWidthHeight.x)
     {
-        cubePos.x = cube.lengthWidthHeight.x + eps;
+        cubePos.x = cube.lengthWidthHeight.x +0.1f;
+        // cubePos.x = float3(0,0,0);
+
         if (cubeVel.x < cubeSelfVel.x)
         {
             float velDiff = cubeSelfVel.x - cubeVel.x;
@@ -578,7 +586,7 @@ void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 v
             impulse = float3(0, -velDiff, 0) * pos.w;
         }
     }
-    else if (cubePos.z == cube.lengthWidthHeight.z)
+    else if (cubePos.z <= cube.lengthWidthHeight.z)
     {
         cubePos.z = cube.lengthWidthHeight.z + eps;
         if (cubeVel.z < cubeSelfVel.z)
@@ -588,7 +596,7 @@ void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 v
             impulse = float3(0, 0, -velDiff) * pos.w;
         }
     }
-    else if (cubePos.z == -cube.lengthWidthHeight.z)
+    else if (cubePos.z >= -cube.lengthWidthHeight.z)
     {
         cubePos.z = -(cube.lengthWidthHeight.z + eps);
         if (cubeVel.z > cubeSelfVel.z)
@@ -612,6 +620,8 @@ void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 v
     
     pos.xyz = mul(cube.cubeRotationMatrix, float4(cubePos, 1.0)).xyz + cube.cent;
     vel.xyz = mul(cube.cubeRotationMatrix, float4(cubeVel, 1.0)).xyz;
+    // vel.xyz = float3(0,0,0);
+
 }
 
 void checkRigidSphere(RigidSphere sphere, uint index, inout float4 pos, inout float4 vel)
