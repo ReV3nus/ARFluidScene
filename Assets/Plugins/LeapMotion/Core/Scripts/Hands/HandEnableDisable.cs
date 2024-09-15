@@ -18,7 +18,7 @@ namespace Leap.Unity{
       base.Awake();
       gameObject.GetComponent<CapsuleHand>().previousHandType = 0;
 
-      // gameObject.SetActive(false);
+      gameObject.SetActive(false);
     }
 
   	protected override void HandReset() {
@@ -28,7 +28,7 @@ namespace Leap.Unity{
     protected override void HandFinish()
     {
       gameObject.GetComponent<CapsuleHand>().previousHandType = 0;
-      // gameObject.SetActive(false);
+      gameObject.SetActive(false);
     }
 
   }

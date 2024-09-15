@@ -23,45 +23,45 @@ public class ExampleFireBallController : MonoBehaviour
     public Camera mainCamera;
     public float distance = 4.0f;
     
-    int display1Width = 1920;
-    int display1Height = 1080;
-    int display2Width = 5120;
-    int display2Height = 2560;
+
 
 // 在应用程序启动时激活并设置分辨率
     void Start()
     {
-        Debug.Log(Display.displays.Length);
-        Display.displays[0].Activate();
-        Display.displays[0].SetRenderingResolution(display2Width, display2Height);
         
-        Display.displays[1].Activate();
-        Display.displays[1].SetRenderingResolution(display1Width, display1Height);
+        // int display1Width = 1920;
+        // int display1Height = 1080;
+        // int display2Width = 5120;
+        // int display2Height = 2560;
+        // Debug.Log(Display.displays.Length);
+        // Display.displays[0].Activate();
+        // Display.displays[0].SetRenderingResolution(display2Width, display2Height);
+        //
+        // Display.displays[1].Activate();
+        // Display.displays[1].SetRenderingResolution(display1Width, display1Height);
     }
-
-
 
     private void Update()
     {
-        
         if (Input.GetKeyDown(KeyCode.F))
         {
-            var fp = new Vector3(0f,10.0f,-10);
-
+            var fp = new Vector3(0f,10.0f,-1);
+        
             if(fireBall == null)
             {
                 GameObject fireGameObject = Instantiate(fireBallPrefab, fp, Quaternion.identity);
                 fireBall = fireGameObject.GetComponent<FireBall>();
-                fireBallTargetGameObject = Instantiate(fireBallTargetPrefab, fp, Quaternion.identity);
-                fireBallTarget = fireBallTargetGameObject.GetComponent<FireBall>();
+                // fireBallTargetGameObject = Instantiate(fireBallTargetPrefab, fp, Quaternion.identity);
+                // fireBallTarget = fireBallTargetGameObject.GetComponent<FireBall>();
             }
             shooting = true;
-
+        
             fireBall.transform.position = fp;
-            fireBallTargetGameObject.transform.position = new Vector3(0, 0, 0);
+            // fireBallTargetGameObject.transform.position = new Vector3(0, 0, 0);
             fireBall.Shoot(new Vector3(0, 0, 50f));
-
         }
+
+        if (shooting) return;
         
         if (fireBallTargetGameObject)
         {
@@ -103,15 +103,20 @@ public class ExampleFireBallController : MonoBehaviour
 
         if (!shooting && fireBall != null)
         {
-            if (rightHand.GetLeapHand()?.PalmNormal.ToVector3().z > 0)
+            if (leftHand?.GetLeapHand()?.PalmNormal.ToVector3().z > 0)
+            {
+                PalmPos = leftHand.GetLeapHand().PalmPosition.ToVector3();
+                PalmNormal = leftHand.GetLeapHand().PalmNormal.ToVector3();
+            }
+            else if (rightHand?.GetLeapHand()?.PalmNormal.ToVector3().z > 0)
             {
                 PalmPos = rightHand.GetLeapHand().PalmPosition.ToVector3();
                 PalmNormal = rightHand.GetLeapHand().PalmNormal.ToVector3();
             }
+            
             else
             {
-                PalmPos = leftHand.GetLeapHand().PalmPosition.ToVector3();
-                PalmNormal = leftHand.GetLeapHand().PalmNormal.ToVector3();
+                return;
             }
             
             // rayDirection.Normalize();
@@ -143,6 +148,7 @@ public class ExampleFireBallController : MonoBehaviour
                 fireBallTarget = fireBallTargetGameObject.GetComponent<FireBall>();
                 shooting = false;
             }
+
         }
         
         if (leftHand != null && leftHand.holdingHandType(2, 1.0f) )
@@ -160,6 +166,7 @@ public class ExampleFireBallController : MonoBehaviour
                 fireBallTarget = fireBallTargetGameObject.GetComponent<FireBall>();
                 shooting = false;
             }
+            
         }
 
 

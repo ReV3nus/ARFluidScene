@@ -28,8 +28,10 @@ public class RigidCubeScript : MonoBehaviour
     private void OnEnable()
     {
         if (UsingScaleAsSize) halfSize = transform.localScale.x / 2f;
+        var lengthWidthHeight = new Vector3(transform.localScale.x / 2, transform.localScale.y / 2,
+            transform.localScale.z / 2);
         rb = GetComponent<Rigidbody>();
-        rigidCube = new RigidCube(halfSize, transform.position, transform.rotation);
+        rigidCube = new RigidCube(halfSize, transform.position, transform.rotation,lengthWidthHeight);
         mass = density * 8 * halfSize * halfSize * halfSize;
         rb.mass = mass;
     }

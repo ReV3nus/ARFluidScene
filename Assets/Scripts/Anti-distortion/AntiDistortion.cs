@@ -20,7 +20,12 @@ public class AntiDistortion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        float fps = 1.0f / Time.deltaTime;
+        // 将帧数转换为字符串
+        string fpsText = "FPS: " + ((int)fps).ToString();
+        // 在屏幕上显示帧数
+        // GUI.Label(new Rect(Screen.width - 100, 0, 100, 20), fpsText);
+        Debug.LogWarning(fpsText);
     }
 
     void OnRenderImage(RenderTexture src, RenderTexture dest)

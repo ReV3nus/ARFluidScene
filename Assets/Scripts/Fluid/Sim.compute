@@ -498,6 +498,7 @@ void CheckPlane(uint3 id : SV_DispatchThreadID)
 struct RigidCube
 {
     float halfSize;
+    float3 lengthWidthHeight;
     float3 cent;
     float3 vel;
     float3 angVel;
@@ -531,14 +532,15 @@ void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 v
     cubeSelfVel += cubeSelfAngVel;
     
     float maxSize = max(abs(cubePos.x), max(abs(cubePos.y), abs(cubePos.z)));
-    if (maxSize > cube.halfSize)
+    float cubeMaxSize =  max(abs(cube.lengthWidthHeight.x), max(abs(cube.lengthWidthHeight.y), abs(cube.lengthWidthHeight.z)));
+    if (maxSize > cubeMaxSize)
         return;
     
     float3 impulse = float3(0.0, 0.0, 0.0);
     float3 angularImpulse = float3(0.0, 0.0, 0.0);
-    if (cubePos.x == maxSize)
+    if (cubePos.x == cube.lengthWidthHeight.x)
     {
-        cubePos.x = cube.halfSize + eps;
+        cubePos.x = cube.lengthWidthHeight.x + eps;
         if (cubeVel.x < cubeSelfVel.x)
         {
             float velDiff = cubeSelfVel.x - cubeVel.x;
@@ -546,9 +548,9 @@ void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 v
             impulse = float3(-velDiff, 0, 0) * pos.w;
         }
     }
-    else if (cubePos.x == -maxSize)
+    else if (cubePos.x == -cube.lengthWidthHeight.x)
     {
-        cubePos.x = -(cube.halfSize + eps);
+        cubePos.x = -(cube.lengthWidthHeight.x + eps);
         if (cubeVel.x > cubeSelfVel.x)
         {
             float velDiff = cubeSelfVel.x - cubeVel.x;
@@ -556,9 +558,9 @@ void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 v
             impulse = float3(-velDiff, 0, 0) * pos.w;
         }
     }
-    else if (cubePos.y == maxSize)
+    else if (cubePos.y == cube.lengthWidthHeight.y)
     {
-        cubePos.y = cube.halfSize + eps;
+        cubePos.y = cube.lengthWidthHeight.y + eps;
         if (cubeVel.y < cubeSelfVel.y)
         {
             float velDiff = cubeSelfVel.y - cubeVel.y;
@@ -566,9 +568,9 @@ void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 v
             impulse = float3(0, -velDiff, 0) * pos.w;
         }
     }
-    else if (cubePos.y == -maxSize)
+    else if (cubePos.y == -cube.lengthWidthHeight.y)
     {
-        cubePos.y = -(cube.halfSize + eps);
+        cubePos.y = -(cube.lengthWidthHeight.y + eps);
         if (cubeVel.y > cubeSelfVel.y)
         {
             float velDiff = cubeSelfVel.y - cubeVel.y;
@@ -576,9 +578,9 @@ void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 v
             impulse = float3(0, -velDiff, 0) * pos.w;
         }
     }
-    else if (cubePos.z == maxSize)
+    else if (cubePos.z == cube.lengthWidthHeight.z)
     {
-        cubePos.z = cube.halfSize + eps;
+        cubePos.z = cube.lengthWidthHeight.z + eps;
         if (cubeVel.z < cubeSelfVel.z)
         {
             float velDiff = cubeSelfVel.z - cubeVel.z;
@@ -586,9 +588,9 @@ void checkRigidCube(RigidCube cube, uint index, inout float4 pos, inout float4 v
             impulse = float3(0, 0, -velDiff) * pos.w;
         }
     }
-    else if (cubePos.z == -maxSize)
+    else if (cubePos.z == -cube.lengthWidthHeight.z)
     {
-        cubePos.z = -(cube.halfSize + eps);
+        cubePos.z = -(cube.lengthWidthHeight.z + eps);
         if (cubeVel.z > cubeSelfVel.z)
         {
             float velDiff = cubeSelfVel.z - cubeVel.z;
