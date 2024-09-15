@@ -31,4 +31,12 @@ float2 xy2uv(float2 xy, float2 center, float FovX, float FovY, float F, float Sc
     return float2(u, v) + offset;
 }
 
+float2 calculate_uv(float2 uv, float2 center, float2 screenSize, float2 fovSize, float3 K)
+{
+    float2 duv = (uv - center) * screenSize;
+    float r = sqrt(duv.x * duv.x + duv.y * duv.y);
+    float R = K.x * pow(r, 3) + K.y * pow(r, 2) + K.z * r;
+    return (duv / r * R) / fovSize + center;
+}
+
 #endif

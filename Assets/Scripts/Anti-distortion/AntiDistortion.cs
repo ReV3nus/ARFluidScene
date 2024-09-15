@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class AntiDistortion : MonoBehaviour
 {
-    public Material mapPass, flipPass;
+    public Material mapPass;
     public Vector2 eyeOffset;
-    public Camera mainCamera; 
-    public RenderTexture renderTexture;
-    public bool useAntiDistortion = true;
+    public Vector2 screenOffset;
+    public Vector3 K_R;
+    public Vector3 K_G;
+    public Vector3 K_B;
 
     // Start is called before the first frame update
     void Start()
     {
-        mainCamera.targetTexture = renderTexture;
-
     }
 
     // Update is called once per frame
@@ -30,18 +29,13 @@ public class AntiDistortion : MonoBehaviour
 
     void OnRenderImage(RenderTexture src, RenderTexture dest)
     {
-        // mapPass.SetFloat("_Mask", 0);
-        if (useAntiDistortion)
-        {
-            mapPass.SetFloat("_EyeOffsetX", eyeOffset.x);
-            mapPass.SetFloat("_EyeOffsetY", eyeOffset.y);
-            Graphics.Blit(src, dest, mapPass, 0);
-        }
-        else
-        {
-            Graphics.Blit(src, dest, flipPass,0);
-        }
-        
-
+        mapPass.SetFloat("_EyeOffsetX", eyeOffset.x);
+        mapPass.SetFloat("_EyeOffsetY", eyeOffset.y);
+        mapPass.SetFloat("_ScreenOffsetX", screenOffset.x);
+        mapPass.SetFloat("_ScreenOffsetY", screenOffset.y);
+        mapPass.SetVector("_K_R", K_R);
+        mapPass.SetVector("_K_G", K_G);
+        mapPass.SetVector("_K_B", K_B);
+        Graphics.Blit(src, dest, mapPass, 0);
     }
 }

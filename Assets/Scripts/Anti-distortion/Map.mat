@@ -67,7 +67,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EyeOffset: 0
-    - _EyeOffsetX: 0.1
+    - _EyeOffsetX: 0
     - _EyeOffsetY: 0
     - _F_B: 15
     - _F_G: 15
@@ -77,26 +77,26 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Height: 25
+    - _Height: 14.5
     - _Mask: 0
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _ScreenOffsetX: 0.5
-    - _ScreenOffsetY: -0.2
+    - _ScreenOffsetX: 0
+    - _ScreenOffsetY: -0.21
     - _ScreenSize: 50
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _Width: 25
+    - _Width: 14.5
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EyeOffset: {r: 0, g: 0, b: 0, a: 0}
-    - _K_B: {r: -0.0003, g: -0.0101, b: 1.0281, a: 1}
-    - _K_G: {r: -0.0003, g: -0.01, b: 1.0274, a: 1}
-    - _K_R: {r: -0.0004, g: -0.0095, b: 1.0256, a: 1}
+    - _K_B: {r: 0.000000001198, g: -0.0000011713, b: 0.0098, a: 0}
+    - _K_G: {r: 0.0000000012388, g: -0.0000012024, b: 0.0098, a: 0}
+    - _K_R: {r: 0.0000000012452, g: -0.0000012086, b: 0.0098, a: 0}
   m_BuildTextureStacks: []

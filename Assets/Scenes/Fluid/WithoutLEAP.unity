@@ -767,7 +767,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
-  eyeOffset: {x: 2560, y: 0}
   thick: 1
   depth: 0
   bright: 0.4
@@ -788,11 +787,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapPass: {fileID: 2100000, guid: 8229a8994ebcae345b0a4ed9d8865857, type: 2}
-  flipPass: {fileID: 0}
   eyeOffset: {x: 0.1, y: 0}
-  mainCamera: {fileID: 0}
-  renderTexture: {fileID: 0}
-  useAntiDistortion: 1
+  screenOffset: {x: 0, y: 0}
+  K_R: {x: 0, y: 0, z: 0}
+  K_G: {x: 0, y: 0, z: 0}
+  K_B: {x: 0, y: 0, z: 0}
 --- !u!20 &718724403
 Camera:
   m_ObjectHideFlags: 0
@@ -854,8 +853,8 @@ GameObject:
   m_Component:
   - component: {fileID: 754899748}
   - component: {fileID: 754899751}
-  - component: {fileID: 754899750}
   - component: {fileID: 754899752}
+  - component: {fileID: 754899750}
   m_Layer: 0
   m_Name: maskCamera
   m_TagString: Untagged
@@ -885,17 +884,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 754899747}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9979157caf6f18f468afafe78bd90842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mapPass: {fileID: 2100000, guid: 8229a8994ebcae345b0a4ed9d8865857, type: 2}
-  flipPass: {fileID: 0}
-  eyeOffset: {x: -0.1, y: 200}
-  mainCamera: {fileID: 0}
-  renderTexture: {fileID: 0}
-  useAntiDistortion: 1
+  eyeOffset: {x: 0, y: 0}
+  screenOffset: {x: 0, y: 0}
+  K_R: {x: 0.0000000012452, y: -0.0000012086, z: 0.0098}
+  K_G: {x: 0.0000000012388, y: -0.0000012024, z: 0.0098}
+  K_B: {x: 0.000000001198, y: -0.0000011713, z: 0.0098}
 --- !u!20 &754899751
 Camera:
   m_ObjectHideFlags: 0
@@ -960,7 +959,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
-  eyeOffset: {x: 2560, y: 200}
   thick: 0
   depth: 0
   bright: 0
@@ -1353,11 +1351,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapPass: {fileID: 2100000, guid: 8229a8994ebcae345b0a4ed9d8865857, type: 2}
-  flipPass: {fileID: 0}
   eyeOffset: {x: 0.1, y: 0}
-  mainCamera: {fileID: 0}
-  renderTexture: {fileID: 0}
-  useAntiDistortion: 1
+  screenOffset: {x: 0, y: 0}
+  K_R: {x: 0, y: 0, z: 0}
+  K_G: {x: 0, y: 0, z: 0}
+  K_B: {x: 0, y: 0, z: 0}
 --- !u!20 &1522332709
 Camera:
   m_ObjectHideFlags: 0
@@ -1422,7 +1420,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
-  eyeOffset: {x: 2560, y: 0}
   thick: 1
   depth: 0
   bright: 0.4
@@ -1883,6 +1880,7 @@ GameObject:
   - component: {fileID: 8275025887051306429}
   - component: {fileID: 3495788284958449018}
   - component: {fileID: 8966110078153147005}
+  - component: {fileID: 8966110078153147006}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: Untagged
@@ -1947,11 +1945,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapPass: {fileID: 2100000, guid: 8229a8994ebcae345b0a4ed9d8865857, type: 2}
-  flipPass: {fileID: 2100000, guid: 32636c0284b4b7b4ba8a619b1b3a7537, type: 2}
   eyeOffset: {x: 0.1, y: 0}
-  mainCamera: {fileID: 3535609737039076892}
-  renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
-  useAntiDistortion: 0
+  screenOffset: {x: 0, y: 0}
+  K_R: {x: 0, y: 0, z: 0}
+  K_G: {x: 0, y: 0, z: 0}
+  K_B: {x: 0, y: 0, z: 0}
 --- !u!1 &1448938662669023914
 GameObject:
   m_ObjectHideFlags: 0
@@ -2969,17 +2967,29 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 314778044389355007}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9979157caf6f18f468afafe78bd90842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mapPass: {fileID: 2100000, guid: 8229a8994ebcae345b0a4ed9d8865857, type: 2}
-  flipPass: {fileID: 2100000, guid: 32636c0284b4b7b4ba8a619b1b3a7537, type: 2}
-  eyeOffset: {x: -0.1, y: 0}
-  mainCamera: {fileID: 3535609737039076892}
-  renderTexture: {fileID: 8400000, guid: b3535d75e1145774faef96d026a05fe4, type: 2}
-  useAntiDistortion: 0
+  eyeOffset: {x: 0, y: 0}
+  screenOffset: {x: 0, y: 0}
+  K_R: {x: 0.0000000015119, y: -0.00000107, z: 0.0098}
+  K_G: {x: 0.0000000015025, y: -0.0000010623, z: 0.0098}
+  K_B: {x: 0.0000000014617, y: -0.000001033, z: 0.0098}
+--- !u!114 &8966110078153147006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314778044389355007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b45dbb1e08cb50f4bab8148ec0a1d9ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

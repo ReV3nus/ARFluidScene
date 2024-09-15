@@ -8,7 +8,6 @@ public class MaskGenerator : MonoBehaviour
 {
     public Material maskPass;
     // public Camera mainCamera; 
-    public Vector2 eyeOffset;
     [Range(0.0f,1.0f)]
     public float thick = 1.0f;
     [Range(0.0f,1.0f)]
@@ -26,8 +25,6 @@ public class MaskGenerator : MonoBehaviour
 
     private TransparencyCapturer transparencyCapturer;
 
-
-
     // public RenderTexture[] delayrenderTextures;
     // public int frameCount = 10;
     private int currentFrame = 0;
@@ -36,7 +33,6 @@ public class MaskGenerator : MonoBehaviour
     {
         transparencyCapturer = GetComponent<TransparencyCapturer>();
         // mainCamera.depthTextureMode |= DepthTextureMode.Depth;
-        
     }
 
     void OnRenderImage(RenderTexture src, RenderTexture dest)
@@ -49,12 +45,8 @@ public class MaskGenerator : MonoBehaviour
         maskPass.SetFloat("_Color", color);
         maskPass.SetFloat("_Shadow", shadow);
         maskPass.SetFloat("_Transparency", transparency);
-
-        maskPass.SetFloat("_EyeOffsetX", eyeOffset.x);
-        maskPass.SetFloat("_EyeOffsetY", eyeOffset.y);
         
         Graphics.Blit(src, dest, maskPass, 0);
-
     }
 
 }

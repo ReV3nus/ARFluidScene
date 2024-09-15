@@ -1,7 +1,3 @@
-// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-
-// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-
 Shader "Custom/Mask"
 {
     Properties
@@ -12,13 +8,6 @@ Shader "Custom/Mask"
 //        _Color("ColorBuffer weights", float) = 0
 //        _Alpha("AlphaBuffer weights", float) = 0
         _MainTex ("Texture", 2D) = "white" {}
-        
-        _ScreenSize("Screen Size", float) = 1.0
-        _EyeOffsetX("Eye Offset X", float) = 0.0
-        _EyeOffsetY("Eye Offset Y", float) = 0.0
-        _ScreenOffsetX("Screen Offset X", float) = 0.0
-        _ScreenOffsetY("Screen Offset Y", float) = 0.0
-
     }
     SubShader
     {
@@ -70,12 +59,6 @@ Shader "Custom/Mask"
             
             float4 _MainTex_ST;
             float2 _MainTex_TexelSize;
-            float _ScreenSize;
-            float _EyeOffsetX;
-            float _EyeOffsetY;
-            float _ScreenOffsetX;
-            float _ScreenOffsetY;
-            
 
             v2f vert (appdata v)
             {
