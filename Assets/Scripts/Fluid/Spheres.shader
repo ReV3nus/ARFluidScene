@@ -304,6 +304,25 @@ Shader "Spheres"
             sampler2D colorBuffer;
             samplerCUBE _EnvMap;
 
+            sampler2D _CameraDepthTexture;
+
+            float GetDepthAtScreenPos(float2 screenPos)
+            {
+                return tex2D(_CameraDepthTexture, screenPos);
+            }
+
+            float ComputeFluidVisibility(float2 screenPos)
+            {
+                float fluidDepth = tex2D(depthBuffer,screenPos);
+                float objectDepth = GetDepthAtScreenPos(screenPos);
+
+                if (fluidDepth > objectDepth)
+                {
+                    return 1;
+                }
+                return 0.1; 
+            }
+
             float4 _PrimaryColor, _SecondaryColor, _FoamColor;
             float4 _SpecularColor;
             float _PhongExponent;
@@ -367,8 +386,8 @@ Shader "Spheres"
                 float rTheta = r0 + (1 - r0) * pow(1 - max(dot(viewDir, normal), 0), 5);
 
                 diffuse = lerp(diffuse, reflectedColor, rTheta);
-
-                return float4(diffuse, 0.8);
+                float alpha = ComputeFluidVisibility(i.uv.xy);
+                return float4(diffuse, alpha);
             }
 
             ENDCG
