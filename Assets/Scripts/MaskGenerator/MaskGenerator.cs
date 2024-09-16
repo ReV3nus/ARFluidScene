@@ -8,7 +8,6 @@ public class MaskGenerator : MonoBehaviour
 {
     public Material maskPass;
     // public Camera mainCamera; 
-    public Vector2 eyeOffset;
     [Range(0.0f,1.0f)]
     public float thick = 1.0f;
     [Range(0.0f,1.0f)]
@@ -21,10 +20,10 @@ public class MaskGenerator : MonoBehaviour
     public float color = 0.0f;
     [Range(0.0f,1.0f)]
     public float transparency = 0.0f;
-    
+    [Range(0.0f,1.0f)]
+    public float shadow = 0.0f;
+
     private TransparencyCapturer transparencyCapturer;
-
-
 
     // public RenderTexture[] delayrenderTextures;
     // public int frameCount = 10;
@@ -33,6 +32,15 @@ public class MaskGenerator : MonoBehaviour
     void Start()
     {
         transparencyCapturer = GetComponent<TransparencyCapturer>();
+
+        int display1Width = 1920;
+        int display1Height = 1080;
+        Debug.Log(Display.displays.Length);
+        Display.displays[0].Activate();
+        Display.displays[0].SetRenderingResolution(display1Width, display1Width);
+        
+        Display.displays[1].Activate();
+        Display.displays[1].SetRenderingResolution(display1Width, display1Height);
         // mainCamera.depthTextureMode |= DepthTextureMode.Depth;
         
     }
@@ -45,13 +53,10 @@ public class MaskGenerator : MonoBehaviour
         maskPass.SetFloat("_Bright", bright);
         maskPass.SetFloat("_Alpha", alpha);
         maskPass.SetFloat("_Color", color);
+        maskPass.SetFloat("_Shadow", shadow);
         maskPass.SetFloat("_Transparency", transparency);
-
-        maskPass.SetFloat("_EyeOffsetX", eyeOffset.x);
-        maskPass.SetFloat("_EyeOffsetY", eyeOffset.y);
         
         Graphics.Blit(src, dest, maskPass, 0);
-
     }
 
 }
