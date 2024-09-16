@@ -65,6 +65,8 @@ Shader "Custom/Mask"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                // o.uv.x = 1-o.uv.x;
+                o.uv.y = 1-o.uv.y;
 
                 float3 ndcPos = float3(o.uv.xy * 2.0 - 1.0, 1);
 				float far = _ProjectionParams.z;

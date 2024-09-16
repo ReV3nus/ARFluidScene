@@ -48,6 +48,7 @@
             float4 _MainTex_TexelSize;
             float _Width;
             float _Height;
+            float pixelsize;
             float _EyeOffsetX;
             float _EyeOffsetY;
             float _ScreenOffsetX;
@@ -61,15 +62,18 @@
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uv.x = 1-o.uv.x;
+                o.uv.y = 1-o.uv.y;
+
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
                 float2 center = float2(0.5 + _EyeOffsetX, 0.5 + _EyeOffsetY);
-                float2 uv_r = calculate_uv(i.uv, center, _MainTex_TexelSize.zw, float2(_Width, _Height), _K_R) + float2(_ScreenOffsetX, _ScreenOffsetY);
-                float2 uv_g = calculate_uv(i.uv, center, _MainTex_TexelSize.zw, float2(_Width, _Height), _K_G) + float2(_ScreenOffsetX, _ScreenOffsetY);
-                float2 uv_b = calculate_uv(i.uv, center, _MainTex_TexelSize.zw, float2(_Width, _Height), _K_B) + float2(_ScreenOffsetX, _ScreenOffsetY);
+                float2 uv_r = calculate_uv(i.uv, center, _MainTex_TexelSize.zw * pixelsize, float2(_Width, _Height), _K_R) + float2(_ScreenOffsetX, _ScreenOffsetY);
+                float2 uv_g = calculate_uv(i.uv, center, _MainTex_TexelSize.zw * pixelsize, float2(_Width, _Height), _K_G) + float2(_ScreenOffsetX, _ScreenOffsetY);
+                float2 uv_b = calculate_uv(i.uv, center, _MainTex_TexelSize.zw * pixelsize, float2(_Width, _Height), _K_B) + float2(_ScreenOffsetX, _ScreenOffsetY);
                 float r = tex2D(_MainTex, uv_r).r;
                 float g = tex2D(_MainTex, uv_g).g;
                 float b = tex2D(_MainTex, uv_b).b;

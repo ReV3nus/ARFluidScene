@@ -61,13 +61,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.653
-    - _Bright: 0
+    - _Alpha: 1
+    - _Bright: 10
     - _BumpScale: 1
     - _Color: 0
     - _Cutoff: 0.5
     - _D: 1000
-    - _Depth: 0
+    - _Depth: 0.2
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EyeOffset: 0
@@ -92,7 +92,7 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Thick: 0
+    - _Thick: 1
     - _UVSec: 0
     - _Width: 25
     - _ZWrite: 1

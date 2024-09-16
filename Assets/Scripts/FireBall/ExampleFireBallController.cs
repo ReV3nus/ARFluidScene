@@ -29,23 +29,21 @@ public class ExampleFireBallController : MonoBehaviour
     void Start()
     {
         
-        // int display1Width = 1920;
-        // int display1Height = 1080;
-        // int display2Width = 5120;
-        // int display2Height = 2560;
-        // Debug.Log(Display.displays.Length);
-        // Display.displays[0].Activate();
-        // Display.displays[0].SetRenderingResolution(display2Width, display2Height);
-        //
-        // Display.displays[1].Activate();
-        // Display.displays[1].SetRenderingResolution(display1Width, display1Height);
+        int display1Width = 1920;
+        int display1Height = 1080;
+        Debug.Log(Display.displays.Length);
+        Display.displays[0].Activate();
+        Display.displays[0].SetRenderingResolution(display1Width, display1Width);
+        
+        Display.displays[1].Activate();
+        Display.displays[1].SetRenderingResolution(display1Width, display1Height);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            var fp = new Vector3(0f,10.0f,-1);
+            var fp = new Vector3(0f,13.0f,-1);
         
             if(fireBall == null)
             {
