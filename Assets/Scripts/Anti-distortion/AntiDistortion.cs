@@ -10,6 +10,7 @@ public class AntiDistortion : MonoBehaviour
     public Vector3 K_R;
     public Vector3 K_G;
     public Vector3 K_B;
+    public float pixelsize;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +30,7 @@ public class AntiDistortion : MonoBehaviour
 
     void OnRenderImage(RenderTexture src, RenderTexture dest)
     {
+        mapPass.SetFloat("pixelsize", pixelsize);
         mapPass.SetFloat("_EyeOffsetX", eyeOffset.x);
         mapPass.SetFloat("_EyeOffsetY", eyeOffset.y);
         mapPass.SetFloat("_ScreenOffsetX", screenOffset.x);

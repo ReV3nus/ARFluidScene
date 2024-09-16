@@ -4863,7 +4863,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosion: {fileID: 1845955007268882, guid: 67a684e320da6e7439421a07e3fa265c, type: 3}
   StatusLerpTime: 1.5
-  BreakForce: 5
+  BreakForce: 2
   FireBallController: {fileID: 0}
 --- !u!54 &1767038380306637877
 Rigidbody:
