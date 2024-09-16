@@ -304,11 +304,11 @@ Shader "Spheres"
             sampler2D colorBuffer;
             samplerCUBE _EnvMap;
 
-            sampler2D _CameraDepthTexture;
+            sampler2D lastDepth;
 
             float GetDepthAtScreenPos(float2 screenPos)
             {
-                return tex2D(_CameraDepthTexture, screenPos);
+                return tex2D(lastDepth, screenPos).r;
             }
 
             float ComputeFluidVisibility(float2 screenPos)

@@ -302,6 +302,12 @@ public class Solver : MonoBehaviour
     void UpdateCommandBuffer(Camera camera) {
         commandBuffer.Clear();
 
+        int lastColorId = Shader.PropertyToID("lastColor");
+        commandBuffer.GetTemporaryRT(lastColorId, Screen.width, Screen.height, 0, FilterMode.Point, RenderTextureFormat.ARGBFloat);
+        int lastDepthId = Shader.PropertyToID("lastDepth");
+        commandBuffer.GetTemporaryRT(lastDepthId, Screen.width, Screen.height, 0, FilterMode.Point, RenderTextureFormat.RHalf);
+        commandBuffer.Blit(Shader.GetGlobalTexture("_CameraDepthTexture"), lastDepthId);
+
         int[] worldPosBufferIds = new int[] {
             Shader.PropertyToID("worldPosBuffer1"),
             Shader.PropertyToID("worldPosBuffer2")
