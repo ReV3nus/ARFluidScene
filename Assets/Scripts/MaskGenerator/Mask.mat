@@ -61,7 +61,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.746
+    - _Alpha: 1
     - _Bright: 0
     - _BumpScale: 1
     - _Color: 0

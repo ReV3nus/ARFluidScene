@@ -32,15 +32,28 @@ public class MaskGenerator : MonoBehaviour
     void Start()
     {
         transparencyCapturer = GetComponent<TransparencyCapturer>();
-
+#if UNITY_EDITOR
+        // 编辑器模式下的代码
+        Debug.Log("Running in Unity Editor");
+#else
+        // 非编辑器模式下的代码（即在构建的游戏中）
         int display1Width = 1920;
         int display1Height = 1080;
-        Debug.Log(Display.displays.Length);
-        Display.displays[0].Activate();
-        Display.displays[0].SetRenderingResolution(display1Width, display1Width);
         
-        Display.displays[1].Activate();
-        Display.displays[1].SetRenderingResolution(display1Width, display1Height);
+        Debug.Log("Number of displays: " + Display.displays.Length);
+        
+        if (Display.displays.Length > 0)
+        {
+            Display.displays[0].Activate();
+            Display.displays[0].SetRenderingResolution(display1Width, display1Width);
+        }
+        
+        if (Display.displays.Length > 1)
+        {
+            Display.displays[1].Activate();
+            Display.displays[1].SetRenderingResolution(display1Width, display1Height);
+        }
+#endif
         // mainCamera.depthTextureMode |= DepthTextureMode.Depth;
         
     }
