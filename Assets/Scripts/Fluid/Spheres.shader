@@ -321,7 +321,7 @@ Shader "Spheres"
                     return 1;
                 }
                 return 0.1; 
-            }
+            }   
 
             float4 _PrimaryColor, _SecondaryColor, _FoamColor;
             float4 _SpecularColor;

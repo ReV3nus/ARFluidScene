@@ -28,15 +28,42 @@ public class ExampleFireBallController : MonoBehaviour
 // 在应用程序启动时激活并设置分辨率
     void Start()
     {
+        var fp = new Vector3(0f,13.0f,-1);
         
+        if(fireBall == null)
+        {
+            GameObject fireGameObject = Instantiate(fireBallPrefab, fp, Quaternion.identity);
+            fireBall = fireGameObject.GetComponent<FireBall>();
+            // fireBallTargetGameObject = Instantiate(fireBallTargetPrefab, fp, Quaternion.identity);
+            // fireBallTarget = fireBallTargetGameObject.GetComponent<FireBall>();
+        }
+        shooting = true;
+        
+        fireBall.transform.position = fp;
+        // fireBallTargetGameObject.transform.position = new Vector3(0, 0, 0);
+        fireBall.Shoot(new Vector3(0, 0, 50f));
+#if UNITY_EDITOR
+        // 编辑器模式下的代码
+        Debug.Log("Running in Unity Editor");
+#else
+        // 非编辑器模式下的代码（即在构建的游戏中）
         int display1Width = 1920;
         int display1Height = 1080;
-        Debug.Log(Display.displays.Length);
-        Display.displays[0].Activate();
-        Display.displays[0].SetRenderingResolution(display1Width, display1Width);
         
-        Display.displays[1].Activate();
-        Display.displays[1].SetRenderingResolution(display1Width, display1Height);
+        Debug.Log("Number of displays: " + Display.displays.Length);
+        
+        if (Display.displays.Length > 0)
+        {
+            Display.displays[0].Activate();
+            Display.displays[0].SetRenderingResolution(display1Width, display1Width);
+        }
+        
+        if (Display.displays.Length > 1)
+        {
+            Display.displays[1].Activate();
+            Display.displays[1].SetRenderingResolution(display1Width, display1Height);
+        }
+#endif
     }
 
     private void Update()

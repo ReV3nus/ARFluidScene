@@ -5,6 +5,9 @@ using UnityEngine.Rendering;
 
 public class Solver : MonoBehaviour
 {
+    
+    public float timeToWait = 10.0f; // 设置时间值
+    private float elapsedTime = 0.0f;
     const int numHashes = 1<<20;
     const int numThreads = 1<<10; // Compute shader dependent value.
     public int numParticles = 1024;
@@ -74,7 +77,7 @@ public class Solver : MonoBehaviour
         public Vector4 vel;
     }
 
-    private bool paused = false;
+    public bool paused = false;
     private bool usePositionSmoothing = true;
 
     private CommandBuffer commandBuffer;
@@ -97,6 +100,7 @@ public class Solver : MonoBehaviour
         boxPlanes[5] = GetPlaneEq(new Vector3(0, 0, maxBounds.z), Vector3.back);
 
         solverShader.SetVectorArray("planes", boxPlanes);
+        
     }
      
     void Start() {
@@ -238,6 +242,15 @@ public class Solver : MonoBehaviour
     }
 
     void Update() {
+        
+        // elapsedTime += Time.deltaTime;
+        //
+        // if (elapsedTime >= timeToWait)
+        // {
+        //     return;
+        // }
+        
+        
         // Update solver.
         {
             UpdateParams();

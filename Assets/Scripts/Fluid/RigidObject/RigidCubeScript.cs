@@ -8,6 +8,7 @@ public class RigidCubeScript : MonoBehaviour
     public float halfSize;
     public float density = 1f;
     private float mass;
+    // public float3 upY;
 
     private Rigidbody rb;
 
@@ -25,13 +26,19 @@ public class RigidCubeScript : MonoBehaviour
         totalImpulse = Vector3.zero;
         totalAngularImpulse = Vector3.zero;
     }
+    
+    Vector4 GetPlaneEq(Vector3 p, Vector3 n) {
+        return new Vector4(n.x, n.y, n.z, -Vector3.Dot(p, n));
+    }
     private void OnEnable()
     {
+        
+        Vector4 upPlane = GetPlaneEq(transform.position + new Vector3(0, transform.localScale.y, 0), Vector3.up);   
+
         if (UsingScaleAsSize) halfSize = transform.localScale.x / 2f;
-        var lengthWidthHeight = new Vector3(transform.localScale.x / 2, transform.localScale.y / 2,
-            transform.localScale.z / 2);
+
         rb = GetComponent<Rigidbody>();
-        rigidCube = new RigidCube(halfSize, transform.position, transform.rotation,lengthWidthHeight);
+        rigidCube = new RigidCube(halfSize, transform.position, transform.rotation,upPlane);
         mass = density * 8 * halfSize * halfSize * halfSize;
         rb.mass = mass;
     }
@@ -112,6 +119,7 @@ public class RigidCubeScript : MonoBehaviour
         rb.AddForce(totalImpulse, ForceMode.Impulse);
         rb.AddTorque(totalAngularImpulse, ForceMode.Impulse);
 
+        rigidCube.upPlane =  GetPlaneEq(transform.position + new Vector3(0, transform.localScale.y-20, 0), Vector3.up);   
         rigidCube.velocity = rb.velocity;
         rigidCube.centroid = rb.position;
         rigidCube.angularVelocity = rb.angularVelocity;
