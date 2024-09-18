@@ -67,8 +67,8 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EyeOffset: 0
-    - _EyeOffsetX: -0.02
-    - _EyeOffsetY: -0.04
+    - _EyeOffsetX: -0.005
+    - _EyeOffsetY: -0.5
     - _F_B: 15
     - _F_G: 15
     - _F_R: 15
@@ -77,7 +77,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Height: 14.5
+    - _Height: 12
     - _Mask: 0
     - _Metallic: 0
     - _Mode: 0
@@ -90,7 +90,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _Width: 26
+    - _Width: 24
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}

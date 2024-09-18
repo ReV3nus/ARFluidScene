@@ -524,7 +524,7 @@ struct RigidCube
 {
     float halfSize;
     float4 upPlane;
-
+    float3 lengthWidthHeight;
     float3 cent;
     float3 vel;
     float3 angVel;

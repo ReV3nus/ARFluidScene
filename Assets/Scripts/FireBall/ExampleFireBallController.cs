@@ -28,7 +28,7 @@ public class ExampleFireBallController : MonoBehaviour
 // 在应用程序启动时激活并设置分辨率
     void Start()
     {
-        var fp = new Vector3(0f,13.0f,-1);
+        var fp = new Vector3(0f,15.0f,-1);
         
         if(fireBall == null)
         {

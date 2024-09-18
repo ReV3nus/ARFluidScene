@@ -318,9 +318,9 @@ Shader "Spheres"
 
                 if (fluidDepth > objectDepth)
                 {
-                    return 1;
+                    return 0.3;
                 }
-                return 0.1; 
+                return  0.05; 
             }   
 
             float4 _PrimaryColor, _SecondaryColor, _FoamColor;

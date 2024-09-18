@@ -49,7 +49,7 @@ public class RigidObjSolver : MonoBehaviour
         checkKernel = solverShader.FindKernel("CheckSolid");
 
         //otherwise crashes
-        CubeBuffer = new ComputeBuffer(Math.Max(1, cntCube), 46 * sizeof(float));
+        CubeBuffer = new ComputeBuffer(Math.Max(1, cntCube), 49 * sizeof(float));
         if (cntCube > 0)
         {
             rigidCubes = new RigidCube[cntCube];

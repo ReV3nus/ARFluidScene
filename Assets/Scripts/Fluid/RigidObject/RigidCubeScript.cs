@@ -36,9 +36,9 @@ public class RigidCubeScript : MonoBehaviour
         Vector4 upPlane = GetPlaneEq(transform.position + new Vector3(0, transform.localScale.y, 0), Vector3.up);   
 
         if (UsingScaleAsSize) halfSize = transform.localScale.x / 2f;
-
+        var lengthWidthHeight = new Vector3(transform.localScale.x / 2f,transform.localScale.y / 2f,transform.localScale.z / 2f);
         rb = GetComponent<Rigidbody>();
-        rigidCube = new RigidCube(halfSize, transform.position, transform.rotation,upPlane);
+        rigidCube = new RigidCube(halfSize, transform.position, transform.rotation,upPlane,lengthWidthHeight);
         mass = density * 8 * halfSize * halfSize * halfSize;
         rb.mass = mass;
     }

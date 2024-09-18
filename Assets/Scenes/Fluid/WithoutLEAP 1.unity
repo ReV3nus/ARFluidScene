@@ -173,7 +173,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 396009266}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -225,8 +225,8 @@ Transform:
   m_GameObject: {fileID: 396009266}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.22775611, z: 0, w: 0.9737182}
-  m_LocalPosition: {x: -0.3, y: 7.34, z: -5.17}
-  m_LocalScale: {x: 2, y: -2, z: 2}
+  m_LocalPosition: {x: 0.7, y: 6.53, z: -7}
+  m_LocalScale: {x: 4, y: -4, z: 4}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -871,8 +871,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 754899747}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 12.6, z: -75}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3, z: -70}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -891,7 +891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapPass: {fileID: 2100000, guid: f300f007b746079408373993a775bd99, type: 2}
-  eyeOffset: {x: -0.02, y: -0.04}
+  eyeOffset: {x: -0.005, y: -0.5}
   screenOffset: {x: 0, y: 0}
   K_R: {x: 0.0000000012452, y: -0.0000012086, z: 0.0098}
   K_G: {x: 0.0000000012388, y: -0.0000012024, z: 0.0098}
@@ -929,7 +929,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 74.9
+  far clip plane: 69
   field of view: 55
   orthographic: 0
   orthographic size: 5
@@ -961,10 +961,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maskPass: {fileID: 2100000, guid: 8bffaedb82b6e8e4791549a805298802, type: 2}
-  thick: 0.7
+  thick: 0.2
   depth: 0.2
   bright: 10
-  alpha: 1
+  alpha: 0
   color: 0
   transparency: 0
   shadow: 0
@@ -1014,7 +1014,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToWait: 10
-  numParticles: 250000
+  numParticles: 500000
   radius: 1
   gasConstant: 10
   restDensity: 1
@@ -1024,8 +1024,8 @@ MonoBehaviour:
   deltaTime: 0.025
   maxSpawns: {x: -20, y: 10, z: 2}
   minSpawns: {x: 20, y: 40, z: 20}
-  minBounds: {x: -20, y: -5, z: -80}
-  maxBounds: {x: 20, y: 60, z: 20}
+  minBounds: {x: -25, y: -5, z: -80}
+  maxBounds: {x: 25, y: 60, z: 20}
   solverShader: {fileID: 7200000, guid: f4000e3305ec3b14b8f7b31781bb32dd, type: 3}
   renderShader: {fileID: 4800000, guid: d422c3fc5e6461b4da80424ed4deb459, type: 3}
   renderMat: {fileID: 2100000, guid: 6378f3d1b6e448e41ae0a514bce49add, type: 2}
@@ -1057,8 +1057,9 @@ MonoBehaviour:
   DensityCoefficient: 10
   rigidSphereScripts: []
   rigidCubeScripts:
-  - {fileID: 396009271}
+  - {fileID: 1997235525}
   - {fileID: 1806948923}
+  - {fileID: 396009271}
 --- !u!1 &1177649185
 GameObject:
   m_ObjectHideFlags: 0
@@ -1254,8 +1255,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1218798679}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 20, y: 0, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1265,8 +1266,7 @@ Transform:
   - {fileID: 1831854114}
   - {fileID: 2118514191}
   - {fileID: 670924558}
-  - {fileID: 1829747192}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1829747192}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1237616640
 GameObject:
@@ -2059,7 +2059,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1829747188}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2110,12 +2110,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1829747188}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -20, y: -5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1218798680}
+  m_Children:
+  - {fileID: 1218798680}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!114 &1829747193
 MonoBehaviour:
@@ -2595,13 +2596,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1997235522}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.22775611, z: 0, w: 0.9737182}
-  m_LocalPosition: {x: -0.5, y: 3.34, z: -3.44}
-  m_LocalScale: {x: 5, y: -5, z: 5}
+  m_LocalRotation: {x: 0, y: 0.46829227, z: 0, w: 0.88357365}
+  m_LocalPosition: {x: 1.37, y: 1.5, z: -7.96}
+  m_LocalScale: {x: 6.8, y: 5.1000004, z: 13.6}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 26.33, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 55.847, z: 0}
 --- !u!1 &2118514187
 GameObject:
   m_ObjectHideFlags: 0
@@ -3091,7 +3092,7 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 0.5
+    width: 1
     height: 1
   near clip plane: 0.1
   far clip plane: 69
@@ -3850,8 +3851,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 314778044389355007}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 12.6, z: -70}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3, z: -70}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3899,7 +3900,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapPass: {fileID: 2100000, guid: 8229a8994ebcae345b0a4ed9d8865857, type: 2}
-  eyeOffset: {x: 0, y: 0}
+  eyeOffset: {x: 0, y: 0.35}
   screenOffset: {x: 0, y: 0}
   K_R: {x: 0.0000000015119, y: -0.00000107, z: 0.0098}
   K_G: {x: 0.0000000015025, y: -0.0000010623, z: 0.0098}
@@ -3941,7 +3942,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33ca0744791b074aa0daff34c4704ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToWait: 7
+  timeToWait: 100
   Solver: {fileID: 799382816}
 --- !u!1 &8997783107024233332
 GameObject:
@@ -3969,7 +3970,7 @@ SceneRoots:
   - {fileID: 8275025887051306429}
   - {fileID: 754899748}
   - {fileID: 1177649189}
-  - {fileID: 1218798680}
+  - {fileID: 1829747192}
   - {fileID: 511691326}
   - {fileID: 799382815}
   - {fileID: 4222737149562537639}

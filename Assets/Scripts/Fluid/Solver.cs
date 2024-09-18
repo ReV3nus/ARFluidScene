@@ -390,51 +390,7 @@ public class Solver : MonoBehaviour
             4,  // shaderPass
             quadInstancedArgsBuffer
         );
-        //
-        //
-        //
-        // var _Material = new Material(Shader.Find("Hidden/SeparableGlassBlur"));
-        // _Material.hideFlags = HideFlags.HideAndDontSave;
-        //
-        // if (camera.allowHDR && SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.DefaultHDR))
-        //     _TextureFormat = RenderTextureFormat.DefaultHDR;
-        //
-        // int numIterations = 4;
-        //
-        // Vector2[] sizes = {
-        //     new Vector2(Screen.width, Screen.height),
-        //     new Vector2(Screen.width / 2, Screen.height / 2),
-        //     new Vector2(Screen.width / 4, Screen.height / 4),
-        //     new Vector2(Screen.width / 8, Screen.height / 8),
-        // };
-        //
-        // for (int i = 0; i < numIterations; ++i)
-        // {
-        //     int screenCopyID = Shader.PropertyToID("_ScreenCopyTexture");
-        //     commandBuffer.GetTemporaryRT(screenCopyID, -1, -1, 0, FilterMode.Bilinear, _TextureFormat);
-        //     commandBuffer.Blit(BuiltinRenderTextureType.CurrentActive, screenCopyID);
-        //
-        //     int blurredID = Shader.PropertyToID("_Grab" + i + "_Temp1");
-        //     int blurredID2 = Shader.PropertyToID("_Grab" + i + "_Temp2");
-        //     commandBuffer.GetTemporaryRT(blurredID, (int)sizes[i].x, (int)sizes[i].y, 0, FilterMode.Bilinear, _TextureFormat);
-        //     commandBuffer.GetTemporaryRT(blurredID2, (int)sizes[i].x, (int)sizes[i].y, 0, FilterMode.Bilinear, _TextureFormat);
-        //
-        //     commandBuffer.Blit(screenCopyID, blurredID);
-        //     commandBuffer.ReleaseTemporaryRT(screenCopyID);
-        //
-        //     commandBuffer.SetGlobalVector("offsets", new Vector4(2.0f / sizes[i].x, 0, 0, 0));
-        //     commandBuffer.Blit(blurredID, blurredID2, _Material);
-        //     commandBuffer.SetGlobalVector("offsets", new Vector4(0, 2.0f / sizes[i].y, 0, 0));
-        //     commandBuffer.Blit(blurredID2, blurredID, _Material);
-        //
-        //     commandBuffer.SetGlobalTexture("_GrabBlurTexture_" + i, blurredID);
-        // }
 
-        // camera.AddCommandBuffer(CameraEvent.BeforeForwardAlpha, commandBuffer);
-        
-        
-        
-        
         
         commandBuffer.SetGlobalTexture("thicknessBuffer", thicknessBufferId);
 

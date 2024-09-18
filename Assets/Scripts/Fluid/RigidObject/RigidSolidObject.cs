@@ -8,6 +8,7 @@ public struct RigidCube
     
     public Vector4 upPlane;
 
+    public Vector3 lengthWidthHeight;
 
     public Vector3 centroid;
 
@@ -27,7 +28,7 @@ public struct RigidCube
     //     angularVelocity = Vector3.zero;
     //     lengthWidthHeight = Vector3.zero;
     // }
-    public RigidCube(float size, Vector3 centroid, Quaternion rotation,Vector4 upPlane)
+    public RigidCube(float size, Vector3 centroid, Quaternion rotation,Vector4 upPlane,Vector3 lengthWidthHeight)
     {
         this.halfSize = size;
         this.upPlane = upPlane;
@@ -35,6 +36,7 @@ public struct RigidCube
         // Debug.Log(_lengthWidthHeight);
         // Debug.Log(centroid);
         this.centroid = centroid;
+        this.lengthWidthHeight = lengthWidthHeight;
         cubeRotationMatrix = Matrix4x4.Rotate(rotation);
         inverseRotationMatrix = cubeRotationMatrix.inverse;
         velocity = Vector3.zero;
